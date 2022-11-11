@@ -4,11 +4,21 @@ export default {
   data() {
     return {
       items: [
-        { title: "Главная", icon: "mdi-cog", route: "/", group: true },
-        { title: "Города", icon: "mdi-cog", route: "/cities", group: true },
+        { title: 
+          "Главная", 
+          icon: "mdi-home", 
+          route: "/", 
+          group: true 
+        },
+        { 
+          title: "Города", 
+          icon: "mdi-city", 
+          route: "/cities", 
+          group: true 
+        },
         {
           title: "Услуги",
-          icon: "mdi-cog",
+          icon: "mdi-face-agent",
           route: "/services",
           group: true,
         },
@@ -26,13 +36,31 @@ export default {
         },
         {
           title: "Расписание",
-          icon: "mdi-cog",
+          icon: "mdi-timetable",
           route: "/categories",
           group: true,
         },
-        { title: "Жалобы", icon: "mdi-cog", route: "/categories", group: true },
-        { title: "Счета", icon: "mdi-cog", route: "/categories", group: true },
-        { title: "Уведомления", icon: "mdi-cog", route: "/categories", group: true }
+        { 
+          title: 
+          "Жалобы", 
+          icon: "mdi-message-alert", 
+          route: "/categories", 
+          group: true 
+        },
+          { 
+          title: 
+          "Счета", 
+          icon: "mdi-receipt", 
+          route: "/categories", 
+          group: true 
+        },
+          { 
+          title: 
+          "Уведомления", 
+          icon: "mdi-bell", 
+          route: "/categories", 
+          group: true 
+        }
       ],
     }
   },

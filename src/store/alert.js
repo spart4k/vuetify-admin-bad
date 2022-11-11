@@ -8,7 +8,14 @@ const auth = {
   mutations: {
     show(state, options) {
       console.log('isshow')
-      state.isShow = true
+      if (state.isShow) {
+        state.isShow = false
+        setTimeout(() => {
+          state.isShow = true
+        }, 100)
+      } else {
+        state.isShow = true
+      }
       state.type = options.type
       state.content = options.content
       if (options.duration) {

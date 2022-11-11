@@ -1,17 +1,9 @@
 <template>
   <LayoutDefault>
     <div class="">
-      <!-- <v-card-title>
+      <v-card-title>
         Города
-        <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
-      </v-card-title> -->
+      </v-card-title>
       <v-data-table
         multi-sort
         :loading="loading"
@@ -19,12 +11,24 @@
         :items="dataset"
         :headers="headers"
         item-key="id"
+        :footerProps="{
+          itemsPerPageText: 'Кол-во на странице'
+        }"
       >
+      <!-- :hide-default-footer="dataset.length <= 10" -->
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title>Города</v-toolbar-title>
+            <v-toolbar-title>
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Поиск"
+                single-line
+                hide-details
+              ></v-text-field>
+            </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="500px">
+            <v-dialog v-model="dialog" :max-width="formTitle === 'Изменить' ? '300px' : '300px'">
               <template v-slot:activator="{ attrs }">
                 <v-btn color="primary" dark class="mb-2" v-bind="attrs" @click="newItem">
                   Добавить
@@ -37,27 +41,25 @@
   
                 <v-card-text>
                   <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6" md="4">
+                    <v-row cols="12" sm="6" md="4">
+                      <v-col cols="12" sm="12" :md="formTitle === 'Изменить' ? '12' : '12'">
                         <v-text-field
                           v-model="editedItem.name"
                           label="Название"
                         ></v-text-field>
                       </v-col>
-                      <v-col cols="12" sm="6" md="4">
+                      <!-- <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
                         <v-text-field
-                          @keypress="onlyNumber($event)"
                           v-model="editedItem.latitude"
                           label="Широта"
                         ></v-text-field>
                       </v-col>
-                      <v-col cols="12" sm="6" md="4">
+                      <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
                         <v-text-field
-                          @keypress="onlyNumber($event)"
                           v-model="editedItem.longitude"
                           label="Долгота"
                         ></v-text-field>
-                      </v-col>
+                      </v-col> -->
                     </v-row>
                   </v-container>
                 </v-card-text>

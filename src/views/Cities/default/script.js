@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import LayoutDefault from '@/layouts/default'
-import { cities } from '../../api'
+import { cities } from '@/api'
 
 export default {
   name: 'cities',
@@ -70,7 +70,6 @@ export default {
     deleteItem (item) {
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      this.deleteItemConfirm()
       this.dialogDelete = true
     },
 
@@ -80,7 +79,7 @@ export default {
         name: this.editedItem.name
       }
       await cities.delete(city)
-      this.desserts.splice(this.editedIndex, 1)
+      this.dataset.splice(this.editedIndex, 1)
       this.closeDelete()
     },
 
@@ -103,7 +102,6 @@ export default {
     save () {
       // this.dataset[this.editedIndex] = this.editedItem
       if (this.formTitle === 'Изменить') {
-        Vue.set(this.dataset, this.editedIndex, this.editedItem)
         this.requestEdit()
       } else if (this.formTitle === 'Добавить') {
         this.requestCreate()
@@ -122,21 +120,24 @@ export default {
     async requestEdit () {
       const id = this.editedItem.id
       console.log(id, this.editedItem)
-      await cities.update(id,this.editedItem)
+      const updatedCity = await cities.update(id,this.editedItem)
       this.loadingBtn = false
-      this.close()
+      if (updatedCity) {
+        Vue.set(this.dataset, this.editedIndex, updatedCity)
+        this.close()
+      }
     },
     async requestCreate () {
       const newCity = await cities.create({
         name: this.editedItem.name,
-        latitude: +this.editedItem.latitude,
-        longitude: +this.editedItem.longitude
+        // latitude: +this.editedItem.latitude,
+        // longitude: +this.editedItem.longitude
       })
       this.loadingBtn = false
-      if (newCity.name) {
+      if (newCity) {
         this.dataset.push(newCity)
+        this.close()
       }
-      this.close()
       
     },
     showAlert(content, type, duration) {
@@ -148,6 +149,10 @@ export default {
           this.alert.state = false
         }, duration)
       }
+    },
+    updateOptions(options) {
+      console.log('update')
+      console.log(options)
     }
   }
 }

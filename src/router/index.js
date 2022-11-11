@@ -2,7 +2,7 @@ import VueRouter from "vue-router";
 import auth from "../store/auth";
 import Home from "../views/Home/index.vue";
 import Login from "../views/Login";
-import Cities from "../views/Cities";
+import Cities from "../views/Cities/default";
 // import Chapters from "../views/ViewChapters.vue";
 import Services from "../views/ViewServices.vue";
 import Classes from "../views/ViewClasses.vue";
