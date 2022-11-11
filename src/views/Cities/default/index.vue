@@ -30,7 +30,7 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" :max-width="formTitle === 'Изменить' ? '300px' : '300px'">
               <template v-slot:activator="{ attrs }">
-                <v-btn color="primary" dark class="mb-2" v-bind="attrs" @click="newItem">
+                <v-btn color="#EF8A3E" dark class="mb-2" v-bind="attrs" @click="newItem">
                   Добавить
                 </v-btn>
               </template>
@@ -69,7 +69,7 @@
                   <v-btn color="darken darken-1" text @click="close">
                     Отменить
                   </v-btn>
-                  <v-btn color="blue darken-1" :loading="loadingBtn" text @click="save">
+                  <v-btn color="#EF8A3E" :loading="loadingBtn" text @click="save">
                     Сохранить
                   </v-btn>
                 </v-card-actions>

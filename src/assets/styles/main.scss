@@ -6,3 +6,36 @@
   transform: translate(-50%, 0);
   z-index: 1000;
 }
+.height-full {
+  height: 100vh;
+}
+.v-list-item--active {
+  .v-icon {
+    transition: .2s;
+    color: #EF8A3E !important;
+  }
+}
+.v-list-item {
+  .v-icon {
+    transition: .2s;
+    color: rgba(255,255,255, 0.4)
+  }
+  .v-btn {
+    .v-icon {
+      transition: .2s;
+      color: rgba(255,255,255, 0.4)
+    }
+  }
+  span {
+    transition: .2s;
+    color: rgba(255,255,255, 1)
+  }
+}
+.background-main {
+  background-color: #EF8A3E;
+}
+.v-btn {
+  span {
+    color: white;
+  }
+}

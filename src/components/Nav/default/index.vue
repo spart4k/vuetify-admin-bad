@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer permanent v-if="username" app color="blue">
+  <v-navigation-drawer permanent v-if="username" app color="#292929">
     <v-list class="d-flex flex-column justify-space-between" height="100%">
       <v-list-item
         v-for="item in items"
@@ -23,12 +23,12 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item style="flex: 0" class="mt-auto" :to="'/'" link>
+      <v-list-item style="flex: 0" class="mt-auto" disable link>
         <v-list-item-content>
           <v-list-item-title
             class="d-flex justify-space-between align-center"
           >
-            <span v-if="username">{{ username }}</span>
+            <span color="white" v-if="username">{{ username }}</span>
             <v-btn variant="text" icon @click="logout">
               <v-icon>mdi-logout</v-icon>
             </v-btn>

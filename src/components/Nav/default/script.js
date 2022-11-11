@@ -24,13 +24,13 @@ export default {
         },
         {
           title: "Клиенты",
-          icon: "mdi-cog",
+          icon: "mdi-account-group",
           route: "/clients",
           group: true,
         },
         {
           title: "Мастера",
-          icon: "mdi-cog",
+          icon: "mdi-account-tie",
           route: "/masters",
           group: true,
         },
