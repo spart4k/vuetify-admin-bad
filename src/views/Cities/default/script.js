@@ -3,7 +3,7 @@ import LayoutDefault from '@/layouts/default'
 import { cities } from '@/api'
 
 export default {
-  name: 'cities',
+  name: 'view-cities',
   components: {
     LayoutDefault
   },  

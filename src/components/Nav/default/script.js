@@ -25,40 +25,40 @@ export default {
         {
           title: "Клиенты",
           icon: "mdi-cog",
-          route: "/classes",
+          route: "/clients",
           group: true,
         },
         {
           title: "Мастера",
           icon: "mdi-cog",
-          route: "/categories",
+          route: "/masters",
           group: true,
         },
         {
           title: "Расписание",
           icon: "mdi-timetable",
-          route: "/categories",
+          route: "/shedules",
           group: true,
         },
         { 
           title: 
           "Жалобы", 
           icon: "mdi-message-alert", 
-          route: "/categories", 
+          route: "/feeds", 
           group: true 
         },
           { 
           title: 
           "Счета", 
           icon: "mdi-receipt", 
-          route: "/categories", 
+          route: "/invoices", 
           group: true 
         },
           { 
           title: 
           "Уведомления", 
           icon: "mdi-bell", 
-          route: "/categories", 
+          route: "/notifications", 
           group: true 
         }
       ],

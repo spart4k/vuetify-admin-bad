@@ -19,7 +19,7 @@ export default {
       loginPromise.then((login) => {
         if (login) {
           this.message = ''
-          this.$router.push('/')
+          this.$router.push('/cities')
         } else {
           this.message = 'Имя или пароль не верны'
         }

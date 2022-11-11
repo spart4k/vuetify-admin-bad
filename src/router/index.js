@@ -1,13 +1,19 @@
 import VueRouter from "vue-router";
 import auth from "../store/auth";
-import Home from "../views/Home/index.vue";
-import Login from "../views/Login";
+import Home from "../views/Home/default";
+import Login from "../views/Login/default";
 import Cities from "../views/Cities/default";
-// import Chapters from "../views/ViewChapters.vue";
-import Services from "../views/ViewServices.vue";
-import Classes from "../views/ViewClasses.vue";
-import Categories from "../views/ViewCategories.vue";
+import Feeds from "../views/Feeds/default";
+import Invoices from "../views/Invoices/default";
+import Masters from "../views/Masters/default";
+import Notifications from "../views/Notifications/default";
+import Clients from "../views/Clients/default";
+import Shedules from "../views/Shedules/default";
+import Services from "../views/Services/default";
+// import Categories from "../views/Categories/default";
 
+// import Classes from "../views/Class.vue";
+// import Chapters from "../views/ViewChapters.vue";
 const routes = [
   {
     path: "/",
@@ -25,20 +31,45 @@ const routes = [
     component: Cities,
   },
   {
+    path: "/feeds",
+    name: "Feeds",
+    component: Feeds,
+  },
+  {
+    path: "/clients",
+    name: "Feeds",
+    component: Clients,
+  },
+  {
+    path: "/invoices",
+    name: "Invoices",
+    component: Invoices,
+  },
+  {
+    path: "/masters",
+    name: "Masters",
+    component: Masters,
+  },
+  {
+    path: "/notifications",
+    name: "Notifications",
+    component: Notifications,
+  },
+  {
     path: "/services",
     name: "Services",
     component: Services,
   },
   {
-    path: "/classes",
-    name: "Classes",
-    component: Classes,
+    path: "/shedules",
+    name: "Shedules",
+    component: Shedules,
   },
-  {
-    path: "/categories",
-    name: "Categories",
-    component: Categories,
-  },
+  // {
+  //   path: "/categories",
+  //   name: "Categories",
+  //   component: Categories,
+  // },
 ];
 
 const router = new VueRouter({
