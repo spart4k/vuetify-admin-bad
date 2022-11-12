@@ -4,7 +4,7 @@ import ChapterClass from "./classes";
 import ChapterCategories from "./categories";
 import Services from "./services";
 
-const API_URL = "http://tints.c.roky.rocks/api/";
+const API_URL = "https://tints.c.roky.rocks/api/";
 
 export const chapters = new Chapters(API_URL);
 export const cities = new Cities(API_URL);

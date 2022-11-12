@@ -37,4 +37,4 @@
 </template>
 
 <script src="./script.js"></script>
-<style src="./style.scss" scoped module lang="scss"></style>
+<style src="./style.scss" scoped lang="scss"></style>
