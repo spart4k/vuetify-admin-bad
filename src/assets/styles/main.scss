@@ -34,3 +34,18 @@
 .background-main {
   background-color: #EF8A3E;
 }
+.expand {
+  &-header {
+    // display: flex;
+    // width: 100%;
+  }
+}
+.service {
+  &-header {
+    // justify-content: space-between;
+    padding: 0 16px;
+    > div {
+      margin-right: 1rem;
+    }
+  }
+}

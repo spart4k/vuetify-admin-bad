@@ -1,4 +1,6 @@
 import axios from "axios";
+import store from '../store';
+
 export default class Cities {
   constructor(url) {
     this.url = url;
@@ -6,20 +8,32 @@ export default class Cities {
 
   async get() {
     console.log(this.url);
-    const data = await axios(`${this.url}admin/services`).then((response) => {
-      return response.data;
-    });
-    console.log(data);
-    if (!data) {
-      return [];
+    try {
+      const data = await axios(`${this.url}admin/services`).then((response) => {
+        return response.data;
+      });
+      console.log(data);
+      if (!data) {
+        return [];
+      }
+  
+      return (data?.services || []).map((el) => ({
+        id: el.id,
+        title: el.title,
+        chapter_categories: el.Chapter_Categories,
+        chapter_classes: el.Chapter_Classes,
+        img: el.img
+      }));
+    } catch(error) {
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
     }
-
-    return (data?.cities || []).map((el) => ({
-      id: el.id,
-      name: el.name,
-      latitude: el.latitude,
-      longitude: el.longitude,
-    }));
+      
   }
 
   async create(city) {

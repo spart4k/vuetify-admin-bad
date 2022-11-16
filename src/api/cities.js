@@ -7,9 +7,10 @@ export default class Cities {
 
   async get() {
     try {
-      const { data } = await axios(`${this.url}admin/cities?name=`)
+      const { data } = await axios(`${this.url}admin/cities`)
       console.log(data)
-      if (!data || data.length === 0) {
+      console.log(data)
+      if (!data || data.cities.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
