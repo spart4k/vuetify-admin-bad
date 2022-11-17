@@ -209,8 +209,11 @@ export default {
     },
     async requestEdit () {
       const id = this.editedItem.id
-      console.log(id, this.editedItem)
-      const updatedChapter = await services.update(id,this.editedItem)
+      let formData = new FormData()
+      formData.append('title', this.editedItem.title)
+      formData.append('classes_title', this.editedItem.classes_title)
+      formData.append('image', this.editedItem.img)
+      const updatedChapter = await chapters.update(id,formData)
       console.log(updatedChapter)
       this.loadingBtn = false
       this.close()

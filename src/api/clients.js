@@ -1,26 +1,20 @@
 import axios from "axios";
 import store from '../store';
-export default class Chapters {
+export default class Clients {
   constructor(url) {
     this.url = url;
   }
 
   async get() {
     try {
-      const { data } = await axios(`${this.url}admin/chapters`)
+      const { data } = await axios(`${this.url}admin/profile/role/2`)
       console.log(data)
-      console.log(data)
-      if (!data || data.cities.length === 0) {
+      if (!data || data.clientProfile.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
   
-      return (data?.cities || []).map((el) => ({
-        id: el.id,
-        name: el.name,
-        latitude: el.location.coordinates[0],
-        longitude: el.location.coordinates[1],
-      }));
+      return data.clientProfile
     } catch(error) {
       console.log(error)
       let errorText = ''
@@ -33,23 +27,21 @@ export default class Chapters {
     }
   }
 
-  async create(chapter) {
-    console.log(chapter)
+  async create(city) {
+    console.log(city)
     try {
-      const { data } = await axios.post(`${this.url}admin/chapter`, chapter, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      const newChapter = data
-      store.commit('alert/show', { type: 'success', content: `Услуга ${newChapter.title} успешно добавлена`, duration: 2000 })
-      if (!newChapter) {
+      const { data } = await axios.post(`${this.url}admin/cities`, city)
+      const newCity = data.city
+      store.commit('alert/show', { type: 'success', content: `Город ${newCity.name} успешно добавлен`, duration: 2000 })
+      if (!newCity) {
         return null;
       }
   
       return {
-        id: newChapter.id,
-        title: newChapter.title,
-        classes_title: newChapter.classes_title,
-        img: newChapter.img
+        id: newCity.id,
+        name: newCity.name,
+        latitude: newCity.location.coordinates[0],
+        longitude: newCity.location.coordinates[1],
       };
     } catch(error) {
       console.log(error)
@@ -65,18 +57,22 @@ export default class Chapters {
 
   }
 
-  async update(id, chapter) {
+  async update(id, city) {
     try {
-      const { data } = await axios.put(`${this.url}admin/chapter/${id}`, chapter, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
+      const { data } = await axios.put(`${this.url}admin/city/${id}?name=${city.name}`)
       console.log(data)
-      const updatedChapter = data
-      store.commit('alert/show', { type: 'success', content: `Город успешно изменен на ${chapter.name}`, duration: 2000 })
-      if (!updatedChapter) {
+      const updatedCity = data.city[0]
+      store.commit('alert/show', { type: 'success', content: `Город успешно изменен на ${city.name}`, duration: 2000 })
+      if (!updatedCity) {
         return null;
       }
-      return updatedChapter
+      console.log(updatedCity)
+      return {
+        id: updatedCity.id,
+        name: updatedCity.name,
+        latitude: updatedCity.location.coordinates[0],
+        longitude: updatedCity.location.coordinates[1],
+      };
     } catch(error) {
       console.log(error)
       let errorText = ''
@@ -90,12 +86,11 @@ export default class Chapters {
     
   }
 
-  async delete(chapter) {
-    console.log(chapter)
+  async delete(city) {
     try {
-      const response = await axios.delete(`${this.url}admin/chapter/${chapter.id}`);
+      const response = await axios.delete(`${this.url}admin/city/${city.id}`);
       console.log(response)
-      store.commit('alert/show', { type: 'success', content: `Услуга: ${chapter.name} успешно удалена`, duration: 2000 })
+      store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
     } catch(error) {
       const errorText = error.message
       store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })

@@ -22,6 +22,7 @@ export default class Cities {
         title: el.title,
         chapter_categories: el.Chapter_Categories,
         chapter_classes: el.Chapter_Classes,
+        classes_title: el.classes_title,
         img: el.img
       }));
     } catch(error) {
@@ -54,22 +55,17 @@ export default class Cities {
     };
   }
 
-  async update(id, city) {
-    const updatedCity = await fetch(`${this.url}admin/city/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(city),
-    }).then((response) => response.json());
-
-    if (!updatedCity) {
+  async update(id, service) {
+    const { data } = await axios.put(`${this.url}admin/service/${id}`, service, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    console.log(data)
+    const newService = data
+    if (!newService) {
       return null;
     }
 
-    return {
-      id: updatedCity.id,
-      name: updatedCity.name,
-      latitude: updatedCity.latitude,
-      longitude: updatedCity.longitude,
-    };
+    return newService
   }
 
   async delete(id) {
