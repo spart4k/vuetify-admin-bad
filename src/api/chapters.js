@@ -1,64 +1,109 @@
+import axios from "axios";
+import store from '../store';
 export default class Chapters {
   constructor(url) {
     this.url = url;
   }
 
   async get() {
-    const data = await fetch(`${this.url}admin/chapters`).then((response) => {
-      response.json();
-    });
-
-    if (!data) {
-      return [];
+    try {
+      const { data } = await axios(`${this.url}admin/chapters`)
+      console.log(data)
+      console.log(data)
+      if (!data || data.cities.length === 0) {
+        store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
+        return [];
+      }
+  
+      return (data?.cities || []).map((el) => ({
+        id: el.id,
+        name: el.name,
+        latitude: el.location.coordinates[0],
+        longitude: el.location.coordinates[1],
+      }));
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
     }
-
-    return (data?.chapters || []).map((el) => ({
-      id: el.id,
-      title: el.title,
-      img: el.img,
-      classes_title: el.classes_title,
-    }));
   }
 
   async create(chapter) {
-    const newChapter = await fetch(`${this.url}admin/chapter`, {
-      method: "POST",
-      body: JSON.stringify(chapter),
-    }).then((response) => response.json());
-
-    if (!newChapter) {
-      return null;
+    console.log(chapter)
+    try {
+      const { data } = await axios.post(`${this.url}admin/chapter`, chapter, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      const newChapter = data
+      store.commit('alert/show', { type: 'success', content: `Услуга ${newChapter.title} успешно добавлена`, duration: 2000 })
+      if (!newChapter) {
+        return null;
+      }
+  
+      return {
+        id: newChapter.id,
+        title: newChapter.title,
+        classes_title: newChapter.classes_title,
+        img: newChapter.img
+      };
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
     }
+    
 
-    return {
-      id: newChapter.id,
-      title: newChapter.title,
-      img: newChapter.img,
-      classes_title: newChapter.classes_title,
-    };
   }
 
   async update(id, chapter) {
-    const updatedChapter = await fetch(`${this.url}admin/chapter/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(chapter),
-    }).then((response) => response.json());
-
-    if (!updatedChapter) {
-      return null;
+    try {
+      const { data } = await axios.put(`${this.url}admin/chapter/${id}?name=${chapter.name}`)
+      console.log(data)
+      const updatedChapter = data.chapter[0]
+      store.commit('alert/show', { type: 'success', content: `Город успешно изменен на ${chapter.name}`, duration: 2000 })
+      if (!updatedChapter) {
+        return null;
+      }
+      console.log(updatedChapter)
+      return {
+        id: updatedChapter.id,
+        name: updatedChapter.name,
+        latitude: updatedChapter.location.coordinates[0],
+        longitude: updatedChapter.location.coordinates[1],
+      };
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
     }
-
-    return {
-      id: updatedChapter.id,
-      title: updatedChapter.title,
-      img: updatedChapter.img,
-      classes_title: updatedChapter.classes_title,
-    };
+    
   }
 
-  async delete(id) {
-    await fetch(`${this.url}admin/chapter/${id}`, {
-      method: "DELETE",
-    });
+  async delete(chapter) {
+    console.log(chapter)
+    try {
+      const response = await axios.delete(`${this.url}admin/chapter/${chapter.id}`);
+      console.log(response)
+      store.commit('alert/show', { type: 'success', content: `Услуга: ${chapter.name} успешно удалена`, duration: 2000 })
+    } catch(error) {
+      const errorText = error.message
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+    
   }
 }

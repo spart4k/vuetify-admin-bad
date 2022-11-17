@@ -58,6 +58,7 @@ const routes = [
   {
     path: "/services",
     name: "Services",
+    label: 'Услуги',
     component: Services,
   },
   {
