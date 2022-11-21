@@ -9,12 +9,12 @@ export default class Clients {
     try {
       const { data } = await axios(`${this.url}admin/profile/role/2`)
       console.log(data)
-      if (!data || data.clientProfile.length === 0) {
+      if (!data || data.clients.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
   
-      return data.clientProfile
+      return data.clients
     } catch(error) {
       console.log(error)
       let errorText = ''

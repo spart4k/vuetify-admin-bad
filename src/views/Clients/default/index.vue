@@ -59,7 +59,7 @@
                           v-model="editedItem.phoneNumber"
                           label="Телефон"
                         ></v-text-field>
-                        <!-- <div class="">
+                        <div class="">
                           <v-file-input 
                             v-model="imageChapter"
                             label="Логотип"
@@ -67,8 +67,8 @@
                             accept="image/*"
                             prepend-icon="mdi-camera" 
                           />
-                          <v-img v-if="editedItem.avatarUrl" :src="editedItem.avatarUrl" />
-                        </div> -->
+                          <v-img v-if="urlImage" :src="urlImage" />
+                        </div>
                       </v-col>
                       <!-- <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
                         <v-text-field
@@ -118,7 +118,7 @@
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-          <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon>
+          <!-- <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon> -->
         </template>
         <template v-slot:[`item.emailValidate`]="{ item }">
           <span class="emailValidate" :class="item.emailValidate ? 'active' : 'no-active'">

@@ -56,7 +56,8 @@ export default {
       dialogClass: false,
       choosedServiceClasses: null,
       dialogDeleteClass: false,
-      dialogDeleteCategories: false
+      dialogDeleteCategories: false,
+      urlImage: ''
     }
   },
   computed: {
@@ -71,10 +72,6 @@ export default {
     },
     pageTitle() {
       return this.$router.history.current
-    },
-    urlImage() {
-      if (!this.imageChapter) return;
-      return URL.createObjectURL(this.imageChapter);
     }
   },
   watch: {
@@ -83,7 +80,21 @@ export default {
     },
     dialogDelete (val) {
       val || this.closeDelete()
-    }
+    },
+    imageChapter(val) {
+      if (val) {
+        this.urlImage = URL.createObjectURL(val);
+      } else {
+        this.urlImage = null
+      }
+    },
+    editedIndex() {
+      if (this.editedItem.img) {
+        this.urlImage = this.editedItem.img
+      } else {
+        this.urlImage = null
+      }
+    } 
   },
   methods: {
     async getItems() {
@@ -209,13 +220,22 @@ export default {
     },
     async requestEdit () {
       const id = this.editedItem.id
+      console.log(id)
       let formData = new FormData()
       formData.append('title', this.editedItem.title)
       formData.append('classes_title', this.editedItem.classes_title)
-      formData.append('image', this.editedItem.img)
+      if (this.imageChapter) {
+        formData.append('image', this.imageChapter)
+      } else {
+        const blob = await fetch(this.editedItem.img, { mode: 'no-cors' }).then(r => r.blob());
+        formData.append('image', blob)
+        console.log(blob)
+      }
+      
       const updatedChapter = await chapters.update(id,formData)
       console.log(updatedChapter)
       this.loadingBtn = false
+      await this.getItems()
       this.close()
       // if (updatedCity) {
       //   Vue.set(this.dataset, this.editedIndex, updatedCity)
@@ -341,6 +361,17 @@ export default {
         this.requestCreateCategories()
       }
       this.loadingBtn = true
+    },
+    async createFile(url){
+      let response = await fetch(url);
+      let data = await response.blob();
+      console.log(data)
+      let metadata = {
+        type: 'image/jpeg'
+      };
+      let file = new File([data], "test.jpg", metadata);
+      return file
+      // ... do something with the file or return it
     }
   }
 }

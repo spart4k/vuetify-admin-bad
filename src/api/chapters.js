@@ -68,7 +68,10 @@ export default class Chapters {
   async update(id, chapter) {
     try {
       const { data } = await axios.put(`${this.url}admin/chapter/${id}`, chapter, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { 
+          "Content-Type": "multipart/form-data"
+        },
+        
       })
       console.log(data)
       const updatedChapter = data

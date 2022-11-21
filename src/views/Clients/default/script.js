@@ -45,6 +45,7 @@ export default {
       loading: true,
       loadingBtn: false,
       imageChapter: null,
+      urlImage: ''
     }
   },
   computed: {
@@ -58,7 +59,21 @@ export default {
     },
     dialogDelete (val) {
       val || this.closeDelete()
-    }
+    },
+    imageChapter(val) {
+      if (val) {
+        this.urlImage = URL.createObjectURL(val);
+      } else {
+        this.urlImage = null
+      }
+    },
+    editedIndex() {
+      if (this.editedItem.avatarUrl) {
+        this.urlImage = this.editedItem.avatarUrl
+      } else {
+        this.urlImage = null
+      }
+    } 
   },
   methods: {
     editItem (item) {
