@@ -124,7 +124,7 @@
         <template v-slot:[`item.emailValidate`]="{ item }">
           <span class="emailValidate" :class="item.emailValidate ? 'active' : 'no-active'">
             <v-icon color="white" v-if="true">
-              mdi-account-check
+              mdi-account
             </v-icon>
             <v-icon color="white" v-else>
               mdi-account-alert
