@@ -42,7 +42,7 @@ export default {
         },
         { 
           title: 
-          "Жалобы", 
+          "Отзывы", 
           icon: "mdi-message-alert", 
           route: "/feeds", 
           group: true 

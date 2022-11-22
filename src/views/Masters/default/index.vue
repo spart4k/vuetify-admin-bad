@@ -122,7 +122,7 @@
         </template>
         <template v-slot:[`item.emailValidate`]="{ item }">
           <span class="emailValidate" :class="item.emailValidate ? 'active' : 'no-active'">
-            <v-icon color="white" v-if="item.emailValidate">
+            <v-icon color="white" v-if="true">
               mdi-account-check
             </v-icon>
             <v-icon color="white" v-else>

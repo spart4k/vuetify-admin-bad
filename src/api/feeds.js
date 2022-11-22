@@ -1,29 +1,21 @@
 import axios from "axios";
 import store from '../store';
-export default class Clients {
+export default class Feeds {
   constructor(url) {
     this.url = url;
   }
 
   async get() {
     try {
-      const { data } = await axios(`${this.url}admin/profile/role/2`)
+      const { data } = await axios(`${this.url}admin/profile/reviews`)
       console.log(data)
-      if (!data || data.clients.length === 0) {
+      console.log(data)
+      if (!data || data.reviews.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
-      return (data?.clients || []).map((el) => ({
-        aboutme: el.aboutme,
-        avatarUrl: el.avatarUrl,
-        cities_id: el.cities_id,
-        dateOfBirth: el.dateOfBirth,
-        email: el.email,
-        emailValidate: el.emailValidate,
-        lastName: el.lastName,
-        name: el.name,
-        phoneNumber: el.phoneNumber
-      }));
+  
+      return data.reviews
     } catch(error) {
       console.log(error)
       let errorText = ''

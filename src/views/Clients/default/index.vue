@@ -28,7 +28,7 @@
               ></v-text-field>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" :max-width="formTitle === 'Изменить' ? '300px' : '300px'">
+            <v-dialog v-model="dialog" :max-width="formTitle === 'Изменить' ? '400px' : '400px'">
               <!-- <template v-slot:activator="{ attrs }">
                 <v-btn color="#EF8A3E" dark class="mb-2" v-bind="attrs" @click="newItem">
                   Добавить
@@ -69,6 +69,7 @@
                           />
                           <v-img v-if="urlImage" :src="urlImage" />
                         </div>
+                        <!-- <v-date-picker v-model="editedItem.dateOfBirth"></v-date-picker> -->
                       </v-col>
                       <!-- <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
                         <v-text-field
@@ -122,7 +123,7 @@
         </template>
         <template v-slot:[`item.emailValidate`]="{ item }">
           <span class="emailValidate" :class="item.emailValidate ? 'active' : 'no-active'">
-            <v-icon color="white" v-if="item.emailValidate">
+            <v-icon color="white" v-if="true">
               mdi-account-check
             </v-icon>
             <v-icon color="white" v-else>
