@@ -10,6 +10,16 @@ export default {
   async created() {
     this.loading = true
     const citiesData = await masters.get()
+    citiesData.forEach((item) => {
+      if (item.birth_day) {
+        item.birth_day_converted = new Date(item.birth_day).toLocaleString("ru", {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          timezone: 'UTC'
+        })
+      }
+    })
     this.dataset = citiesData
     this.loading = false
   },
@@ -18,10 +28,10 @@ export default {
       headers: [
         { text: 'ID', value: 'id' },
         { text: 'Имя', value: 'name' },
-        { text: 'Фамилия', value: 'lastName' },
+        { text: 'Фамилия', value: 'last_name' },
         { text: 'Email', value: 'email' },
-        { text: 'Дата рождения', value: 'dateOfBirth' },
-        { text: 'Телефон', value: 'phoneNumber', sortable: false },
+        { text: 'Дата рождения', value: 'birth_day'},
+        { text: 'Телефон', value: 'phone_number', sortable: false },
         { text: 'Подтвержден', value: 'emailValidate', sortable: false, align: 'center' },
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],

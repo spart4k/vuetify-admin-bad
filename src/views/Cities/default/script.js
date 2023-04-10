@@ -9,7 +9,7 @@ export default {
   },  
   async created() {
     this.loading = true
-    const citiesData = await cities.get()
+    const citiesData = await cities.get(this.search)
     this.dataset = citiesData
     this.loading = false
   },
@@ -129,7 +129,7 @@ export default {
     },
     async requestCreate () {
       const newCity = await cities.create({
-        name: this.editedItem.name,
+        city: this.editedItem.name,
         // latitude: +this.editedItem.latitude,
         // longitude: +this.editedItem.longitude
       })

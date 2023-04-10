@@ -130,8 +130,8 @@
             </v-icon>
           </span>
         </template>
-        <template v-slot:[`item.dateOfBirth`]="{ item }">
-          {{ formatDate(item.dateOfBirth) }}
+        <template v-slot:[`item.birth_day`]="{ item }">
+          {{ formatDate(item.birth_day) }}
         </template>
       </v-data-table>
     </div>

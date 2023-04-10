@@ -7,22 +7,28 @@ export default class Clients {
 
   async get() {
     try {
-      const { data } = await axios(`${this.url}admin/profile/role/2`)
+      const { data } = await axios.post(`${this.url}admin/getProfileClient`, {
+        "email": "",
+        "phone": "string",
+        "page": 1,
+        "count": 99999
+      })
       console.log(data)
-      if (!data || data.clients.length === 0) {
+      if (!data || data.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
-      return (data?.clients || []).map((el) => ({
+      return (data || []).map((el) => ({
+        id: el.id,
         aboutme: el.aboutme,
         avatarUrl: el.avatarUrl,
         cities_id: el.cities_id,
-        dateOfBirth: el.dateOfBirth,
+        dateOfBirth: el.birth_day,
         email: el.email,
         emailValidate: el.emailValidate,
-        lastName: el.lastName,
+        lastName: el.last_name,
         name: el.name,
-        phoneNumber: el.phoneNumber
+        phoneNumber: el.phone_number
       }));
     } catch(error) {
       console.log(error)

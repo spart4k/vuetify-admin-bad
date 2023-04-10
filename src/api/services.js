@@ -9,7 +9,13 @@ export default class Cities {
   async get() {
     console.log(this.url);
     try {
-      const data = await axios(`${this.url}admin/services`).then((response) => {
+      const data = await axios.post(`${this.url}getFirstNGenerationsOfChildren`, {
+        "n": 3,
+        "conditions": {
+          "floor": 0,
+          "moderation": true
+        }
+      }).then((response) => {
         return response.data;
       });
       console.log(data);
@@ -17,13 +23,10 @@ export default class Cities {
         return [];
       }
   
-      return (data?.services || []).map((el) => ({
+      return (data || []).map((el) => ({
         id: el.id,
-        title: el.title,
-        chapter_categories: el.Chapter_Categories,
-        chapter_classes: el.Chapter_Classes,
-        classes_title: el.classes_title,
-        img: el.img
+        title: el.name,
+        Children: el.Children,
       }));
     } catch(error) {
       let errorText = ''

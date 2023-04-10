@@ -247,11 +247,11 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-data-table
-              v-if="service.chapter_classes"
+              v-if="service.Children"
               multi-sort
               :loading="loading"
               :search="search"
-              :items="service.chapter_classes"
+              :items="service.Children"
               :expand="expand"
               :headers="headers"
               :expanded.sync="expands"
@@ -261,12 +261,12 @@
                 itemsPerPageText: 'Кол-во на странице'
               }"
             > 
-              <template v-slot:[`group.header`]="{ group, items, toggle, isOpen }">
+              <template v-slot:[`group.header`]="{ items, toggle, isOpen }">
                 <td width="20" colspan="1">
                   {{ items[0].id }}
                 </td>
                 <td width="75.5%" colspan="1" class="">
-                    {{ group }}
+                    {{ items[0].name }}
                 </td>
                 <td colspan="1">
                   <v-icon small class="mr-2" @click.stop="addCategories(service)">mdi-plus</v-icon>

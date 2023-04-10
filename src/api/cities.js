@@ -7,19 +7,18 @@ export default class Cities {
 
   async get() {
     try {
-      const { data } = await axios(`${this.url}admin/cities`)
+      const { data } = await axios.get(`${this.url}admin/getCities?city=`)
       console.log(data)
-      console.log(data)
-      if (!data || data.cities.length === 0) {
+      if (!data || data.cityFound.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
   
-      return (data?.cities || []).map((el) => ({
+      return (data?.cityFound || []).map((el) => ({
         id: el.id,
         name: el.name,
-        latitude: el.location.coordinates[0],
-        longitude: el.location.coordinates[1],
+        latitude: el.latitude,
+        longitude: el.longtitude,
       }));
     } catch(error) {
       console.log(error)
@@ -36,8 +35,8 @@ export default class Cities {
   async create(city) {
     console.log(city)
     try {
-      const { data } = await axios.post(`${this.url}admin/cities`, city)
-      const newCity = data.city
+      const { data } = await axios.post(`${this.url}admin/addCity`, city)
+      const newCity = data.createCity
       store.commit('alert/show', { type: 'success', content: `Город ${newCity.name} успешно добавлен`, duration: 2000 })
       if (!newCity) {
         return null;
@@ -46,8 +45,8 @@ export default class Cities {
       return {
         id: newCity.id,
         name: newCity.name,
-        latitude: newCity.location.coordinates[0],
-        longitude: newCity.location.coordinates[1],
+        latitude: newCity.latitude,
+        longitude: newCity.longtitude,
       };
     } catch(error) {
       console.log(error)
@@ -76,8 +75,8 @@ export default class Cities {
       return {
         id: updatedCity.id,
         name: updatedCity.name,
-        latitude: updatedCity.location.coordinates[0],
-        longitude: updatedCity.location.coordinates[1],
+        latitude: updatedCity.latitude,
+        longitude: updatedCity.longtitude,
       };
     } catch(error) {
       console.log(error)
@@ -94,7 +93,7 @@ export default class Cities {
 
   async delete(city) {
     try {
-      const response = await axios.delete(`${this.url}admin/city/${city.id}`);
+      const response = await axios.delete(`${this.url}admin/delCityId?city_id=${city.id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
     } catch(error) {

@@ -7,7 +7,7 @@ export default class Feeds {
 
   async get() {
     try {
-      const { data } = await axios(`${this.url}admin/profile/reviews`)
+      const { data } = await axios(`${this.url}admin/getReviews`)
       console.log(data)
       console.log(data)
       if (!data || data.reviews.length === 0) {

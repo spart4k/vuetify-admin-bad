@@ -15,7 +15,7 @@ export default {
       headers: [
         { text: 'ID', value: 'id', sortable: false  },
         { text: 'Название', sortable: false  },
-        { text: 'Действие', sortable: false  },
+        // { text: 'Действие', sortable: false  },
         // { text: 'Логотип', value: 'img' },
         // { text: 'Название', value: 'actions', sortable: false },
         // { text: '', value: 'data-table-expand' }

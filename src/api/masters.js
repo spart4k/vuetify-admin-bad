@@ -7,14 +7,20 @@ export default class Clients {
 
   async get() {
     try {
-      const { data } = await axios(`${this.url}admin/profile/role/1`)
+      const { data } = await axios.post(`${this.url}admin/getProfileMasters`, {
+        "email": "",
+        "phone": "",
+        "moderation": true,
+        "page": 1,
+        "count": 99999
+      })
       console.log(data)
-      if (!data || data.clients.length === 0) {
+      if (!data || data.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
   
-      return data.clients
+      return data
     } catch(error) {
       console.log(error)
       let errorText = ''
