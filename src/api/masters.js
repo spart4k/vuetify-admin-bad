@@ -10,7 +10,6 @@ export default class Clients {
       const { data } = await axios.post(`${this.url}admin/getProfileMasters`, {
         "email": "",
         "phone": "",
-        "moderation": true,
         "page": 1,
         "count": 99999
       })

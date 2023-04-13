@@ -17,12 +17,12 @@ export default {
     return {
       headers: [
         { text: 'ID', value: 'id' },
-        { text: 'Услуга', value: 'services_id' },
-        { text: 'Клиент', value: 'client_id' },
-        { text: 'Мастер', value: 'master_id' },
-        { text: 'Дата', value: 'date_service' },
-        { text: 'Оценка', value: 'rating', sortable: false },
-        { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
+        { text: 'ID Клиента', value: 'author_id' },
+        { text: 'ID Мастера', value: 'target_id' },
+        { text: 'Дата', value: 'createdAt' },
+        { text: 'Оценка', value: 'rating', sortable: false }, 
+        { text: 'Текст', value: 'text', sortable: false }
+        // { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
       dialog: false,
       dialogDelete: false,

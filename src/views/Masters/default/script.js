@@ -32,7 +32,9 @@ export default {
         { text: 'Email', value: 'email' },
         { text: 'Дата рождения', value: 'birth_day'},
         { text: 'Телефон', value: 'phone_number', sortable: false },
+        { text: 'О себе', value: 'about_me', sortable: false },
         { text: 'Подтвержден', value: 'emailValidate', sortable: false, align: 'center' },
+        { text: 'Дата изменения', value: 'updatedAt', sortable: false },
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
       dialog: false,

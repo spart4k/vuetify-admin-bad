@@ -72,22 +72,15 @@ export default class Clients {
 
   }
 
-  async update(id, city) {
+  async update(id, requestBody) {
     try {
-      const { data } = await axios.put(`${this.url}admin/city/${id}?name=${city.name}`)
-      console.log(data)
-      const updatedCity = data.city[0]
-      store.commit('alert/show', { type: 'success', content: `Город успешно изменен на ${city.name}`, duration: 2000 })
-      if (!updatedCity) {
+      const { data } = await axios.patch(`${this.url}admin/editProfileClient?user_id=${id}`, requestBody)
+      const updatedClient = data
+      store.commit('alert/show', { type: 'success', content: `Клиент успешно изменен`, duration: 2000 })
+      if (!updatedClient) {
         return null;
       }
-      console.log(updatedCity)
-      return {
-        id: updatedCity.id,
-        name: updatedCity.name,
-        latitude: updatedCity.location.coordinates[0],
-        longitude: updatedCity.location.coordinates[1],
-      };
+      return { updatedClient }
     } catch(error) {
       console.log(error)
       let errorText = ''

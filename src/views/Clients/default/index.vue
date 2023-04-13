@@ -56,10 +56,11 @@
                           label="Почта"
                         ></v-text-field>
                         <v-text-field
-                          v-model="editedItem.phoneNumber"
-                          label="Телефон"
+                          v-model="newConvertedDateBirth"
+                          v-mask="'##.##.####'"
+                          label="Дата рождения"
                         ></v-text-field>
-                        <div class="">
+                        <!-- <div class="">
                           <v-file-input 
                             v-model="imageChapter"
                             label="Логотип"
@@ -68,7 +69,7 @@
                             prepend-icon="mdi-camera" 
                           />
                           <v-img v-if="urlImage" :src="urlImage" />
-                        </div>
+                        </div> -->
                         <!-- <v-date-picker v-model="editedItem.dateOfBirth"></v-date-picker> -->
                       </v-col>
                       <!-- <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
@@ -92,7 +93,7 @@
                   <v-btn color="darken darken-1" text @click="close">
                     Отменить
                   </v-btn>
-                  <v-btn disabled color="#EF8A3E" :loading="loadingBtn" text @click="save">
+                  <v-btn color="#EF8A3E" :loading="loadingBtn" text @click="save">
                     Сохранить
                   </v-btn>
                 </v-card-actions>
@@ -132,7 +133,10 @@
           </span>
         </template>
         <template v-slot:[`item.dateOfBirth`]="{ item }">
-          {{ formatDate(item.dateOfBirth) }}
+          {{ item.dateOfBirth ? formatDate(item.dateOfBirth) : ''}}
+        </template>
+        <template v-slot:[`item.updatedAt`]="{ item }">
+          {{ item.updatedAt ? formatDate(item.updatedAt) : '' }}
         </template>
       </v-data-table>
     </div>

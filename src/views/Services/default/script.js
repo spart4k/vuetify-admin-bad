@@ -14,7 +14,7 @@ export default {
     return {
       headers: [
         { text: 'ID', value: 'id', sortable: false  },
-        { text: 'Название', sortable: false  },
+        { text: 'Название', value: 'name', sortable: false  },
         // { text: 'Действие', sortable: false  },
         // { text: 'Логотип', value: 'img' },
         // { text: 'Название', value: 'actions', sortable: false },
@@ -35,9 +35,8 @@ export default {
         title: '',
       },
       editedItem: {
-        id: '',
-        title: '',
-        classes_title: '',
+        name: '',
+        title_over_children: '',
         img: ''
       },
       defaultItem: {
@@ -50,7 +49,7 @@ export default {
       search: '',
       loading: true,
       loadingBtn: false,
-      expand: false,
+      expand: true,
       expands: [],
       imageChapter: null,
       dialogClass: false,
@@ -123,7 +122,6 @@ export default {
       this.dialogCategories = true
     },
     newItem () {
-      console.log('new')
       this.dialog = true
     },
 
@@ -264,11 +262,21 @@ export default {
       console.log(updatedClass)
     },
     async requestCreate () {
-      let formData = new FormData()
-      formData.append('title', this.editedItem.title)
-      formData.append('classes_title', this.editedItem.classes_title)
-      formData.append('image', this.imageChapter)
-      const newChapter = await chapters.create(formData)
+      console.log(this.editedItem)
+      let isCategory = true
+      // formData.append('image', this.imageChapter)
+      let formData = {
+        name: this.editedItem.name,
+        is_category: isCategory,
+        floor: 0,
+        parent_id: null,
+        title_over_children: this.editedItem.title_over_children,
+        path: ",",
+        added_files: []
+      }
+      console.log('1')
+      const newChapter = await services.create(formData)
+      console.log('2')
       this.loadingBtn = false
       if (newChapter) {
         this.dataset.push(newChapter)
@@ -276,20 +284,21 @@ export default {
       }
       
     },
-    async requestCreateClass () {
+    async requestCreateClass() {
+      console.log(this.editedItemClass, this.editedItem)
       const body = {
         title: this.editedItemClass.title
       }
       const idService = this.choosedServiceClasses
       console.log(body, idService)
-      const newClass = await classes.create(body,idService)
-      console.log(newClass)
-      this.loadingBtn = false
-      if (newClass) {
-        // this.dataset.push(newClass)
-        this.getItems()
-        this.closeClass()
-      }
+      // const newClass = await classes.create(body,idService)
+      // console.log(newClass)
+      // this.loadingBtn = false
+      // if (newClass) {
+      //   // this.dataset.push(newClass)
+      //   this.getItems()
+      //   this.closeClass()
+      // }
     },
     async requestCreateCategories () {
       const body = {

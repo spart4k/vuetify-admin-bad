@@ -20,7 +20,7 @@ export default {
         { text: 'Название', value: 'name' },
         { text: 'Широта', value: 'latitude' },
         { text: 'Долгота', value: 'longitude' },
-        { text: 'Действия', value: 'actions', sortable: false }
+        { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
       dialog: false,
       dialogDelete: false,

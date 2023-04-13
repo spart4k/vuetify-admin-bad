@@ -131,7 +131,10 @@
           </span>
         </template>
         <template v-slot:[`item.birth_day`]="{ item }">
-          {{ formatDate(item.birth_day) }}
+          {{ item.birth_day ? formatDate(item.birth_day) : ''}}
+        </template>
+        <template v-slot:[`item.updatedAt`]="{ item }">
+          {{ item.updatedAt ? formatDate(item.updatedAt) : '' }}
         </template>
       </v-data-table>
     </div>

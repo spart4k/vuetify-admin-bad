@@ -7,15 +7,15 @@ export default class Feeds {
 
   async get() {
     try {
-      const { data } = await axios(`${this.url}admin/getReviews`)
+      const { data } = await axios(`http://94.103.84.93:3001/api/admin/getReviews`)
       console.log(data)
       console.log(data)
-      if (!data || data.reviews.length === 0) {
+      if (!data || data.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
   
-      return data.reviews
+      return data
     } catch(error) {
       console.log(error)
       let errorText = ''

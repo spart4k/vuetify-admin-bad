@@ -13,7 +13,6 @@ export default class Cities {
         "n": 3,
         "conditions": {
           "floor": 0,
-          "moderation": true
         }
       }).then((response) => {
         return response.data;
@@ -25,7 +24,7 @@ export default class Cities {
   
       return (data || []).map((el) => ({
         id: el.id,
-        title: el.name,
+        name: el.name,
         Children: el.Children,
       }));
     } catch(error) {
@@ -40,22 +39,27 @@ export default class Cities {
       
   }
 
-  async create(city) {
-    const newCity = await fetch(`${this.url}admin/cities`, {
-      method: "POST",
-      body: JSON.stringify(city),
-    }).then((response) => response.json());
-
-    if (!newCity) {
-      return null;
+  async create(chapter) {
+    console.log(chapter)
+    try {
+      const { data } = await axios.post(`${this.url}addOrEditServiceOrCategory`, chapter)
+      const newChapter = data
+      store.commit('alert/show', { type: 'success', content: `Услуга ${newChapter.title} успешно добавлена`, duration: 2000 })
+      if (!newChapter) {
+        return null;
+      }
+  
+      return { newChapter };
+    } catch (error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
     }
-
-    return {
-      id: newCity.id,
-      name: newCity.name,
-      latitude: newCity.latitude,
-      longitude: newCity.longitude,
-    };
   }
 
   async update(id, service) {

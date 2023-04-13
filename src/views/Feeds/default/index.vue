@@ -1,8 +1,8 @@
 <template>
   <LayoutDefault>
-    <div v-if="false" class="">
+    <div class="">
       <v-card-title>
-        Клиенты
+        Отзывы
       </v-card-title>
       <v-data-table
         multi-sort
@@ -130,21 +130,11 @@
             </v-icon>
           </span>
         </template> -->
-        <template v-slot:[`item.date_service`]="{ item }">
-          {{ formatDate(item.date_service) }}
+        <template v-slot:[`item.createdAt`]="{ item }">
+          {{ item.createdAt ? formatDate(item.createdAt) : ''}}
         </template>
       </v-data-table>
     </div>
-    <v-container v-else class="height-full" fluid fill-height>
-      <v-layout class="align-center justify-center">
-        <div class="d-flex align-center subtitle-1">
-          <v-icon class="mr-1">
-            mdi-cog
-          </v-icon>
-          В разработке
-        </div>
-      </v-layout>
-    </v-container>
   </LayoutDefault>
 </template>
 <script src="./script.js"></script>

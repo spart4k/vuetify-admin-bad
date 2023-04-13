@@ -9,9 +9,10 @@ import Feeds from "./feeds";
 import axios from "axios";
 
 // const API_URL = "https://tints.c.roky.rocks/api/";
-// const API_URL = "http://94.103.84.93:3001/api/";
 const API_URL = "http://94.103.84.93:8080/api/";
-axios.defaults.headers.common.Authorization = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6NDgsInJvbGUiOjN9.aS59AD6GKwu6plUd7q77YhL_vs8r-ier-9X8RqUy348`
+// const API_URL = "http://94.103.84.93:3001/api/";
+
+axios.defaults.headers.common.Authorization = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MjksInJvbGUiOjN9.XcEvsK6X6dStRHjeCTnTuzDTl_44-yyrNQePZwX7ZEw`
 export const chapters = new Chapters(API_URL);
 export const cities = new Cities(API_URL);
 export const classes = new ChapterClass(API_URL);
