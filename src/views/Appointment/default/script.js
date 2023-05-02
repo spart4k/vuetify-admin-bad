@@ -9,8 +9,8 @@ export default {
   },  
   async created() {
     this.loading = true
-    const appointmentData = await appointment.get(this.search)
-    this.dataset = appointmentData
+    // const appointmentData = await appointment.get(this.search)
+    // this.dataset = appointmentData
     this.loading = false
   },
   data() {

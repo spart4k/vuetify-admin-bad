@@ -209,16 +209,17 @@ export default {
       }
         await masters.update(this.editedItem.id, requestData)
       } else if (this.changeStage === 2) {
-        console.log('sad')
-        const requestData = {
-          "email": this.editedItem.email,
-          "name": this.editedItem.name,
-          "last_name": this.editedItem.last_name,
-          "birth_day": this.editedItem.dateOfBirth,
-          "about_me": this.editedItem.about_me,
-          "moderation": this.editedItem.moderation
-        }
-        await masters.update(this.editedItem.id, requestData)
+        const specArray = []
+        console.log(this.currentSpecialisationsTitle)
+        this.currentSpecialisationsTitle.forEach(item => {
+          if (item.title)
+          specArray.push(item.id)
+        })
+        // const requestData = {
+        //   "user_id": 0,
+        //   "specialization_ids": [0]
+        // }
+        // await masters.updateSpecialization(requestData)
       } else if (this.changeStage === 3) {
         console.log('sad')
       } else if (this.changeStage === 4) {
