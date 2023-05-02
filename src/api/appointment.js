@@ -1,25 +1,25 @@
 import axios from "axios";
 import store from '../store';
-export default class Clients {
+export default class Appointments {
   constructor(url) {
     this.url = url;
   }
 
   async get() {
     try {
-      const { data } = await axios.post(`${this.url}admin/getProfileMasters`, {
-        "email": "",
-        "phone": "",
-        "page": 1,
-        "count": 99999
-      })
+      const { data } = await axios.get(`http://130.193.40.233:80/appointment/api/admin/getAppointmentsUsers?page=1&limit=10`)
       console.log(data)
-      if (!data || data.length === 0) {
+      if (!data || data.cityFound.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
   
-      return data
+      return (data?.cityFound || []).map((el) => ({
+        id: el.id,
+        name: el.name,
+        latitude: el.latitude,
+        longitude: el.longtitude,
+      }));
     } catch(error) {
       console.log(error)
       let errorText = ''
@@ -35,8 +35,8 @@ export default class Clients {
   async create(city) {
     console.log(city)
     try {
-      const { data } = await axios.post(`${this.url}admin/cities`, city)
-      const newCity = data.city
+      const { data } = await axios.post(`${this.url}admin/addCity`, city)
+      const newCity = data.createCity
       store.commit('alert/show', { type: 'success', content: `Город ${newCity.name} успешно добавлен`, duration: 2000 })
       if (!newCity) {
         return null;
@@ -45,8 +45,8 @@ export default class Clients {
       return {
         id: newCity.id,
         name: newCity.name,
-        latitude: newCity.location.coordinates[0],
-        longitude: newCity.location.coordinates[1],
+        latitude: newCity.latitude,
+        longitude: newCity.longtitude,
       };
     } catch(error) {
       console.log(error)
@@ -62,51 +62,22 @@ export default class Clients {
 
   }
 
-  async update(id, master) {
+  async update(id, city) {
     try {
-      const { data } = await axios.patch(`${this.url}admin/editProfileMaster/?user_id=${id}`, master)
+      const { data } = await axios.put(`${this.url}admin/city/${id}?name=${city.name}`)
       console.log(data)
       const updatedCity = data.city[0]
-      store.commit('alert/show', { type: 'success', content: `Мастер успешно обновлён`, duration: 2000 })
+      store.commit('alert/show', { type: 'success', content: `Город успешно изменен на ${city.name}`, duration: 2000 })
       if (!updatedCity) {
         return null;
       }
       console.log(updatedCity)
-      return { updatedCity };
-    } catch(error) {
-      console.log(error)
-      // let errorText = ''
-      // if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
-      // else if (error?.response?.data?.message) errorText = error?.response?.data?.message
-      // else {
-      //   errorText = error.message
-      // }
-      // store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
-    }
-    
-  }
-
-  async delete(city) {
-    try {
-      const response = await axios.delete(`${this.url}admin/city/${city.id}`);
-      console.log(response)
-      store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
-    } catch(error) {
-      const errorText = error.message
-      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
-    }
-    
-  }
-  
-  async getSpecializations() {
-    try {
-      const { data } = await axios.get(`${this.url}admin/getSpecializations`)
-      if (!data || data.length === 0) {
-        store.commit('alert/show', { type: 'warning', content: `В данный момент специализайций нет` })
-        return [];
-      }
-  
-      return data
+      return {
+        id: updatedCity.id,
+        name: updatedCity.name,
+        latitude: updatedCity.latitude,
+        longitude: updatedCity.longtitude,
+      };
     } catch(error) {
       console.log(error)
       let errorText = ''
@@ -117,5 +88,18 @@ export default class Clients {
       }
       store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
     }
+    
+  }
+
+  async delete(city) {
+    try {
+      const response = await axios.delete(`${this.url}admin/delCityId?city_id=${city.id}`);
+      console.log(response)
+      store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
+    } catch(error) {
+      const errorText = error.message
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+    
   }
 }

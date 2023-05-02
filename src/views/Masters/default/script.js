@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import LayoutDefault from '@/layouts/default'
 import { masters } from '@/api'
+import VueMask from 'v-mask'
+Vue.use(VueMask)
 
 export default {
   name: 'view-clients',
@@ -9,8 +11,8 @@ export default {
   },  
   async created() {
     this.loading = true
-    const citiesData = await masters.get()
-    citiesData.forEach((item) => {
+    const mastersData = await masters.get()
+    mastersData.forEach((item) => {
       if (item.birth_day) {
         item.birth_day_converted = new Date(item.birth_day).toLocaleString("ru", {
           year: 'numeric',
@@ -20,7 +22,7 @@ export default {
         })
       }
     })
-    this.dataset = citiesData
+    this.dataset = mastersData
     this.loading = false
   },
   data() {
@@ -33,7 +35,11 @@ export default {
         { text: 'Дата рождения', value: 'birth_day'},
         { text: 'Телефон', value: 'phone_number', sortable: false },
         { text: 'О себе', value: 'about_me', sortable: false },
-        { text: 'Подтвержден', value: 'emailValidate', sortable: false, align: 'center' },
+        { text: 'Специализация', value: 'Specialisations', sortable: false },
+        { text: 'Курсы', value: 'Courses', sortable: false },
+        { text: 'Дипломы', value: 'Diploms', sortable: false },
+        { text: 'Образование', value: 'Educations', sortable: false },
+        { text: 'Подтвержден', value: 'moderation', sortable: false, align: 'center' },
         { text: 'Дата изменения', value: 'updatedAt', sortable: false },
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
@@ -57,7 +63,17 @@ export default {
       loading: true,
       loadingBtn: false,
       imageChapter: null,
-      urlImage: null
+      urlImage: null,
+      newConvertedDateBirth: '',
+      convertedCourseStart: [],
+      convertedCourseEnd: [],
+      changeStage: 1,
+      coursesStage: 1,
+      diplomsStage: 1,
+      educationsStage: 1,
+      allSpecialisations: [],
+      allSpecialisationsTitle: [],
+      currentSpecialisationsTitle: []
     }
   },
   computed: {
@@ -85,17 +101,42 @@ export default {
       } else {
         this.urlImage = null
       }
-    } 
+    },
+    changeStage() {
+      if (this.changeStage === 2 && !this.allSpecialisationsTitle.length) {
+        this.getAllSpec()
+      }
+    }
   },
   methods: {
-    editItem (item) {
+    editItem(item) {
+      this.changeStage = 1
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
+      this.convertedCourseStart = []
+      this.convertedCourseEnd = []
+      this.newConvertedDateBirth = this.formatDate(Object.assign({}, item).birth_day)
+      this.editedItem.Courses.forEach(item => {
+        this.convertedCourseStart.push(this.formatDate(item.start_date))
+        this.convertedCourseEnd.push(this.formatDate(item.end_date))
+      })
+      this.currentSpecialisationsTitle = []
+      this.editedItem.Specialisations.forEach(item => {
+        this.currentSpecialisationsTitle.push(item.title)
+      })
     },
     newItem () {
       console.log('new')
       this.dialog = true
+    },
+
+    async getAllSpec() {
+      const allSpec = await masters.getSpecializations()
+      this.allSpecialisations = allSpec
+      this.allSpecialisations.forEach(item => {
+        this.allSpecialisationsTitle.push(item.title)
+      })
     },
 
     deleteItem (item) {
@@ -149,14 +190,50 @@ export default {
       }
     },
     async requestEdit () {
-      const id = this.editedItem.id
-      console.log(id, this.editedItem)
-      const updatedCity = await masters.update(id,this.editedItem)
-      this.loadingBtn = false
-      if (updatedCity) {
-        Vue.set(this.dataset, this.editedIndex, updatedCity)
-        this.close()
+      // changeStage: 1,
+      // coursesStage: 1,
+      // diplomsStage: 1,
+      // educationsStage: 1,
+      // allSpecialisations: [],
+      // allSpecialisationsTitle: [],
+      // currentSpecialisationsTitle: []
+      if (this.changeStage === 1) {
+      this.editedItem.dateOfBirth = this.newConvertedDateBirth.split('.').reverse().join('-') + 'T00:00:00.000Z'
+      const requestData = {
+        "email": this.editedItem.email,
+        "name": this.editedItem.name,
+        "last_name": this.editedItem.last_name,
+        "birth_day": this.editedItem.dateOfBirth,
+        "about_me": this.editedItem.about_me,
+        "moderation": this.editedItem.moderation
       }
+        await masters.update(this.editedItem.id, requestData)
+      } else if (this.changeStage === 2) {
+        console.log('sad')
+        const requestData = {
+          "email": this.editedItem.email,
+          "name": this.editedItem.name,
+          "last_name": this.editedItem.last_name,
+          "birth_day": this.editedItem.dateOfBirth,
+          "about_me": this.editedItem.about_me,
+          "moderation": this.editedItem.moderation
+        }
+        await masters.update(this.editedItem.id, requestData)
+      } else if (this.changeStage === 3) {
+        console.log('sad')
+      } else if (this.changeStage === 4) {
+        console.log('sad')
+      } else if (this.changeStage === 5) {
+        console.log('sad')
+      }
+      const mastersData = await masters.get()
+      this.dataset = mastersData
+      console.log(this.editedItem)
+      this.loadingBtn = false
+      // if (updatedCity) {
+      //   Vue.set(this.dataset, this.editedIndex, updatedCity)
+      //   this.close()
+      // }
     },
     async requestCreate () {
       const newCity = await masters.create({

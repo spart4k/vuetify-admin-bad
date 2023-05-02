@@ -54,6 +54,7 @@ export default {
       imageChapter: null,
       dialogClass: false,
       choosedServiceClasses: null,
+      selectedItem: {},
       dialogDeleteClass: false,
       dialogDeleteCategories: false,
       urlImage: ''
@@ -128,7 +129,6 @@ export default {
     deleteItem (item) {
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      console.log(item)
       this.dialogDelete = true
     },
     deleteItemClass (classes) {
@@ -144,13 +144,9 @@ export default {
       this.dialogDeleteCategories = true
     },
     async deleteItemConfirm () {
-      const chapter = {
-        id: this.editedItem.id,
-        name: this.editedItem.title
-      }
-      console.log(chapter)
-      await chapters.delete(chapter)
-      this.dataset.splice(this.editedIndex, 1)
+      await services.delete(this.editedItem.id)
+      await this.getItems()
+      // this.dataset.splice(this.editedIndex, 1)
       this.closeDelete()
     },
     async deleteItemClassConfirm () {
@@ -218,27 +214,24 @@ export default {
     },
     async requestEdit () {
       const id = this.editedItem.id
-      console.log(id)
-      let formData = new FormData()
-      formData.append('title', this.editedItem.title)
-      formData.append('classes_title', this.editedItem.classes_title)
-      if (this.imageChapter) {
-        formData.append('image', this.imageChapter)
-      } else {
-        const blob = await fetch(this.editedItem.img, { mode: 'no-cors' }).then(r => r.blob());
-        formData.append('image', blob)
-        console.log(blob)
+      let formData = {
+        id: this.editedItem.id,
+        name: this.editedItem.name,
+        is_category: this.editedItem.is_category,
+        floor: this.editedItem.floor,
+        parent_id: this.editedItem.parent_id,
+        title_over_children: this.editedItem.title_over_children,
+        path: this.editedItem.path,
+        added_files: [],
+        deletedFiles: [],
+        moderation: this.editedItem.moderation ? this.editedItem.moderation : false
       }
       
       const updatedChapter = await chapters.update(id,formData)
       console.log(updatedChapter)
       this.loadingBtn = false
       await this.getItems()
-      this.close()
-      // if (updatedCity) {
-      //   Vue.set(this.dataset, this.editedIndex, updatedCity)
-      //   this.close()
-      // }
+      this.close () 
     },
     async requestEditClass () {
       const id = this.editedItemClass.chapter_id
@@ -262,27 +255,43 @@ export default {
       console.log(updatedClass)
     },
     async requestCreate () {
-      console.log(this.editedItem)
-      let isCategory = true
-      // formData.append('image', this.imageChapter)
+      console.log('!!', this.selectedItem)
+      let isCategory
+      let floor
+      let parentId
+      let parentPath
+      if (Object.keys(this.selectedItem).length === 0) {
+        isCategory = true
+        floor = 0
+        parentId = null
+        parentPath = ','
+      } else if (Object.keys(this.selectedItem).length) {
+        parentId = this.selectedItem.id
+        parentPath = this.selectedItem.path
+        isCategory = true
+        floor = this.selectedItem.floor + 1
+        if (floor === 3) {
+          isCategory = false
+        }
+      } 
       let formData = {
         name: this.editedItem.name,
         is_category: isCategory,
-        floor: 0,
-        parent_id: null,
+        floor: floor,
+        parent_id: parentId,
+        path: parentPath,
         title_over_children: this.editedItem.title_over_children,
-        path: ",",
-        added_files: []
+        added_files: [],
+        deletedFiles: [],
+        moderation: this.editedItem.moderation
       }
-      console.log('1')
+      console.log(formData)
       const newChapter = await services.create(formData)
-      console.log('2')
       this.loadingBtn = false
       if (newChapter) {
-        this.dataset.push(newChapter)
-        this.close()
+        this.closeClass()
+        this.getItems()
       }
-      
     },
     async requestCreateClass() {
       console.log(this.editedItemClass, this.editedItem)
@@ -331,8 +340,14 @@ export default {
       console.log(options)
     },
     addClass(service) {
-      console.log('class')
-      this.choosedServiceClasses = service.id
+      console.log(service)
+      if (service) {
+        this.selectedItem = service
+        this.choosedServiceClasses = service.id
+      } else {
+        this.selectedItem = {}
+        this.choosedServiceClasses = 0
+      }
       this.dialogClass = true
     },
     addCategories(service) {
@@ -342,10 +357,10 @@ export default {
     },
     closeClass() {
       this.dialogClass = false
-      this.$nextTick(() => {
-        this.editedItemClass = Object.assign({}, this.defaultItem)
-        this.editedIndexClass = -1
-      })
+      // this.$nextTick(() => {
+      //   this.editedItemClass = Object.assign({}, this.defaultItem)
+      //   this.editedIndexClass = -1
+      // })
     },
     closeCategories() {
       this.dialogCategories = false

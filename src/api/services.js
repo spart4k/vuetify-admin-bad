@@ -22,11 +22,7 @@ export default class Cities {
         return [];
       }
   
-      return (data || []).map((el) => ({
-        id: el.id,
-        name: el.name,
-        Children: el.Children,
-      }));
+      return (data || []).map((el) => (el));
     } catch(error) {
       let errorText = ''
       if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
@@ -44,7 +40,7 @@ export default class Cities {
     try {
       const { data } = await axios.post(`${this.url}addOrEditServiceOrCategory`, chapter)
       const newChapter = data
-      store.commit('alert/show', { type: 'success', content: `Услуга ${newChapter.title} успешно добавлена`, duration: 2000 })
+      store.commit('alert/show', { type: 'success', content: `Услуга успешно добавлена`, duration: 2000 })
       if (!newChapter) {
         return null;
       }
@@ -75,9 +71,16 @@ export default class Cities {
     return newService
   }
 
+
   async delete(id) {
-    await fetch(`${this.url}admin/city/${id}`, {
-      method: "DELETE",
-    });
+    try {
+      const response = await axios.get(`${this.url}deleteServiceOrCategory/${id}`);
+      console.log(response)
+      store.commit('alert/show', { type: 'success', content: `Услуга успешна удалена`, duration: 2000 })
+    } catch(error) {
+      const errorText = error.message
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+    
   }
 }

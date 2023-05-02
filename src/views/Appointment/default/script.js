@@ -1,57 +1,46 @@
 import Vue from 'vue'
 import LayoutDefault from '@/layouts/default'
-import { clients } from '@/api'
-import VueMask from 'v-mask'
-Vue.use(VueMask)
+import { appointment } from '@/api'
 
 export default {
-  name: 'view-clients',
+  name: 'view-appointment',
   components: {
     LayoutDefault
   },  
   async created() {
     this.loading = true
-    const citiesData = await clients.get()
-    this.dataset = citiesData
+    const appointmentData = await appointment.get(this.search)
+    this.dataset = appointmentData
     this.loading = false
   },
   data() {
     return {
       headers: [
         { text: 'ID', value: 'id' },
-        { text: 'Имя', value: 'name' },
-        { text: 'Фамилия', value: 'lastName' },
-        { text: 'Email', value: 'email' },
-        { text: 'Дата рождения', value: 'dateOfBirth' },
-        { text: 'Телефон', value: 'phoneNumber', sortable: false },
-        { text: 'Подтвержден', value: 'emailValidate', sortable: false, align: 'center' },
-        { text: 'Дата изменения', value: 'updatedAt', sortable: false },
+        { text: 'Название', value: 'name' },
+        { text: 'Широта', value: 'latitude' },
+        { text: 'Долгота', value: 'longitude' },
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
       dialog: false,
       dialogDelete: false,
       editedIndex: -1,
-      newConvertedDateBirth: '',
       editedItem: {
         id: '',
         name: '',
-        email: '',
-        lastName: '',
-        dateOfBirth: ''
+        latitude: '',
+        longitude: ''
       },
       defaultItem: {
         id: '',
         name: '',
-        email: '',
-        lastName: '',
-        dateOfBirth: ''
+        latitude: '',
+        longitude: ''
       },
       dataset: [],
       search: '',
       loading: true,
       loadingBtn: false,
-      imageChapter: null,
-      urlImage: ''
     }
   },
   computed: {
@@ -65,28 +54,12 @@ export default {
     },
     dialogDelete (val) {
       val || this.closeDelete()
-    },
-    imageChapter(val) {
-      if (val) {
-        this.urlImage = URL.createObjectURL(val);
-      } else {
-        this.urlImage = null
-      }
-    },
-    editedIndex() {
-      if (this.editedItem.avatarUrl) {
-        this.urlImage = this.editedItem.avatarUrl
-      } else {
-        this.urlImage = null
-      }
-    } 
+    }
   },
   methods: {
     editItem (item) {
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      console.log(Object.assign({}, item))
-      this.newConvertedDateBirth = this.formatDate(Object.assign({}, item).dateOfBirth)
       this.dialog = true
     },
     newItem () {
@@ -105,7 +78,7 @@ export default {
         id: this.editedItem.id,
         name: this.editedItem.name
       }
-      await clients.delete(city)
+      await appointment.delete(city)
       this.dataset.splice(this.editedIndex, 1)
       this.closeDelete()
     },
@@ -146,23 +119,17 @@ export default {
     },
     async requestEdit () {
       const id = this.editedItem.id
-      this.editedItem.dateOfBirth = this.newConvertedDateBirth.split('.').reverse().join('-') + 'T00:00:00.000Z'
-      const requestData = {
-        "email": this.editedItem.email,
-        "name": this.editedItem.name,
-        "last_name": this.editedItem.lastName,
-        "birth_day": this.editedItem.dateOfBirth
-      }
-      const updatedClient = await clients.update(id, requestData)
+      console.log(id, this.editedItem)
+      const updatedCity = await appointment.update(id,this.editedItem)
       this.loadingBtn = false
-      if (updatedClient) {
-        Vue.set(this.dataset, this.editedIndex, this.editedItem)
+      if (updatedCity) {
+        Vue.set(this.dataset, this.editedIndex, updatedCity)
         this.close()
       }
     },
     async requestCreate () {
-      const newCity = await clients.create({
-        name: this.editedItem.name,
+      const newCity = await appointment.create({
+        city: this.editedItem.name,
         // latitude: +this.editedItem.latitude,
         // longitude: +this.editedItem.longitude
       })
@@ -186,21 +153,6 @@ export default {
     updateOptions(options) {
       console.log('update')
       console.log(options)
-    },
-    padTo2Digits(num) {
-      return num.toString().padStart(2, '0');
-    },
-    formatDate(date) {
-      let newDate = new Date(date)
-      const yyyy = newDate.getFullYear();
-      let mm = newDate.getMonth() + 1; // Months start at 0!
-      let dd = newDate.getDate();
-
-      if (dd < 10) dd = '0' + dd;
-      if (mm < 10) mm = '0' + mm;
-
-      const formattedToday = dd + '.' + mm + '.' + yyyy;
-      return formattedToday
-    },
+    }
   }
 }

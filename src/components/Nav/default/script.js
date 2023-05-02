@@ -35,6 +35,12 @@ export default {
           group: true,
         },
         {
+          title: "Записи",
+          icon: "mdi-book-open-variant",
+          route: "/appointment",
+          group: true,
+        },
+        {
           title: "Расписание",
           icon: "mdi-timetable",
           route: "/shedules",

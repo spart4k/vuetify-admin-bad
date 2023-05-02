@@ -38,6 +38,12 @@
                       v-model="editedItem.title_over_children"
                       label="Действие при выборе"
                     ></v-text-field>
+                    <v-checkbox
+                      v-model="editedItem.moderation"
+                      color="orange"
+                      :label="'Подтверждён'"
+                      hide-details
+                    ></v-checkbox>
                     <!-- <div class="">
                       <v-file-input 
                         v-model="imageChapter"
@@ -138,6 +144,12 @@
                       v-model="editedItem.title_over_children"
                       label="Действие при выборе"
                     ></v-text-field>
+                    <v-checkbox
+                      v-model="editedItem.moderation"
+                      color="orange"
+                      :label="'Подтверждён'"
+                      hide-details
+                    ></v-checkbox>
                   </v-col>
                   <!-- <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
                     <v-text-field
@@ -160,7 +172,7 @@
               <v-btn color="darken darken-1" text @click="closeClass">
                 Отменить
               </v-btn>
-              <v-btn color="#EF8A3E" :loading="loadingBtn" text @click="saveClass">
+              <v-btn color="#EF8A3E" :loading="loadingBtn" text @click="save">
                 Сохранить
               </v-btn>
             </v-card-actions>
@@ -181,18 +193,6 @@
                       label="Заголовок категории"
                     ></v-text-field>
                   </v-col>
-                  <!-- <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.latitude"
-                      label="Широта"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.longitude"
-                      label="Долгота"
-                    ></v-text-field>
-                  </v-col> -->
                 </v-row>
               </v-container>
             </v-card-text>

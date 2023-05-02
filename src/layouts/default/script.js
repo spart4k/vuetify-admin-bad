@@ -30,6 +30,12 @@ export default {
           group: true,
         },
         {
+          title: "Записи",
+          icon: "mdi-cog",
+          route: "/categories",
+          group: true,
+        },
+        {
           title: "Расписание",
           icon: "mdi-cog",
           route: "/categories",
