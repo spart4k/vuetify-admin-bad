@@ -7,19 +7,14 @@ export default class Appointments {
 
   async get() {
     try {
-      const { data } = await axios.get(`http://130.193.40.233:80/appointment/api/admin/getAppointmentsUsers?page=1&limit=10`)
+      const { data } = await axios.get(`appointment/api/admin/getAppointmentsUsers?page=1&limit=100`)
       console.log(data)
-      if (!data || data.cityFound.length === 0) {
+      if (!data || data.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
   
-      return (data?.cityFound || []).map((el) => ({
-        id: el.id,
-        name: el.name,
-        latitude: el.latitude,
-        longitude: el.longtitude,
-      }));
+      return data.getAppointmentsUsers
     } catch(error) {
       console.log(error)
       let errorText = ''
@@ -35,7 +30,7 @@ export default class Appointments {
   async create(city) {
     console.log(city)
     try {
-      const { data } = await axios.post(`${this.url}admin/addCity`, city)
+      const { data } = await axios.post(`users/api/admin/addCity`, city)
       const newCity = data.createCity
       store.commit('alert/show', { type: 'success', content: `Город ${newCity.name} успешно добавлен`, duration: 2000 })
       if (!newCity) {
@@ -64,7 +59,7 @@ export default class Appointments {
 
   async update(id, city) {
     try {
-      const { data } = await axios.put(`${this.url}admin/city/${id}?name=${city.name}`)
+      const { data } = await axios.put(`users/api/admin/city/${id}?name=${city.name}`)
       console.log(data)
       const updatedCity = data.city[0]
       store.commit('alert/show', { type: 'success', content: `Город успешно изменен на ${city.name}`, duration: 2000 })
@@ -93,7 +88,7 @@ export default class Appointments {
 
   async delete(city) {
     try {
-      const response = await axios.delete(`${this.url}admin/delCityId?city_id=${city.id}`);
+      const response = await axios.delete(`users/api/admin/delCityId?city_id=${city.id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
     } catch(error) {

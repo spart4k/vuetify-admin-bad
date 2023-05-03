@@ -7,7 +7,7 @@ export default class Cities {
 
   async get() {
     try {
-      const { data } = await axios.get(`${this.url}admin/getCities?city=`)
+      const { data } = await axios.get(`users/api/admin/getCities?city=`)
       console.log(data)
       if (!data || data.cityFound.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
@@ -35,7 +35,7 @@ export default class Cities {
   async create(city) {
     console.log(city)
     try {
-      const { data } = await axios.post(`${this.url}admin/addCity`, city)
+      const { data } = await axios.post(`users/api/admin/addCity`, city)
       const newCity = data.createCity
       store.commit('alert/show', { type: 'success', content: `Город ${newCity.name} успешно добавлен`, duration: 2000 })
       if (!newCity) {
@@ -64,7 +64,7 @@ export default class Cities {
 
   async update(id, city) {
     try {
-      const { data } = await axios.put(`${this.url}admin/city/${id}?name=${city.name}`)
+      const { data } = await axios.put(`users/api/admin/city/${id}?name=${city.name}`)
       console.log(data)
       const updatedCity = data.city[0]
       store.commit('alert/show', { type: 'success', content: `Город успешно изменен на ${city.name}`, duration: 2000 })
@@ -93,7 +93,7 @@ export default class Cities {
 
   async delete(city) {
     try {
-      const response = await axios.delete(`${this.url}admin/delCityId?city_id=${city.id}`);
+      const response = await axios.delete(`users/api/admin/delCityId?city_id=${city.id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
     } catch(error) {

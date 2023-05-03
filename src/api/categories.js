@@ -7,7 +7,7 @@ export default class Chapters {
 
   async get() {
     try {
-      const { data } = await axios(`${this.url}admin/chapters`)
+      const { data } = await axios(`users/api/admin/chapters`)
       console.log(data)
       console.log(data)
       if (!data || data.cities.length === 0) {
@@ -36,7 +36,7 @@ export default class Chapters {
   async create(categories, serivice) {
     console.log(categories, serivice)
     try {
-      const { data } = await axios.post(`${this.url}admin/chapters/${serivice}/categories`, categories)
+      const { data } = await axios.post(`users/api/admin/chapters/${serivice}/categories`, categories)
       const newCategories = data
       store.commit('alert/show', { type: 'success', content: `Категория ${newCategories.title} успешно добавлена`, duration: 2000 })
       if (!newCategories) {
@@ -65,7 +65,7 @@ export default class Chapters {
   async update(id, categories) {
     console.log(categories)
     try {
-      const { data } = await axios.put(`${this.url}admin/chapters/${id}/categories/${categories.id}`, { title: categories.title })
+      const { data } = await axios.put(`users/api/admin/chapters/${id}/categories/${categories.id}`, { title: categories.title })
       console.log(data)
       const updatedСategories = data
       store.commit('alert/show', { type: 'success', content: `Категория успешно изменена на ${categories.title}`, duration: 2000 })
@@ -93,7 +93,7 @@ export default class Chapters {
   async delete(id, classes) {
     console.log(id, classes)
     try {
-      const response = await axios.delete(`${this.url}admin/chapters/${id}/categories/${classes.id}`);
+      const response = await axios.delete(`users/api/admin/chapters/${id}/categories/${classes.id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Класс: ${classes.title} успешно удалена`, duration: 2000 })
       console.log(response.status)

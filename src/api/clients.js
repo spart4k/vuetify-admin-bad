@@ -7,7 +7,7 @@ export default class Clients {
 
   async get() {
     try {
-      const { data } = await axios.post(`${this.url}admin/getProfileClient`, {
+      const { data } = await axios.post(`users/api/admin/getProfileClient`, {
         "email": "",
         "phone": "string",
         "page": 1,
@@ -45,7 +45,7 @@ export default class Clients {
   async create(city) {
     console.log(city)
     try {
-      const { data } = await axios.post(`${this.url}admin/cities`, city)
+      const { data } = await axios.post(`users/api/admin/cities`, city)
       const newCity = data.city
       store.commit('alert/show', { type: 'success', content: `Город ${newCity.name} успешно добавлен`, duration: 2000 })
       if (!newCity) {
@@ -74,7 +74,7 @@ export default class Clients {
 
   async update(id, requestBody) {
     try {
-      const { data } = await axios.patch(`${this.url}admin/editProfileClient?user_id=${id}`, requestBody)
+      const { data } = await axios.patch(`users/api/admin/editProfileClient?user_id=${id}`, requestBody)
       const updatedClient = data
       store.commit('alert/show', { type: 'success', content: `Клиент успешно изменен`, duration: 2000 })
       if (!updatedClient) {
@@ -96,7 +96,7 @@ export default class Clients {
 
   async delete(city) {
     try {
-      const response = await axios.delete(`${this.url}admin/city/${city.id}`);
+      const response = await axios.delete(`users/api/admin/city/${city.id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
     } catch(error) {

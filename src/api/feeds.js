@@ -7,7 +7,7 @@ export default class Feeds {
 
   async get() {
     try {
-      const { data } = await axios(`http://94.103.84.93:3001/api/admin/getReviews`)
+      const { data } = await axios(`review/api/admin/getReviews`)
       console.log(data)
       console.log(data)
       if (!data || data.length === 0) {
@@ -31,7 +31,7 @@ export default class Feeds {
   async create(city) {
     console.log(city)
     try {
-      const { data } = await axios.post(`${this.url}admin/cities`, city)
+      const { data } = await axios.post(`review/api/admin/cities`, city)
       const newCity = data.city
       store.commit('alert/show', { type: 'success', content: `Город ${newCity.name} успешно добавлен`, duration: 2000 })
       if (!newCity) {
@@ -60,7 +60,7 @@ export default class Feeds {
 
   async update(id, city) {
     try {
-      const { data } = await axios.put(`${this.url}admin/city/${id}?name=${city.name}`)
+      const { data } = await axios.put(`review/api/admin/city/${id}?name=${city.name}`)
       console.log(data)
       const updatedCity = data.city[0]
       store.commit('alert/show', { type: 'success', content: `Город успешно изменен на ${city.name}`, duration: 2000 })
@@ -89,7 +89,7 @@ export default class Feeds {
 
   async delete(city) {
     try {
-      const response = await axios.delete(`${this.url}admin/city/${city.id}`);
+      const response = await axios.delete(`review/api/admin/city/${city.id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
     } catch(error) {

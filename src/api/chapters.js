@@ -7,7 +7,7 @@ export default class Chapters {
 
   async get() {
     try {
-      const { data } = await axios(`${this.url}admin/chapters`)
+      const { data } = await axios(`users/api/admin/chapters`)
       console.log(data)
       console.log(data)
       if (!data || data.cities.length === 0) {
@@ -36,7 +36,7 @@ export default class Chapters {
   async create(chapter) {
     console.log(chapter)
     try {
-      const { data } = await axios.post(`${this.url}admin/chapter`, chapter, {
+      const { data } = await axios.post(`users/api/admin/chapter`, chapter, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       const newChapter = data
@@ -67,7 +67,7 @@ export default class Chapters {
 
   async update(id, chapter) {
     try {
-      const { data } = await axios.put(`${this.url}admin/chapter/${id}`, chapter, {
+      const { data } = await axios.put(`users/api/admin/chapter/${id}`, chapter, {
         headers: { 
           "Content-Type": "multipart/form-data"
         },
@@ -96,7 +96,7 @@ export default class Chapters {
   async delete(chapter) {
     console.log(chapter)
     try {
-      const response = await axios.delete(`${this.url}admin/chapter/${chapter.id}`);
+      const response = await axios.delete(`users/api/admin/chapter/${chapter.id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Услуга: ${chapter.name} успешно удалена`, duration: 2000 })
     } catch(error) {

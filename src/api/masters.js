@@ -7,7 +7,7 @@ export default class Clients {
 
   async get() {
     try {
-      const { data } = await axios.post(`${this.url}admin/getProfileMasters`, {
+      const { data } = await axios.post(`users/api/admin/getProfileMasters`, {
         "email": "",
         "phone": "",
         "page": 1,
@@ -35,7 +35,7 @@ export default class Clients {
   async create(city) {
     console.log(city)
     try {
-      const { data } = await axios.post(`${this.url}admin/cities`, city)
+      const { data } = await axios.post(`users/api/admin/cities`, city)
       const newCity = data.city
       store.commit('alert/show', { type: 'success', content: `Город ${newCity.name} успешно добавлен`, duration: 2000 })
       if (!newCity) {
@@ -64,7 +64,7 @@ export default class Clients {
 
   async update(id, master) {
     try {
-      const { data } = await axios.patch(`${this.url}admin/editProfileMaster/?user_id=${id}`, master)
+      const { data } = await axios.patch(`users/api/admin/editProfileMaster/?user_id=${id}`, master)
       console.log(data)
       const updatedCity = data.city[0]
       store.commit('alert/show', { type: 'success', content: `Мастер успешно обновлён`, duration: 2000 })
@@ -88,7 +88,7 @@ export default class Clients {
 
   async delete(city) {
     try {
-      const response = await axios.delete(`${this.url}admin/city/${city.id}`);
+      const response = await axios.delete(`users/api/admin/city/${city.id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
     } catch(error) {
@@ -100,7 +100,7 @@ export default class Clients {
   
   async getSpecializations() {
     try {
-      const { data } = await axios.get(`${this.url}admin/getSpecializations`)
+      const { data } = await axios.get(`users/api/admin/getSpecializations`)
       if (!data || data.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент специализайций нет` })
         return [];

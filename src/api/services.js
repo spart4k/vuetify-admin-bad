@@ -9,7 +9,7 @@ export default class Cities {
   async get() {
     console.log(this.url);
     try {
-      const data = await axios.post(`${this.url}getFirstNGenerationsOfChildren`, {
+      const data = await axios.post(`users/api/getFirstNGenerationsOfChildren`, {
         "n": 3,
         "conditions": {
           "floor": 0,
@@ -38,7 +38,7 @@ export default class Cities {
   async create(chapter) {
     console.log(chapter)
     try {
-      const { data } = await axios.post(`${this.url}addOrEditServiceOrCategory`, chapter)
+      const { data } = await axios.post(`users/api/addOrEditServiceOrCategory`, chapter)
       const newChapter = data
       store.commit('alert/show', { type: 'success', content: `Услуга успешно добавлена`, duration: 2000 })
       if (!newChapter) {
@@ -59,7 +59,7 @@ export default class Cities {
   }
 
   async update(id, service) {
-    const { data } = await axios.put(`${this.url}admin/service/${id}`, service, {
+    const { data } = await axios.put(`users/api/admin/service/${id}`, service, {
       headers: { "Content-Type": "multipart/form-data" },
     })
     console.log(data)
@@ -74,7 +74,7 @@ export default class Cities {
 
   async delete(id) {
     try {
-      const response = await axios.get(`${this.url}deleteServiceOrCategory/${id}`);
+      const response = await axios.get(`users/api/deleteServiceOrCategory/${id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Услуга успешна удалена`, duration: 2000 })
     } catch(error) {
