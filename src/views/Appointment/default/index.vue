@@ -38,22 +38,14 @@
                     <v-row cols="12" sm="6" md="4">
                       <v-col cols="12" sm="12" :md="formTitle === 'Изменить' ? '12' : '12'">
                         <v-text-field
-                          v-model="editedItem.name"
-                          label="Имя"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="editedItem.lastName"
-                          label="Фамилия"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="editedItem.email"
-                          label="Почта"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="newConvertedDateBirth"
                           v-mask="'##.##.####'"
-                          label="Дата рождения"
+                          label="Дата записи"
                         ></v-text-field>
+                        <v-text-field
+                          v-mask="'##:##'"
+                          label="Время записи"
+                        ></v-text-field>
+
                       </v-col> 
                     </v-row>
                   </v-container>
@@ -91,7 +83,7 @@
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-          <!-- <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon> -->
+          <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon>
         </template>
         <template v-slot:[`item.emailValidate`]="{ item }">
           <span class="emailValidate" :class="item.emailValidate ? 'active' : 'no-active'">
@@ -103,11 +95,29 @@
             </v-icon>
           </span>
         </template>
-        <template v-slot:[`item.dateOfBirth`]="{ item }">
-          {{ item.dateOfBirth ? formatDate(item.dateOfBirth) : ''}}
+        <template v-slot:[`item.Appointment_MasterServices`]="{ item }">
+          <div v-for="(item, index) in item.Appointment_MasterServices" :key="item.id">
+            <br v-if="index !== 0">
+            <div>
+              {{item.nameService}}
+            </div>
+          </div>
+          {{false ? item.Appointment_MasterServices[0] : ''}}
+        </template>
+        <template v-slot:[`item.createdAt`]="{ item }">
+          {{ item.createdAt ? formatDate(item.createdAt) : ''}}
         </template>
         <template v-slot:[`item.updatedAt`]="{ item }">
-          {{ item.updatedAt ? formatDate(item.updatedAt) : '' }}
+          {{ item.updatedAt && item.updatedAt !== item.createdAt ? formatDate(item.updatedAt) : '' }}
+        </template>
+        <template v-slot:[`item.time_slot`]="{ item }">
+          {{ item.time_slot ? formatTime(item.time_slot) : '' }}
+        </template>
+        <template v-slot:[`item.date_slot`]="{ item }">
+          {{ item.date_slot ? formatDate(item.date_slot) : '' }}
+        </template>
+        <template v-slot:[`item.status_id`]="{ item }">
+          {{ item.status_id === '3' ? 'Завершена' : item.status_id === '2' ? 'Отменена' : 'Не начата' }}
         </template>
       </v-data-table>
     </div>

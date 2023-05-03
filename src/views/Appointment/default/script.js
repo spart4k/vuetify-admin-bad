@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import LayoutDefault from '@/layouts/default'
 import { appointment } from '@/api'
+import VueMask from 'v-mask'
+Vue.use(VueMask)
 
 export default {
   name: 'view-appointment',
@@ -11,15 +13,29 @@ export default {
     this.loading = true
     const appointmentData = await appointment.get(this.search)
     this.dataset = appointmentData
+    this.dataset.forEach((item, index) => {
+      this.dataset[index].date_slot = item.time_slot
+      this.dataset[index].priceCount = 0
+      item.Appointment_MasterServices.forEach(item => {
+        this.dataset[index].priceCount += item.price
+      })
+      this.dataset[index].priceArray = item.Appointment_MasterServices
+    });
     this.loading = false
   },
   data() {
     return {
       headers: [
         { text: 'ID', value: 'id' },
-        { text: 'Название', value: 'name' },
-        { text: 'Широта', value: 'latitude' },
-        { text: 'Долгота', value: 'longitude' },
+        { text: 'ID клиента', value: 'client_id' },
+        { text: 'ID мастера', value: 'master_id' },
+        { text: 'Дата создания', value: 'createdAt' },
+        { text: 'Дата изменения', value: 'updatedAt' },
+        { text: 'Дата записи', value: 'date_slot', sortable: false },
+        { text: 'Время записи', value: 'time_slot', sortable: false },
+        { text: 'Услуги', value: 'Appointment_MasterServices', sortable: false },
+        { text: 'Цена', value: 'priceCount', sortable: false },
+        { text: 'Статус', value: 'status_id', sortable: false },
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
       dialog: false,
@@ -138,7 +154,6 @@ export default {
         this.dataset.push(newCity)
         this.close()
       }
-      
     },
     showAlert(content, type, duration) {
       this.alert.state = true
@@ -153,6 +168,22 @@ export default {
     updateOptions(options) {
       console.log('update')
       console.log(options)
-    }
+    },
+    formatDate(date) {
+      let newDate = new Date(date)
+      const yyyy = newDate.getFullYear();
+      let mm = newDate.getMonth() + 1; // Months start at 0!
+      let dd = newDate.getDate();
+
+      if (dd < 10) dd = '0' + dd;
+      if (mm < 10) mm = '0' + mm;
+
+      const formattedToday = dd + '.' + mm + '.' + yyyy;
+      return formattedToday
+    },
+    formatTime(date) {
+      let newDate = (new Date(date)).toTimeString().split(' ')[0].slice(0, -3); 
+      return newDate
+    },
   }
 }

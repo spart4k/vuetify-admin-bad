@@ -14,7 +14,7 @@ export default class Appointments {
         return [];
       }
   
-      return data.getAppointmentsUsers
+      return data.appointmentUser
     } catch(error) {
       console.log(error)
       let errorText = ''
