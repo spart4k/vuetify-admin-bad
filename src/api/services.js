@@ -10,7 +10,7 @@ export default class Cities {
     console.log(this.url);
     try {
       const data = await axios.post(`users/api/getFirstNGenerationsOfChildren`, {
-        "n": 3,
+        "n": 4,
         "conditions": {
           "floor": 0,
         }

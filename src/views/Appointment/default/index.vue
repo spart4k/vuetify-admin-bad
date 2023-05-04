@@ -2,7 +2,7 @@
   <LayoutDefault>
     <div class="">
       <v-card-title>
-        Записи
+        Бронирование
       </v-card-title>
       <v-data-table
         multi-sort
@@ -40,12 +40,12 @@
                         <v-text-field
                           v-model="itemDate"
                           v-mask="'##.##.####'"
-                          label="Дата записи"
+                          label="Дата бронирования"
                         ></v-text-field>
                         <v-text-field
                           v-model="itemTime"
                           v-mask="'##:##'"
-                          label="Время записи"
+                          label="Время бронирования"
                         ></v-text-field>
                         <v-select
                           v-model="currentServicesTitles"

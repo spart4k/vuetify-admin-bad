@@ -35,7 +35,7 @@ export default {
           group: true,
         },
         {
-          title: "Записи",
+          title: "Бронирование",
           icon: "mdi-book-open-variant",
           route: "/appointment",
           group: true,

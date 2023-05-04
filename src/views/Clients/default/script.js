@@ -22,6 +22,7 @@ export default {
         { text: 'Имя', value: 'name' },
         { text: 'Фамилия', value: 'lastName' },
         { text: 'Email', value: 'email' },
+        { text: 'Дата регистрации', value: 'createdAt' },
         { text: 'Дата рождения', value: 'dateOfBirth' },
         { text: 'Телефон', value: 'phoneNumber', sortable: false },
         { text: 'Подтвержден', value: 'emailValidate', sortable: false, align: 'center' },

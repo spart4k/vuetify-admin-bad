@@ -30,7 +30,7 @@ export default {
           group: true,
         },
         {
-          title: "Записи",
+          title: "Бронирование",
           icon: "mdi-cog",
           route: "/categories",
           group: true,

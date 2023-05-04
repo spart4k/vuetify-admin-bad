@@ -271,7 +271,7 @@ export default {
         parentPath = `${this.selectedItem.path}${this.selectedItem.id},`
         isCategory = true
         floor = this.selectedItem.floor + 1
-        if (floor === 3) {
+        if (floor === 4) {
           isCategory = false
         }
       } 

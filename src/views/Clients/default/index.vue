@@ -132,6 +132,9 @@
             </v-icon>
           </span>
         </template>
+        <template v-slot:[`item.createdAt`]="{ item }">
+          {{ item.createdAt ? formatDate(item.createdAt) : ''}}
+        </template>
         <template v-slot:[`item.dateOfBirth`]="{ item }">
           {{ item.dateOfBirth ? formatDate(item.dateOfBirth) : ''}}
         </template>
