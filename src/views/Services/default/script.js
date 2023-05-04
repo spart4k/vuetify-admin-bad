@@ -2,11 +2,12 @@
 import LayoutDefault from '@/layouts/default'
 import { categories, classes, services } from '@/api'
 
+
 export default {
   name: 'view-services',
   components: {
     LayoutDefault
-  },  
+  },
   async created() {
     await this.getItems()
   },
@@ -52,12 +53,16 @@ export default {
       expand: true,
       expands: [],
       imageChapter: null,
+      imageChapterIcon: null,
+      fileImageChapter: null,
+      fileImageChapterIcon: null,
       dialogClass: false,
       choosedServiceClasses: null,
       selectedItem: {},
       dialogDeleteClass: false,
       dialogDeleteCategories: false,
-      urlImage: '',
+      urlImageChapter: '',
+      urlImageChapterIcon: '',
       formTitle: ''
     }
   },
@@ -80,10 +85,45 @@ export default {
       val || this.closeDelete()
     },
     imageChapter(val) {
+      console.log(val)
       if (val) {
-        this.urlImage = URL.createObjectURL(val);
+        let img = new Image();
+        let objectUrl = URL.createObjectURL(val);
+        //this.urlImageChapterIcon = URL.createObjectURL(val);
+        let vm = this;
+        img.onload = function () {
+            if (this.width > this.height) {
+              vm.urlImageChapter = objectUrl
+              vm.fileImageChapter = val
+              console.log(val)
+              //fetch('https://storage.yandexcloud.net/tints/YCAJEug6xkiI_tPoe3xZfGBs7')
+            } else {
+              vm.$store.commit('alert/show', { type: 'error', content: `Изображение должно быть вертикальным`, duration: 2000 })
+            }
+        };
+        img.src = objectUrl;
       } else {
-        this.urlImage = null
+        this.urlImageChapter = null
+      }
+    },
+    imageChapterIcon(val) {
+      if (val) {
+        let img = new Image();
+        let objectUrl = URL.createObjectURL(val);
+        //this.urlImageChapterIcon = URL.createObjectURL(val);
+        let vm = this;
+        img.onload = function () {
+            if (this.width/this.height === 1) {
+              vm.urlImageChapterIcon = objectUrl
+              vm.fileImageChapterIcon = val
+              console.log(val)
+            } else {
+              vm.$store.commit('alert/show', { type: 'error', content: `Изображение должно быть в формате 1:1`, duration: 2000 })
+            }
+        };
+        img.src = objectUrl;
+      } else {
+        this.urlImageChapterIcon = null
       }
     },
     editedIndex() {
@@ -92,7 +132,10 @@ export default {
       } else {
         this.urlImage = null
       }
-    } 
+    }
+  },
+  mounted() {
+
   },
   methods: {
     async getItems() {
@@ -159,7 +202,7 @@ export default {
         await this.getItems()
       }
       // this.dataset.splice(this.editedIndex, 1)
-      
+
     },
     async deleteItemCategoriesConfirm () {
       console.log(this.editedItemCategories)
@@ -170,7 +213,7 @@ export default {
         await this.getItems()
       }
       // this.dataset.splice(this.editedIndex, 1)
-      
+
     },
     closeDeleteClass() {
       this.dialogDeleteClass = false
@@ -203,7 +246,7 @@ export default {
         this.requestCreate()
       }
       this.loadingBtn = true
-      
+
       // this.close()
     },
     onlyNumber ($event) {
@@ -232,7 +275,7 @@ export default {
       console.log(updatedChapter)
       this.loadingBtn = false
       await this.getItems()
-      this.close () 
+      this.close ()
     },
     async requestEditClass () {
       const id = this.editedItemClass.chapter_id
@@ -274,7 +317,7 @@ export default {
         if (floor === 4) {
           isCategory = false
         }
-      } 
+      }
       let formData = {
         name: this.editedItem.name,
         is_category: isCategory,
