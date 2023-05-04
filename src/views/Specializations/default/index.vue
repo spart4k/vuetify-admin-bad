@@ -29,11 +29,11 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" :max-width="formTitle === 'Изменить' ? '400px' : '400px'">
-              <!-- <template v-slot:activator="{ attrs }">
+              <template v-slot:activator="{ attrs }">
                 <v-btn color="#EF8A3E" dark class="mb-2" v-bind="attrs" @click="newItem">
                   Добавить
                 </v-btn>
-              </template> -->
+              </template>
               <v-card>
                 <v-card-title>
                   <span class="text-h5">{{ formTitle }}</span>
@@ -44,46 +44,17 @@
                     <v-row cols="12" sm="6" md="4">
                       <v-col cols="12" sm="12" :md="formTitle === 'Изменить' ? '12' : '12'">
                         <v-text-field
-                          v-model="editedItem.name"
-                          label="Имя"
+                            v-model="editedItem.title"
+                            label="Название"
                         ></v-text-field>
-                        <v-text-field
-                          v-model="editedItem.lastName"
-                          label="Фамилия"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="editedItem.email"
-                          label="Почта"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="newConvertedDateBirth"
-                          v-mask="'##.##.####'"
-                          label="Дата рождения"
-                        ></v-text-field>
-                        <!-- <div class="">
-                          <v-file-input 
-                            v-model="imageChapter"
-                            label="Логотип"
-                            show-size
-                            accept="image/*"
-                            prepend-icon="mdi-camera" 
-                          />
-                          <v-img v-if="urlImage" :src="urlImage" />
-                        </div> -->
-                        <!-- <v-date-picker v-model="editedItem.dateOfBirth"></v-date-picker> -->
+                        <v-checkbox
+                            v-if="formTitle === 'Изменить'"
+                            v-model="editedItem.moderation"
+                            color="orange"
+                            :label="'Подтверждён'"
+                            hide-details
+                        ></v-checkbox>
                       </v-col>
-                      <!-- <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
-                        <v-text-field
-                          v-model="editedItem.latitude"
-                          label="Широта"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
-                        <v-text-field
-                          v-model="editedItem.longitude"
-                          label="Долгота"
-                        ></v-text-field>
-                      </v-col> -->
                     </v-row>
                   </v-container>
                 </v-card-text>
@@ -102,7 +73,7 @@
             <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
                 <v-card-title class="text-h5">
-                  Вы хотите удалить пользователя?
+                  Вы хотите удалить специализацию?
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -119,27 +90,9 @@
           </v-toolbar>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
+          <v-icon v-if="item.moderation" color="red" small class="mr-2">mdi-exclamation-thick</v-icon>
           <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
           <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon>
-        </template>
-        <template v-slot:[`item.emailValidate`]="{ item }">
-          <span class="emailValidate" :class="item.emailValidate ? 'active' : 'no-active'">
-            <v-icon color="white" v-if="true">
-              mdi-account
-            </v-icon>
-            <v-icon color="white" v-else>
-              mdi-account-alert
-            </v-icon>
-          </span>
-        </template>
-        <template v-slot:[`item.createdAt`]="{ item }">
-          {{ item.createdAt ? formatDate(item.createdAt) : ''}}
-        </template>
-        <template v-slot:[`item.dateOfBirth`]="{ item }">
-          {{ item.dateOfBirth ? formatDate(item.dateOfBirth) : ''}}
-        </template>
-        <template v-slot:[`item.updatedAt`]="{ item }">
-          {{ item.updatedAt ? formatDate(item.updatedAt) : '' }}
         </template>
       </v-data-table>
     </div>

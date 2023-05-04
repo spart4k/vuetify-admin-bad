@@ -36,22 +36,14 @@ export default class Specializations {
     }
   }
 
-  async create(city) {
-    console.log(city)
+  async create(requestData) {
     try {
-      const { data } = await axios.post(`users/api/admin/addCity`, city)
-      const newCity = data.createCity
-      store.commit('alert/show', { type: 'success', content: `Город ${newCity.name} успешно добавлен`, duration: 2000 })
-      if (!newCity) {
+      const { data } = await axios.post(`users/api/admin/addSpecialization`, requestData)
+      store.commit('alert/show', { type: 'success', content: `Специализация успешно добавлена`, duration: 2000 })
+      if (!data) {
         return null;
       }
-  
-      return {
-        id: newCity.id,
-        name: newCity.name,
-        latitude: newCity.latitude,
-        longitude: newCity.longtitude,
-      };
+      return data;
     } catch(error) {
       console.log(error)
       let errorText = ''
@@ -66,12 +58,11 @@ export default class Specializations {
 
   }
 
-  async update(requestData, id) {
+  async update(id, requestData) {
     try {
-      const { data } = await axios.patch(`http://94.103.84.93:5000/appointment/api/admin/editAppointmentUser?appointment_id=${id}`, requestData)
-      console.log(data)
+      const { data } = await axios.patch(`users/api/admin/editSpecialization?id=${id}`, requestData)
       const updatedCity = data
-      store.commit('alert/show', { type: 'success', content: `Запись успешно изменена`, duration: 2000 })
+      store.commit('alert/show', { type: 'success', content: `Специализация успешно изменена`, duration: 2000 })
       return updatedCity
     } catch(error) {
       console.log(error)
@@ -88,9 +79,9 @@ export default class Specializations {
 
   async delete(id) {
     try {
-      const response = await axios.delete(`appointment/api/admin/delAppointmentUser?appointment_id=${id}`);
+      const response = await axios.delete(`users/api/admin/delSpecialization?id=${id}`);
       console.log(response)
-      store.commit('alert/show', { type: 'success', content: `Запись успешно удалена`, duration: 2000 })
+      store.commit('alert/show', { type: 'success', content: `Специализация успешно удалена`, duration: 2000 })
     } catch(error) {
       const errorText = error.message
       store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })

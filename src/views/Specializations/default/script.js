@@ -17,14 +17,7 @@ export default {
     return {
       headers: [
         { text: 'ID', value: 'id' },
-        { text: 'Имя', value: 'name' },
-        { text: 'Фамилия', value: 'lastName' },
-        { text: 'Email', value: 'email' },
-        { text: 'Дата регистрации', value: 'createdAt' },
-        { text: 'Дата рождения', value: 'dateOfBirth' },
-        { text: 'Телефон', value: 'phoneNumber', sortable: false },
-        // { text: 'Подтвержден', value: 'emailValidate', sortable: false, align: 'center' },
-        { text: 'Дата изменения', value: 'updatedAt', sortable: false },
+        { text: 'Название', value: 'title' },
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
       dialog: false,
@@ -140,15 +133,11 @@ export default {
       }
     },
     async requestEdit () {
-      const id = this.editedItem.id
-      this.editedItem.dateOfBirth = this.newConvertedDateBirth.split('.').reverse().join('-') + 'T00:00:00.000Z'
       const requestData = {
-        "email": this.editedItem.email,
-        "name": this.editedItem.name,
-        "last_name": this.editedItem.lastName,
-        "birth_day": this.editedItem.dateOfBirth
+        "title": this.editedItem.title,
       }
-      const updatedClient = await specializations.update(id, requestData)
+      const updatedClient = await specializations.update(this.editedItem.id, requestData)
+      this.editedItem.moderation = false
       this.loadingBtn = false
       if (updatedClient) {
         Vue.set(this.dataset, this.editedIndex, this.editedItem)
@@ -156,17 +145,14 @@ export default {
       }
     },
     async requestCreate () {
-      const newCity = await specializations.create({
-        name: this.editedItem.name,
-        // latitude: +this.editedItem.latitude,
-        // longitude: +this.editedItem.longitude
-      })
-      this.loadingBtn = false
-      if (newCity) {
-        this.dataset.push(newCity)
-        this.close()
+      const requestData = {
+        "title": this.editedItem.title,
       }
-      
+      await specializations.create(requestData)
+      const citiesData = await specializations.get()
+      this.dataset = citiesData
+      this.loadingBtn = false
+      this.close()
     },
     showAlert(content, type, duration) {
       this.alert.state = true
