@@ -114,7 +114,6 @@ export default {
       this.changeStage = 1
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      this.dialog = true
       this.convertedCourseStart = []
       this.convertedCourseEnd = []
       this.newConvertedDateBirth = this.formatDate(Object.assign({}, item).birth_day)
@@ -126,6 +125,7 @@ export default {
       this.editedItem.Specialisations.forEach(item => {
         this.currentSpecialisationsTitle.push(item.title)
       })
+      this.dialog = true
     },
     newItem () {
       console.log('new')
@@ -255,21 +255,15 @@ export default {
       if (this.changeStage === 3) {
         await masters.delCourseMaster(this.editedItem.Courses[this.coursesStage - 1].id)
         this.editedItem.Courses.splice(this.coursesStage - 1, 1)
-        if (this.editedItem.Courses.length === 0) {
-          this.changeStage = 2
-        }
+        this.changeStage = 1
       } else if (this.changeStage === 4) {
         await masters.delDiplomMaster(this.editedItem.Diploms[this.diplomsStage - 1].id)
         this.editedItem.Diploms.splice(this.diplomsStage - 1, 1)
-        if (this.editedItem.Diploms.length === 0) {
-          this.changeStage = 2
-        }
+        this.changeStage = 1
       } else if (this.changeStage === 5) {
         await masters.deleteEducation(this.editedItem.Educations[this.educationsStage - 1].id)
         this.editedItem.Educations.splice(this.educationsStage - 1, 1)
-        if (this.editedItem.Educations.length === 0) {
-          this.changeStage = 2
-        }
+        this.changeStage = 1
       }
       this.loadingBtn = false
     },

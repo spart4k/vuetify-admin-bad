@@ -162,7 +162,7 @@ export default class Clients {
 
   async delCourseMaster(id) {
     try {
-      const response = await axios.delete(`users/api/delCourseMaster?course_id=${id}`);
+      const response = await axios.delete(`users/api/admin/delCourseMaster?course_id=${id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Курс успешно удален`, duration: 2000 })
     } catch(error) {
@@ -173,7 +173,7 @@ export default class Clients {
 
   async delDiplomMaster(id) {
     try {
-      const response = await axios.delete(`users/api/delCourseMaster?diplom_id=${id}`);
+      const response = await axios.delete(`users/api/admin/delDiplomMaster?diplom_id=${id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Диплом успешно удален`, duration: 2000 })
     } catch(error) {
@@ -184,7 +184,7 @@ export default class Clients {
 
   async deleteEducation(id) {
     try {
-      const response = await axios.delete(`users/api/delCourseMaster?education_id=${id}`);
+      const response = await axios.delete(`users/api/admin/delEducationMaster?education_id=${id}`);
       console.log(response)
       store.commit('alert/show', { type: 'success', content: `Образование успешно удалено`, duration: 2000 })
     } catch(error) {

@@ -158,16 +158,16 @@ export default {
     },
     async requestEdit() {
       const masterServices = [] 
-      // let statusL = 1
+      let statusL = 1
       const time = `${this.itemDate.split('.')[2]}-${this.itemDate.split('.')[1]}-${this.itemDate.split('.')[0]}T${this.itemTime}:00.000Z`
       console.log('1212', this.editedItem.time_slot, time)
-      // if (this.itemStatus === 'Не начата') {
-      //   statusL = 1
-      // } else if (this.itemStatus === 'Отменена') {
-      //   statusL = 2
-      // } else if (this.itemStatus === 'Завершена') {
-      //   statusL = 3
-      // }
+      if (this.itemStatus === 'Не начата') {
+        statusL = 1
+      } else if (this.itemStatus === 'Отменена') {
+        statusL = 2
+      } else if (this.itemStatus === 'Завершена') {
+        statusL = 3
+      }
       this.currentServicesTitles.forEach(itemName => {
         this.masterServices.forEach(item => {
           console.log(itemName, this.masterServices)
@@ -179,7 +179,7 @@ export default {
       const requestData = {
         "time_slot": this.editedItem.time_slot !== time ? time : undefined,
         "masterServices": masterServices.length ? masterServices : undefined,
-        // "status_id": this.editedItem.status_id !== statusL ? statusL : undefined,
+        "status_id": this.editedItem.status_id !== statusL ? statusL : undefined,
       }
       console.log(requestData)
       const updatedAppointment = await booking.update(requestData, this.editedItem.id)

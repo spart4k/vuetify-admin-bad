@@ -98,7 +98,7 @@
           </v-toolbar>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
-          <v-icon v-if="item.status_id !== '2'" small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+          <v-icon v-if="item.status_id !== '2' && item.status_id !== '3'" small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
           <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon>
         </template>
         <template v-slot:[`item.emailValidate`]="{ item }">
