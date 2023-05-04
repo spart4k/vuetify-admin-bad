@@ -1,12 +1,13 @@
 // import Vue from 'vue'
 import LayoutDefault from '@/layouts/default'
-import { categories, classes, services } from '@/api'
+import { categories, classes, services, media } from '@/api'
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: 'view-services',
   components: {
     LayoutDefault
-  },  
+  },
   async created() {
     await this.getItems()
   },
@@ -52,13 +53,19 @@ export default {
       expand: true,
       expands: [],
       imageChapter: null,
+      imageChapterIcon: null,
+      fileImageChapter: null,
+      fileImageChapterIcon: null,
       dialogClass: false,
       choosedServiceClasses: null,
       selectedItem: {},
       dialogDeleteClass: false,
       dialogDeleteCategories: false,
-      urlImage: '',
-      formTitle: ''
+      urlImageChapter: '',
+      urlImageChapterIcon: '',
+      formTitle: '',
+      newImageChapterId: '',
+      newImageChapterIconId: ''
     }
   },
   computed: {
@@ -81,18 +88,78 @@ export default {
     },
     imageChapter(val) {
       if (val) {
-        this.urlImage = URL.createObjectURL(val);
+        let img = new Image();
+        let objectUrl = URL.createObjectURL(val);
+        //this.urlImageChapterIcon = URL.createObjectURL(val);
+        let vm = this;
+        //var re = /(?:\.([^.]+))?$/;
+        img.onload = async function () {
+          if (this.width < this.height) {
+            vm.urlImageChapter = objectUrl
+            var blob = val.slice(0, val.size, val.type);
+            let imageType = ''
+            if (val.type === 'image/jpeg') {
+              imageType = 'jpg'
+            } else if (val.type === 'image/png') {
+              imageType = 'png'
+            }
+
+            let newFile = new File([blob], `${uuidv4()}.${imageType}`, {type: val.type});
+            console.log(newFile)
+            vm.fileImageChapter = newFile
+          } else {
+            vm.$store.commit('alert/show', { type: 'error', content: `Изображение должно быть вертикальным`, duration: 2000 })
+          }
+        };
+        img.src = objectUrl;
       } else {
-        this.urlImage = null
+        this.urlImageChapter = null
+      }
+    },
+    imageChapterIcon(val) {
+      if (val) {
+        let img = new Image();
+        let objectUrl = URL.createObjectURL(val);
+        //this.urlImageChapterIcon = URL.createObjectURL(val);
+        let vm = this;
+        img.onload = function () {
+            if (this.width/this.height === 1) {
+              vm.urlImageChapterIcon = objectUrl
+              //vm.fileImageChapterIcon = val
+              var blob = val.slice(0, val.size, val.type);
+              let imageType = ''
+              if (val.type === 'image/jpeg') {
+                imageType = 'jpg'
+              } else if (val.type === 'image/png') {
+                imageType = 'png'
+              }
+              let newFile = new File([blob], `${uuidv4()}_icon.${imageType}`, {type: val.type});
+              vm.fileImageChapterIcon = newFile
+              console.log(newFile)
+            } else {
+              vm.$store.commit('alert/show', { type: 'error', content: `Изображение должно быть в формате 1:1`, duration: 2000 })
+            }
+        };
+        img.src = objectUrl;
+      } else {
+        this.urlImageChapterIcon = null
       }
     },
     editedIndex() {
-      if (this.editedItem.img) {
-        this.urlImage = this.editedItem.img
+      if (this.editedItem.Files.length) {
+        this.editedItem.Files.forEach((item) => {
+          if (item.url.includes('_icon')) {
+            this.urlImageChapterIcon = item.url
+          } else {
+            this.urlImageChapter = item.url
+          }
+        })
       } else {
-        this.urlImage = null
+        this.urlImageChapter = null
+        this.urlImageChapterIcon = null
       }
-    } 
+
+    }
   },
   methods: {
     async getItems() {
@@ -159,7 +226,7 @@ export default {
         await this.getItems()
       }
       // this.dataset.splice(this.editedIndex, 1)
-      
+
     },
     async deleteItemCategoriesConfirm () {
       console.log(this.editedItemCategories)
@@ -170,7 +237,7 @@ export default {
         await this.getItems()
       }
       // this.dataset.splice(this.editedIndex, 1)
-      
+
     },
     closeDeleteClass() {
       this.dialogDeleteClass = false
@@ -203,7 +270,7 @@ export default {
         this.requestCreate()
       }
       this.loadingBtn = true
-      
+
       // this.close()
     },
     onlyNumber ($event) {
@@ -227,12 +294,37 @@ export default {
         deletedFiles: [],
         moderation: this.editedItem.moderation ? this.editedItem.moderation : false
       }
+      if (this.editedItem.floor < 2 && this.urlImageChapter) {
+        // imageChapter
+        const result = await media.add({
+          dir: "imageServices",
+          name: this.fileImageChapter.name,
+          image: this.fileImageChapter,
+          avatar: false
+        })
+        this.newImageChapterId = result.id
+        console.log(result)
+        formData.added_files.push(result.id)
+      }
+      if (this.editedItem.floor < 2 && this.urlImageChapterIcon) {
+        // urlImageChapterIcon
+        const result = await media.add({
+          dir: "imageServices",
+          name: this.fileImageChapterIcon.name,
+          image: this.fileImageChapterIcon,
+          avatar: false
+        })
+        this.fileImageChapterIcon = result.id
+        console.log(result)
+        formData.added_files.push(result.id)
+      }
+      //if (this.editedItem.)
       console.log(formData)
       const updatedChapter = await services.create(formData)
       console.log(updatedChapter)
       this.loadingBtn = false
       await this.getItems()
-      this.close () 
+      this.close ()
     },
     async requestEditClass () {
       const id = this.editedItemClass.chapter_id
@@ -274,7 +366,7 @@ export default {
         if (floor === 4) {
           isCategory = false
         }
-      } 
+      }
       let formData = {
         name: this.editedItem.name,
         is_category: isCategory,
