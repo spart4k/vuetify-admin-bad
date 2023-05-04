@@ -25,6 +25,7 @@ export default class Clients {
         cities_id: el.cities_id,
         dateOfBirth: el.birth_day,
         createdAt: el.createdAt,
+        updatedAt: el.updatedAt,
         email: el.email,
         emailValidate: el.emailValidate,
         lastName: el.last_name,
@@ -95,15 +96,14 @@ export default class Clients {
     
   }
 
-  async delete(city) {
+  async delete(id) {
     try {
-      const response = await axios.delete(`users/api/admin/city/${city.id}`);
+      const response = await axios.delete(`users/api/deleteUser?user_id=${id}`);
       console.log(response)
-      store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
+      store.commit('alert/show', { type: 'success', content: `Пользователь успешно удален`, duration: 2000 })
     } catch(error) {
       const errorText = error.message
       store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
     }
-    
   }
 }

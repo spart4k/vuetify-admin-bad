@@ -102,14 +102,14 @@
             <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
                 <v-card-title class="text-h5">
-                  Вы хотите удалить город?
+                  Вы хотите удалить пользователя?
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="blue darken-1" text @click="closeDelete">
                     Отмена
                   </v-btn>
-                  <v-btn disabled color="red darken-1" text @click="deleteItemConfirm">
+                  <v-btn color="red darken-1" text @click="deleteItemConfirm">
                     Удалить
                   </v-btn>
                   <v-spacer></v-spacer>
@@ -120,7 +120,7 @@
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-          <!-- <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon> -->
+          <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon>
         </template>
         <template v-slot:[`item.emailValidate`]="{ item }">
           <span class="emailValidate" :class="item.emailValidate ? 'active' : 'no-active'">

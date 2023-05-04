@@ -189,9 +189,19 @@ export default {
       }
       console.log(requestData)
       const updatedAppointment = await booking.update(requestData, this.editedItem.id)
+      const appointmentData = await booking.get(this.search)
+      this.dataset = appointmentData
+      this.dataset.forEach((item, index) => {
+        this.dataset[index].date_slot = item.time_slot
+        this.dataset[index].priceCount = 0
+        item.Appointment_MasterServices.forEach(item => {
+          this.dataset[index].priceCount += item.price
+        })
+        this.dataset[index].priceArray = item.Appointment_MasterServices
+      });
       this.loadingBtn = false
       if (updatedAppointment) {
-        Vue.set(this.dataset, this.editedIndex, updatedAppointment)
+        // Vue.set(this.dataset, this.editedIndex, updatedAppointment)
         this.close()
       }
     },
@@ -234,7 +244,7 @@ export default {
       return formattedToday
     },
     formatTime(date) {
-      let newDate = (new Date(date)).toTimeString().split(' ')[0].slice(0, -3); 
+      let newDate = (new Date(date)).toUTCString().split(' ')[4].slice(0, -3); 
       return newDate
     },
   }

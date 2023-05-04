@@ -147,11 +147,7 @@ export default {
     },
 
     async deleteItemConfirm () {
-      const city = {
-        id: this.editedItem.id,
-        name: this.editedItem.name
-      }
-      await masters.delete(city)
+      await masters.delete(this.editedItem.id)
       this.dataset.splice(this.editedIndex, 1)
       this.closeDelete()
     },
