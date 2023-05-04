@@ -11,6 +11,7 @@ import Clients from "../views/Clients/default";
 import Shedules from "../views/Shedules/default";
 import Services from "../views/Services/default";
 import Booking from "../views/Booking/default";
+import Specializations from "../views/Specializations/default"
 // import Categories from "../views/Categories/default";
 
 // import Classes from "../views/Class.vue";
@@ -32,13 +33,18 @@ const routes = [
     component: Cities,
   },
   {
+    path: "/specializations",
+    name: "Specializations",
+    component: Specializations,
+  },
+  {
     path: "/feeds",
     name: "Feeds",
     component: Feeds,
   },
   {
     path: "/clients",
-    name: "Feeds",
+    name: "Clients",
     component: Clients,
   },
   {

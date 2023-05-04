@@ -18,6 +18,12 @@ export default {
           group: true,
         },
         {
+          title: "Специализации",
+          icon: "mdi-hard-hat",
+          route: "/specializations",
+          group: true,
+        },
+        {
           title: "Клиенты",
           icon: "mdi-cog",
           route: "/classes",

@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import LayoutDefault from '@/layouts/default'
-import { feeds } from '@/api'
+import { specializations } from '@/api'
 
 export default {
-  name: 'view-clients',
+  name: 'view-specializations',
   components: {
     LayoutDefault
   },  
   async created() {
     this.loading = true
-    const citiesData = await feeds.get()
+    const citiesData = await specializations.get()
     this.dataset = citiesData
     this.loading = false
   },
@@ -17,30 +17,33 @@ export default {
     return {
       headers: [
         { text: 'ID', value: 'id' },
-        { text: 'ID Клиента', value: 'author_id' },
-        { text: 'ID Мастера', value: 'target_id' },
-        { text: 'Дата', value: 'createdAt' },
-        { text: 'Оценка', value: 'rating', sortable: false }, 
-        { text: 'Тип', value: 'complaint' },
-        { text: 'Текст', value: 'text', sortable: false },
-        { text: 'Ответ мастера', value: 'feedback_from', sortable: false },
-        // { text: 'Фото', value: 'Files', sortable: false },
+        { text: 'Имя', value: 'name' },
+        { text: 'Фамилия', value: 'lastName' },
+        { text: 'Email', value: 'email' },
+        { text: 'Дата регистрации', value: 'createdAt' },
+        { text: 'Дата рождения', value: 'dateOfBirth' },
+        { text: 'Телефон', value: 'phoneNumber', sortable: false },
+        // { text: 'Подтвержден', value: 'emailValidate', sortable: false, align: 'center' },
+        { text: 'Дата изменения', value: 'updatedAt', sortable: false },
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
       dialog: false,
       dialogDelete: false,
       editedIndex: -1,
+      newConvertedDateBirth: '',
       editedItem: {
         id: '',
         name: '',
-        latitude: '',
-        longitude: ''
+        email: '',
+        lastName: '',
+        dateOfBirth: ''
       },
       defaultItem: {
         id: '',
         name: '',
-        latitude: '',
-        longitude: ''
+        email: '',
+        lastName: '',
+        dateOfBirth: ''
       },
       dataset: [],
       search: '',
@@ -81,6 +84,8 @@ export default {
     editItem (item) {
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
+      console.log(Object.assign({}, item))
+      this.newConvertedDateBirth = this.formatDate(Object.assign({}, item).dateOfBirth)
       this.dialog = true
     },
     newItem () {
@@ -95,11 +100,7 @@ export default {
     },
 
     async deleteItemConfirm () {
-      const city = {
-        id: this.editedItem.id,
-        name: this.editedItem.name
-      }
-      await feeds.delete(city)
+      await specializations.delete(this.editedItem.id)
       this.dataset.splice(this.editedIndex, 1)
       this.closeDelete()
     },
@@ -138,21 +139,24 @@ export default {
           $event.preventDefault();
       }
     },
-    async requestEdit() {
-      const data = {
-        "moderation": this.editedItem.feedback_moderation
+    async requestEdit () {
+      const id = this.editedItem.id
+      this.editedItem.dateOfBirth = this.newConvertedDateBirth.split('.').reverse().join('-') + 'T00:00:00.000Z'
+      const requestData = {
+        "email": this.editedItem.email,
+        "name": this.editedItem.name,
+        "last_name": this.editedItem.lastName,
+        "birth_day": this.editedItem.dateOfBirth
       }
-      const updatedFeed = await feeds.update(this.editedItem.id, data)
+      const updatedClient = await specializations.update(id, requestData)
       this.loadingBtn = false
-      // const citiesData = await feeds.get()
-      // this.dataset = citiesData
-      this.close()
-      if (updatedFeed) {
+      if (updatedClient) {
         Vue.set(this.dataset, this.editedIndex, this.editedItem)
+        this.close()
       }
     },
     async requestCreate () {
-      const newCity = await feeds.create({
+      const newCity = await specializations.create({
         name: this.editedItem.name,
         // latitude: +this.editedItem.latitude,
         // longitude: +this.editedItem.longitude
