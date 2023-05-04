@@ -44,7 +44,7 @@
                       :label="'Подтверждён'"
                       hide-details
                     ></v-checkbox>
-                    <div v-if="editedItem.floor < 2" class="text-right row-pointer">
+                    <div v-if="editedItem.floor < 3" class="text-right row-pointer">
                       <v-file-input
                         v-model="imageChapter"
                         label="Изображение"
@@ -57,7 +57,7 @@
                         <v-img v-if="urlImageChapter" :src="urlImageChapter" />
                       </div>
                     </div>
-                    <div v-if="editedItem.floor < 2" class="text-right row-pointer">
+                    <div v-if="editedItem.floor < 3" class="text-right row-pointer">
                       <v-file-input
                         v-model="imageChapterIcon"
                         label="Логотип"
@@ -173,6 +173,33 @@
                       :label="'Подтверждён'"
                       hide-details
                     ></v-checkbox>
+                    <div v-if="selectedItem.floor < 2" class="text-right row-pointer">
+                      <v-file-input
+                        v-model="imageChapter"
+                        label="Изображение"
+                        show-size
+                        accept="image/png, image/jpeg"
+                        prepend-icon="mdi-camera"
+                      />
+                      <div v-if="urlImageChapter" class="">
+                        <v-icon @click="removeImageChapter" >mdi-close</v-icon>
+                        <v-img v-if="urlImageChapter" :src="urlImageChapter" />
+                      </div>
+                    </div>
+                    <div v-if="selectedItem.floor < 2" class="text-right row-pointer">
+                      <v-file-input
+                        v-model="imageChapterIcon"
+                        label="Логотип"
+                        show-size
+                        accept="image/png, image/jpeg"
+                        prepend-icon="mdi-camera"
+                      />
+                      <div v-if="urlImageChapterIcon" class="">
+                        <v-icon @click="removeImageChapterIcon">mdi-close</v-icon>
+                        <v-img v-if="urlImageChapterIcon" :src="urlImageChapterIcon" />
+                      </div>
+
+                    </div>
                   </v-col>
                 </v-row>
               </v-container>

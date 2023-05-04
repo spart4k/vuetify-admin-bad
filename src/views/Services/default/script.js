@@ -347,7 +347,7 @@ export default {
         moderation: this.editedItem.moderation ? this.editedItem.moderation : false
       }
       console.log(this.urlImageChapterIcon instanceof Blob)
-      if (this.editedItem.floor < 2 && this.urlImageChapter && this.urlImageChapter.includes('blob:')) {
+      if (this.editedItem.floor < 3 && this.urlImageChapter && this.urlImageChapter.includes('blob:')) {
         // imageChapter
         const result = await media.add({
           dir: "imageServices",
@@ -359,7 +359,7 @@ export default {
         console.log(result)
         formData.added_files.push(result.id)
       }
-      if (this.editedItem.floor < 2 && this.urlImageChapterIcon && this.urlImageChapterIcon.includes('blob:')) {
+      if (this.editedItem.floor < 3 && this.urlImageChapterIcon && this.urlImageChapterIcon.includes('blob:')) {
         // urlImageChapterIcon
         const result = await media.add({
           dir: "imageServices",
@@ -438,6 +438,30 @@ export default {
         added_files: [],
         deletedFiles: [],
         moderation: this.editedItem.moderation ? this.editedItem.moderation : false
+      }
+      if (this.selectedItem.floor < 2 && this.urlImageChapter && this.urlImageChapter.includes('blob:')) {
+        // imageChapter
+        const result = await media.add({
+          dir: "imageServices",
+          name: this.fileImageChapter.name,
+          image: this.fileImageChapter,
+          avatar: false
+        })
+        this.newImageChapterId = result.id
+        console.log(result)
+        formData.added_files.push(result.id)
+      }
+      if (this.selectedItem.floor < 2 && this.urlImageChapterIcon && this.urlImageChapterIcon.includes('blob:')) {
+        // urlImageChapterIcon
+        const result = await media.add({
+          dir: "imageServices",
+          name: this.fileImageChapterIcon.name,
+          image: this.fileImageChapterIcon,
+          avatar: false
+        })
+        this.fileImageChapterIcon = result.id
+        console.log(result)
+        formData.added_files.push(result.id)
       }
       console.log(formData)
       const newChapter = await services.create(formData)
