@@ -44,13 +44,40 @@
                       :label="'Подтверждён'"
                       hide-details
                     ></v-checkbox>
+                    <div v-if="editedItem.floor < 3" class="text-right row-pointer">
+                      <v-file-input
+                        v-model="imageChapter"
+                        label="Изображение"
+                        show-size
+                        accept="image/png, image/jpeg"
+                        prepend-icon="mdi-camera"
+                      />
+                      <div v-if="urlImageChapter" class="">
+                        <v-icon @click="removeImageChapter" >mdi-close</v-icon>
+                        <v-img v-if="urlImageChapter" :src="urlImageChapter" />
+                      </div>
+                    </div>
+                    <div v-if="editedItem.floor < 3" class="text-right row-pointer">
+                      <v-file-input
+                        v-model="imageChapterIcon"
+                        label="Логотип"
+                        show-size
+                        accept="image/png, image/jpeg"
+                        prepend-icon="mdi-camera"
+                      />
+                      <div v-if="urlImageChapterIcon" class="">
+                        <v-icon @click="removeImageChapterIcon">mdi-close</v-icon>
+                        <v-img v-if="urlImageChapterIcon" :src="urlImageChapterIcon" />
+                      </div>
+
+                    </div>
                     <!-- <div class="">
-                      <v-file-input 
+                      <v-file-input
                         v-model="imageChapter"
                         label="Логотип"
                         show-size
                         accept="image/*"
-                        prepend-icon="mdi-camera" 
+                        prepend-icon="mdi-camera"
                       />
                       <v-img v-if="urlImage" :src="urlImage" />
                     </div> -->
@@ -146,6 +173,33 @@
                       :label="'Подтверждён'"
                       hide-details
                     ></v-checkbox>
+                    <div v-if="selectedItem.floor < 2" class="text-right row-pointer">
+                      <v-file-input
+                        v-model="imageChapter"
+                        label="Изображение"
+                        show-size
+                        accept="image/png, image/jpeg"
+                        prepend-icon="mdi-camera"
+                      />
+                      <div v-if="urlImageChapter" class="">
+                        <v-icon @click="removeImageChapter" >mdi-close</v-icon>
+                        <v-img v-if="urlImageChapter" :src="urlImageChapter" />
+                      </div>
+                    </div>
+                    <div v-if="selectedItem.floor < 2" class="text-right row-pointer">
+                      <v-file-input
+                        v-model="imageChapterIcon"
+                        label="Логотип"
+                        show-size
+                        accept="image/png, image/jpeg"
+                        prepend-icon="mdi-camera"
+                      />
+                      <div v-if="urlImageChapterIcon" class="">
+                        <v-icon @click="removeImageChapterIcon">mdi-close</v-icon>
+                        <v-img v-if="urlImageChapterIcon" :src="urlImageChapterIcon" />
+                      </div>
+
+                    </div>
                   </v-col>
                 </v-row>
               </v-container>
@@ -197,7 +251,7 @@
         <v-expansion-panel
         v-for="(service) in dataset" :key="service.id"
         >
-          <v-expansion-panel-header> 
+          <v-expansion-panel-header>
             <table class="service-group-header">
               <tbody>
                 <tr>
@@ -445,7 +499,7 @@
               :footerProps="{
                 itemsPerPageText: 'Кол-во на странице'
               }"
-            > 
+            >
               <template v-slot:[`group.header`]="{ items, toggle, isOpen }">
                   <td width="20" colspan="1">
                     {{ items[0].id }}
@@ -499,7 +553,7 @@
       &-header {
         width: 100%;
         border-bottom: 1px solid #000;
-        
+
         > div {
           margin-right: 1rem;
         }
