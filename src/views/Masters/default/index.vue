@@ -314,7 +314,7 @@
     background-color: rgb(152, 154, 152);
   }
   &.active {
-    background-color: rgb(194, 52, 52);
+    background-color: green;
   }
 }
 </style>

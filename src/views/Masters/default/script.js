@@ -40,7 +40,7 @@ export default {
         { text: 'Курсы', value: 'Courses', sortable: false },
         { text: 'Дипломы', value: 'Diploms', sortable: false },
         { text: 'Образование', value: 'Educations', sortable: false },
-        { text: 'Подтвержден', value: 'moderation', sortable: false, align: 'center' },
+        { text: 'Подтвержден', value: 'moderation', align: 'center' },
         { text: 'Дата изменения', value: 'updatedAt', sortable: false },
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],

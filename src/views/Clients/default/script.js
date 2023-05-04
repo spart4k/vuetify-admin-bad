@@ -25,7 +25,7 @@ export default {
         { text: 'Дата регистрации', value: 'createdAt' },
         { text: 'Дата рождения', value: 'dateOfBirth' },
         { text: 'Телефон', value: 'phoneNumber', sortable: false },
-        { text: 'Подтвержден', value: 'emailValidate', sortable: false, align: 'center' },
+        // { text: 'Подтвержден', value: 'emailValidate', sortable: false, align: 'center' },
         { text: 'Дата изменения', value: 'updatedAt', sortable: false },
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
