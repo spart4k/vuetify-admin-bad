@@ -1,20 +1,35 @@
 import axios from "axios";
 import store from '../store';
-export default class Appointments {
+export default class Shedules {
   constructor(url) {
     this.url = url;
   }
 
   async get() {
     try {
-      const { data } = await axios.get(`appointment/api/admin/getAppointmentsUsers?page=1&limit=100`)
+      const { data } = await axios.post(`users/api/admin/getProfileClient`, {
+        "email": "",
+        "phone": "string",
+        "page": 1,
+        "count": 99999
+      })
       console.log(data)
       if (!data || data.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
         return [];
       }
-  
-      return data.appointmentUser
+      return (data || []).map((el) => ({
+        id: el.id,
+        aboutme: el.aboutme,
+        avatarUrl: el.avatarUrl,
+        cities_id: el.cities_id,
+        dateOfBirth: el.birth_day,
+        email: el.email,
+        emailValidate: el.emailValidate,
+        lastName: el.last_name,
+        name: el.name,
+        phoneNumber: el.phone_number
+      }));
     } catch(error) {
       console.log(error)
       let errorText = ''
@@ -27,20 +42,11 @@ export default class Appointments {
     }
   }
 
-  async getMaster(id) {
-    try {
-      const { data } = await axios.get(`users/api/getUserPageById?user_id=${id}`)
-      return data
-    } catch(error) {
-      console.log(error)
-    }
-  }
-
   async create(city) {
     console.log(city)
     try {
-      const { data } = await axios.post(`users/api/admin/addCity`, city)
-      const newCity = data.createCity
+      const { data } = await axios.post(`users/api/admin/cities`, city)
+      const newCity = data.city
       store.commit('alert/show', { type: 'success', content: `Город ${newCity.name} успешно добавлен`, duration: 2000 })
       if (!newCity) {
         return null;
@@ -49,8 +55,8 @@ export default class Appointments {
       return {
         id: newCity.id,
         name: newCity.name,
-        latitude: newCity.latitude,
-        longitude: newCity.longtitude,
+        latitude: newCity.location.coordinates[0],
+        longitude: newCity.location.coordinates[1],
       };
     } catch(error) {
       console.log(error)
@@ -66,13 +72,15 @@ export default class Appointments {
 
   }
 
-  async update(requestData, id) {
+  async update(id, requestBody) {
     try {
-      const { data } = await axios.patch(`http://94.103.84.93:5000/appointment/api/admin/editAppointmentUser?appointment_id=${id}`, requestData)
-      console.log(data)
-      const updatedCity = data
-      store.commit('alert/show', { type: 'success', content: `Запись успешно изменена`, duration: 2000 })
-      return updatedCity
+      const { data } = await axios.patch(`users/api/admin/editProfileClient?user_id=${id}`, requestBody)
+      const updatedClient = data
+      store.commit('alert/show', { type: 'success', content: `Клиент успешно изменен`, duration: 2000 })
+      if (!updatedClient) {
+        return null;
+      }
+      return { updatedClient }
     } catch(error) {
       console.log(error)
       let errorText = ''
@@ -86,11 +94,11 @@ export default class Appointments {
     
   }
 
-  async delete(id) {
+  async delete(city) {
     try {
-      const response = await axios.delete(`appointment/api/admin/delAppointmentUser?appointment_id=${id}`);
+      const response = await axios.delete(`users/api/admin/city/${city.id}`);
       console.log(response)
-      store.commit('alert/show', { type: 'success', content: `Запись успешно удалена`, duration: 2000 })
+      store.commit('alert/show', { type: 'success', content: `Город: ${city.name} успешно удален`, duration: 2000 })
     } catch(error) {
       const errorText = error.message
       store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })

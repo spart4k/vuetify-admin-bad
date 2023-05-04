@@ -57,6 +57,12 @@ export default {
       search: '',
       loading: true,
       loadingBtn: false,
+      itemStatus: '',
+      itemTime: '',
+      itemDate: '',
+      masterServices: [],
+      masterServicesTitles: [],
+      currentServicesTitles: [],
     }
   },
   computed: {
@@ -73,9 +79,36 @@ export default {
     }
   },
   methods: {
-    editItem (item) {
+    async editItem(item) {
+      this.masterServices = []
+      this.masterServicesTitles = []
+      this.currentServicesTitles = []
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
+      this.editedItem.Appointment_MasterServices.forEach(item => {
+        this.currentServicesTitles.push(item.nameService)
+      })
+      const status = this.editedItem.status_id
+      if (status === '1') {
+        this.itemStatus = 'Не начата'
+      } else if (status === '2') {
+        this.itemStatus = 'Отменена'
+      } else if (status === '3') {
+        this.itemStatus = 'Завершена'
+      }
+      this.itemDate = this.formatDate(Object.assign({}, item).date_slot)
+      this.itemTime = this.formatTime(Object.assign({}, item).time_slot)
+      const appointmentMaster = await appointment.getMaster(this.editedItem.master_id)
+      appointmentMaster.Workspaces.forEach(item => {
+        item.Intervals.forEach(item => {
+          item.MasterServices.forEach(item => {
+            if (!this.masterServicesTitles.includes(item.Service.name)) {
+              this.masterServices.push(item.Service)
+              this.masterServicesTitles.push(item.Service.name)
+            }
+          })
+        });
+      })
       this.dialog = true
     },
     newItem () {
@@ -90,11 +123,7 @@ export default {
     },
 
     async deleteItemConfirm () {
-      const city = {
-        id: this.editedItem.id,
-        name: this.editedItem.name
-      }
-      await appointment.delete(city)
+      await appointment.delete(this.editedItem.id)
       this.dataset.splice(this.editedIndex, 1)
       this.closeDelete()
     },
@@ -133,13 +162,36 @@ export default {
           $event.preventDefault();
       }
     },
-    async requestEdit () {
-      const id = this.editedItem.id
-      console.log(id, this.editedItem)
-      const updatedCity = await appointment.update(id,this.editedItem)
+    async requestEdit() {
+      const masterServices = [] 
+      let status = 1
+      const time = `${this.itemDate.split('.')[2]}-${this.itemDate.split('.')[1]}-${this.itemDate.split('.')[0]}T${this.itemTime}:00.000Z`
+      console.log(this.itemDate, this.itemTime)
+      if (this.itemStatus === 'Не начата') {
+        status = 1
+      } else if (this.itemStatus === 'Отменена') {
+        status = 2
+      } else if (this.itemStatus === 'Завершена') {
+        status = 3
+      }
+      this.currentServicesTitles.forEach(itemName => {
+        this.masterServices.forEach(item => {
+          console.log(itemName, this.masterServices)
+          if (itemName === item.name) {
+            masterServices.push(item.id)
+          }
+        })
+      })
+      const requestData = {
+        "time_slot": time,
+        "masterServices": masterServices.length ? masterServices : undefined,
+        "status_id": status,
+      }
+      console.log(requestData)
+      const updatedAppointment = await appointment.update(requestData, this.editedItem.id)
       this.loadingBtn = false
-      if (updatedCity) {
-        Vue.set(this.dataset, this.editedIndex, updatedCity)
+      if (updatedAppointment) {
+        Vue.set(this.dataset, this.editedIndex, updatedAppointment)
         this.close()
       }
     },

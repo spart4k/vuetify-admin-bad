@@ -38,14 +38,30 @@
                     <v-row cols="12" sm="6" md="4">
                       <v-col cols="12" sm="12" :md="formTitle === 'Изменить' ? '12' : '12'">
                         <v-text-field
+                          v-model="itemDate"
                           v-mask="'##.##.####'"
                           label="Дата записи"
                         ></v-text-field>
                         <v-text-field
+                          v-model="itemTime"
                           v-mask="'##:##'"
                           label="Время записи"
                         ></v-text-field>
-
+                        <v-select
+                          v-model="currentServicesTitles"
+                          :items="masterServicesTitles"
+                          :menu-props="{ maxHeight: '400' }"
+                          label="Услуги"
+                          multiple
+                          persistent-hint
+                        ></v-select>
+                        <v-select
+                          v-model="itemStatus"
+                          :items="['Не начата', 'Отменена', 'Завершена']"
+                          :menu-props="{ maxHeight: '400' }"
+                          label="Статус"
+                          persistent-hint
+                        ></v-select>
                       </v-col> 
                     </v-row>
                   </v-container>
@@ -65,14 +81,14 @@
             <v-dialog v-model="dialogDelete" max-width="500px">
               <v-card>
                 <v-card-title class="text-h5">
-                  Вы хотите удалить город?
+                  Вы хотите удалить запись?
                 </v-card-title>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="blue darken-1" text @click="closeDelete">
                     Отмена
                   </v-btn>
-                  <v-btn disabled color="red darken-1" text @click="deleteItemConfirm">
+                  <v-btn color="red darken-1" text @click="deleteItemConfirm">
                     Удалить
                   </v-btn>
                   <v-spacer></v-spacer>

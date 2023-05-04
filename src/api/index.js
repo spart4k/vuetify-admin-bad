@@ -7,6 +7,7 @@ import Clients from "./clients";
 import Masters from "./masters";
 import Feeds from "./feeds";
 import Appointment from "./appointment";
+import Shedules from "./shedules";
 import axios from "axios";
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
@@ -15,6 +16,7 @@ axios.defaults.headers.common.Authorization = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZ
 // 5000/appointment
 // 3001/review
 
+export const shedules = new Shedules();
 export const chapters = new Chapters();
 export const cities = new Cities();
 export const classes = new ChapterClass();

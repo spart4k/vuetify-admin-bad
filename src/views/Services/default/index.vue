@@ -36,7 +36,7 @@
                     ></v-text-field>
                     <v-text-field
                       v-model="editedItem.title_over_children"
-                      label="Действие при выборе"
+                      label="Заголовок при выборе услуги"
                     ></v-text-field>
                     <v-checkbox
                       v-model="editedItem.moderation"
@@ -132,17 +132,13 @@
               <v-container>
                 <v-row cols="12" sm="6" md="4">
                   <v-col cols="12" sm="12" :md="formTitle === 'Изменить' ? '12' : '12'">
-                    <!-- <v-text-field
-                      v-model="editedItemClass.title"
-                      label="Заголовок класса"
-                    ></v-text-field> -->
                     <v-text-field
                       v-model="editedItem.name"
                       label="Название"
                     ></v-text-field>
                     <v-text-field
                       v-model="editedItem.title_over_children"
-                      label="Действие при выборе"
+                      label="Заголовок при выборе услуги"
                     ></v-text-field>
                     <v-checkbox
                       v-model="editedItem.moderation"
@@ -151,18 +147,6 @@
                       hide-details
                     ></v-checkbox>
                   </v-col>
-                  <!-- <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.latitude"
-                      label="Широта"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col v-if="formTitle === 'Изменить'" cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.longitude"
-                      label="Долгота"
-                    ></v-text-field>
-                  </v-col> -->
                 </v-row>
               </v-container>
             </v-card-text>
@@ -256,17 +240,17 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-expansion-panels>
-              <v-expansion-panel v-for="(service) in service.Children" :key="service.id">
+              <v-expansion-panel v-for="(service1C) in service.Children" :key="service1C.id">
                 <v-expansion-panel-header color="rgb(240 240 240)">
                   <table class="service-group-header">
                     <tbody>
                       <tr>
-                        <td width="5%">{{ service.id }}</td>
-                        <td width="15%">{{ service.name }}</td>
+                        <td width="5%">{{ service1C.id }}</td>
+                        <td width="15%">{{ service1C.name }}</td>
                         <td width="65.5%">
                           <v-img
                             class="service-logotype"
-                            :src="service.img"
+                            :src="service1C.img"
                             lazy-src="https://picsum.photos/id/11/100/60"
                             max-width="50"
                             max-height="50"
@@ -287,9 +271,9 @@
                           </v-img>
                         </td>
                         <td width="">
-                          <v-icon small class="mr-2" @click.stop="addClass(service)">mdi-plus</v-icon>
-                          <v-icon small class="mr-2" @click.stop="editItem(service)">mdi-pencil</v-icon>
-                          <v-icon color="red" small @click="deleteItem(service)">mdi-delete</v-icon>
+                          <v-icon small class="mr-2" @click.stop="addClass(service1C)">mdi-plus</v-icon>
+                          <v-icon small class="mr-2" @click.stop="editItem(service1C)">mdi-pencil</v-icon>
+                          <v-icon color="red" small @click="deleteItem(service1C)">mdi-delete</v-icon>
                           <v-btn class="service-group-header-icon" small icon>
                             <v-icon>mdi-chevron-up</v-icon>
                           </v-btn>
@@ -300,17 +284,17 @@
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-expansion-panels>
-                    <v-expansion-panel v-for="(service) in service.Children" :key="service.id">
+                    <v-expansion-panel v-for="(service2C) in service1C.Children" :key="service2C.id">
                       <v-expansion-panel-header color="rgb(225 225 225)">
                         <table class="service-group-header">
                           <tbody>
                             <tr>
-                              <td width="5%">{{ service.id }}</td>
-                              <td width="15%">{{ service.name }}</td>
+                              <td width="5%">{{ service2C.id }}</td>
+                              <td width="15%">{{ service2C.name }}</td>
                               <td width="65.5%">
                                 <v-img
                                   class="service-logotype"
-                                  :src="service.img"
+                                  :src="service2C.img"
                                   lazy-src="https://picsum.photos/id/11/100/60"
                                   max-width="50"
                                   max-height="50"
@@ -331,9 +315,9 @@
                                 </v-img>
                               </td>
                               <td width="">
-                                <v-icon small class="mr-2" @click.stop="addClass(service)">mdi-plus</v-icon>
-                                <v-icon small class="mr-2" @click.stop="editItem(service)">mdi-pencil</v-icon>
-                                <v-icon color="red" small @click="deleteItem(service)">mdi-delete</v-icon>
+                                <v-icon small class="mr-2" @click.stop="addClass(service2C)">mdi-plus</v-icon>
+                                <v-icon small class="mr-2" @click.stop="editItem(service2C)">mdi-pencil</v-icon>
+                                <v-icon color="red" small @click="deleteItem(service2C)">mdi-delete</v-icon>
                                 <v-btn class="service-group-header-icon" small icon>
                                   <v-icon>mdi-chevron-up</v-icon>
                                 </v-btn>
@@ -344,17 +328,17 @@
                       </v-expansion-panel-header>
                       <v-expansion-panel-content>
                         <v-expansion-panels readonly>
-                          <v-expansion-panel v-for="(service) in service.Children" :key="service.id" color="rgb(20 21 211)">
+                          <v-expansion-panel v-for="(service3C) in service2C.Children" :key="service3C.id" color="rgb(20 21 211)">
                             <v-expansion-panel-header color="rgb(210 210 210)">
                               <table class="service-group-header">
                                 <tbody>
                                   <tr>
-                                    <td width="5%">{{ service.id }}</td>
-                                    <td width="15%">{{ service.name }}</td>
+                                    <td width="5%">{{ service3C.id }}</td>
+                                    <td width="15%">{{ service3C.name }}</td>
                                     <td width="65.5%">
                                       <v-img
                                         class="service-logotype"
-                                        :src="service.img"
+                                        :src="service3C.img"
                                         lazy-src="https://picsum.photos/id/11/100/60"
                                         max-width="50"
                                         max-height="50"
@@ -376,8 +360,8 @@
                                     </td>
                                     <td width="">
                                       <!-- <v-icon small class="mr-2" @click.stop="addClass(service)">mdi-plus</v-icon> -->
-                                      <v-icon small class="mr-2" @click.stop="editItem(service)">mdi-pencil</v-icon>
-                                      <v-icon color="red" small @click="deleteItem(service)">mdi-delete</v-icon>
+                                      <v-icon small class="mr-2" @click.stop="editItem(service3C)">mdi-pencil</v-icon>
+                                      <v-icon color="red" small @click="deleteItem(service3C)">mdi-delete</v-icon>
                                       <!-- <v-btn class="service-group-header-icon" small icon>
                                         <v-icon>mdi-chevron-up</v-icon>
                                       </v-btn> -->

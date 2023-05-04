@@ -1,6 +1,6 @@
 // import Vue from 'vue'
 import LayoutDefault from '@/layouts/default'
-import { categories, chapters, classes, services } from '@/api'
+import { categories, classes, services } from '@/api'
 
 export default {
   name: 'view-services',
@@ -57,13 +57,11 @@ export default {
       selectedItem: {},
       dialogDeleteClass: false,
       dialogDeleteCategories: false,
-      urlImage: ''
+      urlImage: '',
+      formTitle: ''
     }
   },
   computed: {
-    formTitle () {
-      return this.editedIndex === -1 ? 'Добавить' : 'Изменить'
-    },
     formTitleClass () {
       return this.editedIndexClass === -1 ? 'Добавить' : 'Изменить'
     },
@@ -105,10 +103,12 @@ export default {
       this.dataset = citiesData
       this.loading = false
     },
-    editItem (item) {
+    editItem(item) {
+      this.formTitle = 'Изменить'
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
+      // this.dialogClass = true
     },
     editClass(classes) {
       console.log(classes)
@@ -122,7 +122,8 @@ export default {
       this.editedItemCategories = Object.assign({}, categories)
       this.dialogCategories = true
     },
-    newItem () {
+    newItem() {
+      this.formTitle = 'Добавить'
       this.dialog = true
     },
 
@@ -213,21 +214,21 @@ export default {
       }
     },
     async requestEdit () {
-      const id = this.editedItem.id
+      // const id = this.editedItem.id
       let formData = {
         id: this.editedItem.id,
         name: this.editedItem.name,
         is_category: this.editedItem.is_category,
         floor: this.editedItem.floor,
         parent_id: this.editedItem.parent_id,
-        title_over_children: this.editedItem.title_over_children,
+        title_over_children: this.editedItem.title_over_children ? this.editedItem.title_over_children : '',
         path: this.editedItem.path,
         added_files: [],
         deletedFiles: [],
         moderation: this.editedItem.moderation ? this.editedItem.moderation : false
       }
-      
-      const updatedChapter = await chapters.update(id,formData)
+      console.log(formData)
+      const updatedChapter = await services.create(formData)
       console.log(updatedChapter)
       this.loadingBtn = false
       await this.getItems()
@@ -267,7 +268,7 @@ export default {
         parentPath = ','
       } else if (Object.keys(this.selectedItem).length) {
         parentId = this.selectedItem.id
-        parentPath = this.selectedItem.path
+        parentPath = `${this.selectedItem.path}${this.selectedItem.id},`
         isCategory = true
         floor = this.selectedItem.floor + 1
         if (floor === 3) {
@@ -280,10 +281,10 @@ export default {
         floor: floor,
         parent_id: parentId,
         path: parentPath,
-        title_over_children: this.editedItem.title_over_children,
+        title_over_children: this.editedItem.title_over_children ? this.editedItem.title_over_children : '',
         added_files: [],
         deletedFiles: [],
-        moderation: this.editedItem.moderation
+        moderation: this.editedItem.moderation ? this.editedItem.moderation : false
       }
       console.log(formData)
       const newChapter = await services.create(formData)
@@ -340,6 +341,7 @@ export default {
       console.log(options)
     },
     addClass(service) {
+      this.formTitle = 'Добавить'
       console.log(service)
       if (service) {
         this.selectedItem = service
