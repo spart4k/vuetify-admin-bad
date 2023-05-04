@@ -68,7 +68,7 @@ export default class Booking {
 
   async update(requestData, id) {
     try {
-      const { data } = await axios.patch(`http://94.103.84.93:5000/appointment/api/admin/editAppointmentUser?appointment_id=${id}`, requestData)
+      const { data } = await axios.patch(`appointment/api/admin/editAppointmentUser?appointment_id=${id}`, requestData)
       console.log(data)
       const updatedCity = data
       store.commit('alert/show', { type: 'success', content: `Запись успешно изменена`, duration: 2000 })
