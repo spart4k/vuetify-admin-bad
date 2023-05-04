@@ -37,7 +37,7 @@ export default {
         {
           title: "Бронирование",
           icon: "mdi-book-open-variant",
-          route: "/appointments",
+          route: "/booking",
           group: true,
         },
         {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from '../store';
-export default class Appointments {
+export default class Booking {
   constructor(url) {
     this.url = url;
   }

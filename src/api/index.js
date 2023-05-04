@@ -6,7 +6,7 @@ import Services from "./services";
 import Clients from "./clients";
 import Masters from "./masters";
 import Feeds from "./feeds";
-import Appointment from "./appointment";
+import Booking from "./booking";
 import Shedules from "./shedules";
 import axios from "axios";
 
@@ -24,5 +24,5 @@ export const categories = new ChapterCategories();
 export const services = new Services();
 export const clients = new Clients();
 export const masters = new Masters();
-export const appointment = new Appointment();
+export const booking = new Booking();
 export const feeds = new Feeds();

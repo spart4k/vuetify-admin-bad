@@ -10,7 +10,7 @@ import Notifications from "../views/Notifications/default";
 import Clients from "../views/Clients/default";
 import Shedules from "../views/Shedules/default";
 import Services from "../views/Services/default";
-import Appointment from "../views/Appointments/default";
+import Booking from "../views/Booking/default";
 // import Categories from "../views/Categories/default";
 
 // import Classes from "../views/Class.vue";
@@ -52,9 +52,9 @@ const routes = [
     component: Masters,
   },
   {
-    path: "/appointments",
-    name: "Appointments",
-    component: Appointment,
+    path: "/booking",
+    name: "Booking",
+    component: Booking,
   },
   {
     path: "/notifications",

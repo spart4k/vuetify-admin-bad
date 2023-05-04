@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import LayoutDefault from '@/layouts/default'
-import { appointment } from '@/api'
+import { booking } from '@/api'
 import VueMask from 'v-mask'
 Vue.use(VueMask)
 
 export default {
-  name: 'view-appointment',
+  name: 'view-booking',
   components: {
     LayoutDefault
   },  
   async created() {
     this.loading = true
-    const appointmentData = await appointment.get(this.search)
+    const appointmentData = await booking.get(this.search)
     this.dataset = appointmentData
     this.dataset.forEach((item, index) => {
       this.dataset[index].date_slot = item.time_slot
@@ -98,7 +98,7 @@ export default {
       }
       this.itemDate = this.formatDate(Object.assign({}, item).date_slot)
       this.itemTime = this.formatTime(Object.assign({}, item).time_slot)
-      const appointmentMaster = await appointment.getMaster(this.editedItem.master_id)
+      const appointmentMaster = await booking.getMaster(this.editedItem.master_id)
       appointmentMaster.Workspaces.forEach(item => {
         item.Intervals.forEach(item => {
           item.MasterServices.forEach(item => {
@@ -123,7 +123,7 @@ export default {
     },
 
     async deleteItemConfirm () {
-      await appointment.delete(this.editedItem.id)
+      await booking.delete(this.editedItem.id)
       this.dataset.splice(this.editedIndex, 1)
       this.closeDelete()
     },
@@ -188,7 +188,7 @@ export default {
         "status_id": status,
       }
       console.log(requestData)
-      const updatedAppointment = await appointment.update(requestData, this.editedItem.id)
+      const updatedAppointment = await booking.update(requestData, this.editedItem.id)
       this.loadingBtn = false
       if (updatedAppointment) {
         Vue.set(this.dataset, this.editedIndex, updatedAppointment)
@@ -196,7 +196,7 @@ export default {
       }
     },
     async requestCreate () {
-      const newCity = await appointment.create({
+      const newCity = await booking.create({
         city: this.editedItem.name,
         // latitude: +this.editedItem.latitude,
         // longitude: +this.editedItem.longitude
