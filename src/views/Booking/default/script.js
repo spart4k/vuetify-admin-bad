@@ -166,7 +166,7 @@ export default {
       const masterServices = [] 
       let status = 1
       const time = `${this.itemDate.split('.')[2]}-${this.itemDate.split('.')[1]}-${this.itemDate.split('.')[0]}T${this.itemTime}:00.000Z`
-      console.log(this.itemDate, this.itemTime)
+      console.log('1212', this.editedItem.time_slot, time)
       if (this.itemStatus === 'Не начата') {
         status = 1
       } else if (this.itemStatus === 'Отменена') {
@@ -183,9 +183,9 @@ export default {
         })
       })
       const requestData = {
-        "time_slot": time,
+        "time_slot": this.editedItem.time_slot !== time ? time : undefined,
         "masterServices": masterServices.length ? masterServices : undefined,
-        "status_id": status,
+        "status_id": this.editedItem.status_id !== status ? status : undefined,
       }
       console.log(requestData)
       const updatedAppointment = await booking.update(requestData, this.editedItem.id)
