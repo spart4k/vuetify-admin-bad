@@ -24,6 +24,7 @@ export default class Clients {
         avatarUrl: el.avatarUrl,
         cities_id: el.cities_id,
         dateOfBirth: el.birth_day,
+        createdAt: el.createdAt,
         email: el.email,
         emailValidate: el.emailValidate,
         lastName: el.last_name,

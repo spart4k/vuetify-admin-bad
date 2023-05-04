@@ -1,5 +1,17 @@
 <template>
   <LayoutDefault>
+    <v-container class="height-full" fluid fill-height>
+      <v-layout class="align-center justify-center">
+        <div class="d-flex align-center subtitle-1">
+          <v-icon class="mr-1">
+            mdi-cog
+          </v-icon>
+          В разработке
+        </div>
+      </v-layout>
+    </v-container>
+  </LayoutDefault>
+  <!-- <LayoutDefault>
     <div class="">
       <v-card-title>
         Расписание
@@ -15,7 +27,6 @@
           itemsPerPageText: 'Кол-во на странице'
         }"
       >
-      <!-- :hide-default-footer="dataset.length <= 10" -->
         <template v-slot:top>
           <v-toolbar flat>
             <v-toolbar-title>
@@ -29,11 +40,6 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" :max-width="formTitle === 'Изменить' ? '400px' : '400px'">
-              <!-- <template v-slot:activator="{ attrs }">
-                <v-btn color="#EF8A3E" dark class="mb-2" v-bind="attrs" @click="newItem">
-                  Добавить
-                </v-btn>
-              </template> -->
               <v-card>
                 <v-card-title>
                   <span class="text-h5">{{ formTitle }}</span>
@@ -97,7 +103,7 @@
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-          <!-- <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon> -->
+          <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon>
         </template>
         <template v-slot:[`item.emailValidate`]="{ item }">
           <span class="emailValidate" :class="item.emailValidate ? 'active' : 'no-active'">
@@ -117,6 +123,6 @@
         </template>
       </v-data-table>
     </div>
-  </LayoutDefault>
+  </LayoutDefault> -->
 </template>
 <script src="./script.js"></script>

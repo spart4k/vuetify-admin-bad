@@ -227,6 +227,7 @@
                     </v-img>
                   </td>
                   <td width="">
+                    <v-icon v-if="!service.moderation" color="red" small class="mr-2">mdi-exclamation-thick</v-icon>
                     <v-icon small class="mr-2" @click.stop="addClass(service)">mdi-plus</v-icon>
                     <v-icon small class="mr-2" @click.stop="editItem(service)">mdi-pencil</v-icon>
                     <!-- <v-icon color="red" small @click="deleteItem(service)">mdi-delete</v-icon> -->
@@ -271,6 +272,7 @@
                           </v-img>
                         </td>
                         <td width="">
+                          <v-icon v-if="!service1C.moderation" color="red" small class="mr-2">mdi-exclamation-thick</v-icon>
                           <v-icon small class="mr-2" @click.stop="addClass(service1C)">mdi-plus</v-icon>
                           <v-icon small class="mr-2" @click.stop="editItem(service1C)">mdi-pencil</v-icon>
                           <!-- <v-icon color="red" small @click="deleteItem(service1C)">mdi-delete</v-icon> -->
@@ -315,6 +317,7 @@
                                 </v-img>
                               </td>
                               <td width="">
+                                <v-icon v-if="!service2C.moderation" color="red" small class="mr-2">mdi-exclamation-thick</v-icon>
                                 <v-icon small class="mr-2" @click.stop="addClass(service2C)">mdi-plus</v-icon>
                                 <v-icon small class="mr-2" @click.stop="editItem(service2C)">mdi-pencil</v-icon>
                                 <v-icon color="red" small @click="deleteItem(service2C)">mdi-delete</v-icon>
@@ -359,6 +362,7 @@
                                       </v-img>
                                     </td>
                                     <td width="">
+                                      <v-icon v-if="!service3C.moderation" color="red" small class="mr-2">mdi-exclamation-thick</v-icon>
                                       <v-icon small class="mr-2" @click.stop="addClass(service3C)">mdi-plus</v-icon>
                                       <v-icon small class="mr-2" @click.stop="editItem(service3C)">mdi-pencil</v-icon>
                                       <v-icon color="red" small @click="deleteItem(service3C)">mdi-delete</v-icon>
@@ -403,6 +407,7 @@
                                             </v-img>
                                           </td>
                                           <td width="">
+                                            <v-icon v-if="!service4C.moderation" color="red" small class="mr-2">mdi-exclamation-thick</v-icon>
                                             <!-- <v-icon small class="mr-2" @click.stop="addClass(service)">mdi-plus</v-icon> -->
                                             <v-icon small class="mr-2" @click.stop="editItem(service4C)">mdi-pencil</v-icon>
                                             <v-icon color="red" small @click="deleteItem(service4C)">mdi-delete</v-icon>

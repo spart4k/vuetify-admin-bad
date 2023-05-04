@@ -291,6 +291,9 @@
           </div>
           {{false ? item.Educations[0] : ''}}
         </template>
+        <template v-slot:[`item.createdAt`]="{ item }">
+          {{ item.createdAt ? formatDate(item.createdAt) : ''}}
+        </template>
         <template v-slot:[`item.birth_day`]="{ item }">
           {{ item.birth_day ? formatDate(item.birth_day) : ''}}
         </template>

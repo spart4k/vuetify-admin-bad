@@ -32,6 +32,7 @@ export default {
         { text: 'Имя', value: 'name' },
         { text: 'Фамилия', value: 'last_name' },
         { text: 'Email', value: 'email' },
+        { text: 'Дата регистрации', value: 'createdAt' },
         { text: 'Дата рождения', value: 'birth_day'},
         { text: 'Телефон', value: 'phone_number', sortable: false },
         { text: 'О себе', value: 'about_me', sortable: false },
