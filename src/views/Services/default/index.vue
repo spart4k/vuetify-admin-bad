@@ -359,7 +359,7 @@
                                       </v-img>
                                     </td>
                                     <td width="">
-                                      <v-icon small class="mr-2" @click.stop="addClass(service)">mdi-plus</v-icon>
+                                      <v-icon small class="mr-2" @click.stop="addClass(service3C)">mdi-plus</v-icon>
                                       <v-icon small class="mr-2" @click.stop="editItem(service3C)">mdi-pencil</v-icon>
                                       <v-icon color="red" small @click="deleteItem(service3C)">mdi-delete</v-icon>
                                       <v-btn class="service-group-header-icon" small icon>
