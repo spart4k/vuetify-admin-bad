@@ -10,7 +10,7 @@ export default class Specializations {
       const { data } = await axios.get(`users/api/admin/getSpecializations`)
       console.log(data)
       if (!data || data.length === 0) {
-        store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
+        store.commit('alert/show', { type: 'warning', content: `В данный момент специализайций нет` })
         return [];
       }
   

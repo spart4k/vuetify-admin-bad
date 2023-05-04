@@ -85,6 +85,113 @@ export default class Clients {
     }
     
   }
+  
+  async editCourseMaster(requestData, id) {
+    try {
+      const { data } = await axios.patch(`users/api/admin/editCourseMaster?course_id=${id}`, requestData)
+      const updatedCity = data
+      store.commit('alert/show', { type: 'success', content: `Мастер успешно обновлён`, duration: 2000 })
+      return updatedCity
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+    
+  } 
+  
+  async editDiplomMaster(requestData, id) {
+    try {
+      const { data } = await axios.patch(`users/api/admin/editDiplomMaster?diplom_id=${id}`, requestData)
+      const updatedCity = data
+      store.commit('alert/show', { type: 'success', content: `Мастер успешно обновлён`, duration: 2000 })
+      return updatedCity
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+  }
+
+  async editEducationMaster(requestData, id) {
+    try {
+      const { data } = await axios.patch(`users/api/admin/editEducationMaster?education_id=${id}`, requestData)
+      const updatedCity = data
+      store.commit('alert/show', { type: 'success', content: `Мастер успешно обновлён`, duration: 2000 })
+      return updatedCity
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+  }
+
+  async overWriteSpecializationMaster(requestData) {
+    try {
+      const { data } = await axios.patch(`users/api/admin/overWriteSpecializationMaster`, requestData)
+      const updatedCity = data
+      store.commit('alert/show', { type: 'success', content: `Мастер успешно обновлён`, duration: 2000 })
+      return updatedCity
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+    
+  }
+
+  async delCourseMaster(id) {
+    try {
+      const response = await axios.delete(`users/api/delCourseMaster?course_id=${id}`);
+      console.log(response)
+      store.commit('alert/show', { type: 'success', content: `Курс успешно удален`, duration: 2000 })
+    } catch(error) {
+      const errorText = error.message
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+  }
+
+  async delDiplomMaster(id) {
+    try {
+      const response = await axios.delete(`users/api/delCourseMaster?diplom_id=${id}`);
+      console.log(response)
+      store.commit('alert/show', { type: 'success', content: `Диплом успешно удален`, duration: 2000 })
+    } catch(error) {
+      const errorText = error.message
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+  }
+
+  async deleteEducation(id) {
+    try {
+      const response = await axios.delete(`users/api/delCourseMaster?education_id=${id}`);
+      console.log(response)
+      store.commit('alert/show', { type: 'success', content: `Образование успешно удалено`, duration: 2000 })
+    } catch(error) {
+      const errorText = error.message
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+  }
 
   async delete(id) {
     try {

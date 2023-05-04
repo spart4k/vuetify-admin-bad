@@ -41,7 +41,7 @@ export default {
         { text: 'Дипломы', value: 'Diploms', sortable: false },
         { text: 'Образование', value: 'Educations', sortable: false },
         { text: 'Подтвержден', value: 'moderation', align: 'center' },
-        { text: 'Дата изменения', value: 'updatedAt', sortable: false },
+        { text: 'Дата изменения', value: 'updatedAt' },
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
       dialog: false,
@@ -207,22 +207,40 @@ export default {
         await masters.update(this.editedItem.id, requestData)
       } else if (this.changeStage === 2) {
         const specArray = []
-        console.log(this.currentSpecialisationsTitle)
         this.currentSpecialisationsTitle.forEach(item => {
-          if (item.title)
-          specArray.push(item.id)
+          this.allSpecialisations.forEach(spec => {
+            if (item === spec.title) {
+              specArray.push(spec.id)
+            }
+          });
         })
-        // const requestData = {
-        //   "user_id": 0,
-        //   "specialization_ids": [0]
-        // }
-        // await masters.updateSpecialization(requestData)
+        const requestData = {
+          "user_id": this.editedItem.id,
+          "specialization_ids": specArray
+        }
+        await masters.overWriteSpecializationMaster(requestData)
       } else if (this.changeStage === 3) {
-        console.log('sad')
+        const requestData = {
+          "name": this.editedItem.Courses[this.coursesStage - 1].name,
+          "description": this.editedItem.Courses[this.coursesStage - 1].description,
+          "start_date": `${this.convertedCourseStart[this.coursesStage - 1].split('.').reverse().join('-')}T00:00:00.000Z`,
+          "end_date": this.editedItem.Courses[this.coursesStage - 1].till_now ? null : `${this.convertedCourseEnd[this.coursesStage - 1].split('.').reverse().join('-')}T00:00:00.000Z`,
+          // "till_now": this.editedItem.Courses[this.coursesStage - 1].till_now ? this.editedItem.Courses[this.coursesStage - 1].till_now : false
+        }
+        await masters.editCourseMaster(requestData, this.editedItem.Courses[this.coursesStage - 1].id)
       } else if (this.changeStage === 4) {
-        console.log('sad')
+        const requestData = {
+          "title": this.editedItem.Diploms[this.diplomsStage - 1].title,
+        }
+        await masters.editDiplomMaster(requestData, this.editedItem.Diploms[this.diplomsStage - 1].id)
       } else if (this.changeStage === 5) {
-        console.log('sad')
+        const requestData = {
+          "school_name": this.editedItem.Educations[this.educationsStage - 1].school_name,
+          "faculty": this.editedItem.Educations[this.educationsStage - 1].faculty,
+          "specialization": this.editedItem.Educations[this.educationsStage - 1].specialization,
+          "end_year": Number(this.editedItem.Educations[this.educationsStage - 1].end_year)
+        }
+        await masters.editEducationMaster(requestData, this.editedItem.Educations[this.educationsStage - 1].id)
       }
       const mastersData = await masters.get()
       this.dataset = mastersData
@@ -232,6 +250,28 @@ export default {
       //   Vue.set(this.dataset, this.editedIndex, updatedCity)
       //   this.close()
       // }
+    },
+    async deleteMasterInfo() {
+      if (this.changeStage === 3) {
+        await masters.delCourseMaster(this.editedItem.Courses[this.coursesStage - 1].id)
+        this.editedItem.Courses.splice(this.coursesStage - 1, 1)
+        if (this.editedItem.Courses.length === 0) {
+          this.changeStage = 2
+        }
+      } else if (this.changeStage === 4) {
+        await masters.delDiplomMaster(this.editedItem.Diploms[this.diplomsStage - 1].id)
+        this.editedItem.Diploms.splice(this.diplomsStage - 1, 1)
+        if (this.editedItem.Diploms.length === 0) {
+          this.changeStage = 2
+        }
+      } else if (this.changeStage === 5) {
+        await masters.deleteEducation(this.editedItem.Educations[this.educationsStage - 1].id)
+        this.editedItem.Educations.splice(this.educationsStage - 1, 1)
+        if (this.editedItem.Educations.length === 0) {
+          this.changeStage = 2
+        }
+      }
+      this.loadingBtn = false
     },
     async requestCreate () {
       const newCity = await masters.create({

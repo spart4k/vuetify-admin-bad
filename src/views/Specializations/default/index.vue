@@ -47,13 +47,13 @@
                             v-model="editedItem.title"
                             label="Название"
                         ></v-text-field>
-                        <v-checkbox
+                        <!-- <v-checkbox
                             v-if="formTitle === 'Изменить'"
                             v-model="editedItem.moderation"
                             color="orange"
                             :label="'Подтверждён'"
                             hide-details
-                        ></v-checkbox>
+                        ></v-checkbox> -->
                       </v-col>
                     </v-row>
                   </v-container>

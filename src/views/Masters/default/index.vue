@@ -121,7 +121,7 @@
                               label="Название курса"
                             ></v-text-field>
                             <v-text-field
-                              v-model="editedItem.Courses[coursesStage - 1].name"
+                              v-model="editedItem.Courses[coursesStage - 1].description"
                               label="Описание курса"
                             ></v-text-field>
                             <v-text-field
@@ -183,7 +183,7 @@
                 </v-card-text>
   
                 <v-card-actions>
-                  <v-btn v-if="changeStage === 3 || changeStage === 4 || changeStage === 5" color="#E53935" text @click="close">
+                  <v-btn v-if="changeStage === 3 || changeStage === 4 || changeStage === 5" color="#E53935" text @click="deleteMasterInfo">
                     Удалить
                   </v-btn>
                   <v-spacer></v-spacer>

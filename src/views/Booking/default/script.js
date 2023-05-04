@@ -98,17 +98,11 @@ export default {
       }
       this.itemDate = this.formatDate(Object.assign({}, item).date_slot)
       this.itemTime = this.formatTime(Object.assign({}, item).time_slot)
-      const appointmentMaster = await booking.getMaster(this.editedItem.master_id)
-      appointmentMaster.Workspaces.forEach(item => {
-        item.Intervals.forEach(item => {
-          item.MasterServices.forEach(item => {
-            if (!this.masterServicesTitles.includes(item.Service.name)) {
-              this.masterServices.push(item.Service)
-              this.masterServicesTitles.push(item.Service.name)
-            }
-          })
-        });
-      })
+      const appointmentMaster = await booking.getServiceMasters(this.editedItem.master_id)
+      appointmentMaster.forEach(item => {
+        this.masterServices.push(item.Service)
+        this.masterServicesTitles.push(item.Service.name)
+      });
       this.dialog = true
     },
     newItem () {
@@ -164,16 +158,16 @@ export default {
     },
     async requestEdit() {
       const masterServices = [] 
-      let status = 1
+      // let statusL = 1
       const time = `${this.itemDate.split('.')[2]}-${this.itemDate.split('.')[1]}-${this.itemDate.split('.')[0]}T${this.itemTime}:00.000Z`
       console.log('1212', this.editedItem.time_slot, time)
-      if (this.itemStatus === 'Не начата') {
-        status = 1
-      } else if (this.itemStatus === 'Отменена') {
-        status = 2
-      } else if (this.itemStatus === 'Завершена') {
-        status = 3
-      }
+      // if (this.itemStatus === 'Не начата') {
+      //   statusL = 1
+      // } else if (this.itemStatus === 'Отменена') {
+      //   statusL = 2
+      // } else if (this.itemStatus === 'Завершена') {
+      //   statusL = 3
+      // }
       this.currentServicesTitles.forEach(itemName => {
         this.masterServices.forEach(item => {
           console.log(itemName, this.masterServices)
@@ -185,7 +179,7 @@ export default {
       const requestData = {
         "time_slot": this.editedItem.time_slot !== time ? time : undefined,
         "masterServices": masterServices.length ? masterServices : undefined,
-        "status_id": this.editedItem.status_id !== status ? status : undefined,
+        // "status_id": this.editedItem.status_id !== statusL ? statusL : undefined,
       }
       console.log(requestData)
       const updatedAppointment = await booking.update(requestData, this.editedItem.id)

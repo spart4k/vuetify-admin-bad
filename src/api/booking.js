@@ -7,7 +7,7 @@ export default class Booking {
 
   async get() {
     try {
-      const { data } = await axios.get(`appointment/api/admin/getAppointmentsUsers?page=1&limit=100`)
+      const { data } = await axios.get(`appointment/api/admin/getAppointmentsUsers?page=1&limit=99999`)
       console.log(data)
       if (!data || data.length === 0) {
         store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
@@ -27,9 +27,9 @@ export default class Booking {
     }
   }
 
-  async getMaster(id) {
+  async getServiceMasters(id) {
     try {
-      const { data } = await axios.get(`users/api/getUserPageById?user_id=${id}`)
+      const { data } = await axios.get(`users/api/admin/getServiceMasters?user_id=${id}`)
       return data
     } catch(error) {
       console.log(error)
