@@ -49,6 +49,7 @@
                           </template>
                         </template>
                         <v-checkbox
+                          :disabled="editedItem.feedback_moderation"
                           v-model="editedItem.feedback_moderation"
                           color="orange"
                           :label="'Подтверждён'"
