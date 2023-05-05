@@ -39,6 +39,7 @@
                       label="Заголовок при выборе услуги"
                     ></v-text-field>
                     <v-checkbox
+                      :disabled="editedItem.moderation"
                       v-model="editedItem.moderation"
                       color="orange"
                       :label="'Подтверждён'"
@@ -168,6 +169,7 @@
                       label="Заголовок при выборе услуги"
                     ></v-text-field>
                     <v-checkbox
+                      :disabled="editedItem.moderation"
                       v-model="editedItem.moderation"
                       color="orange"
                       :label="'Подтверждён'"
@@ -329,7 +331,7 @@
                           <v-icon v-if="!service1C.moderation" color="red" small class="mr-2">mdi-exclamation-thick</v-icon>
                           <v-icon small class="mr-2" @click.stop="addClass(service1C)">mdi-plus</v-icon>
                           <v-icon small class="mr-2" @click.stop="editItem(service1C)">mdi-pencil</v-icon>
-                          <!-- <v-icon color="red" small @click="deleteItem(service1C)">mdi-delete</v-icon> -->
+                          <v-icon color="red" small @click="deleteItem(service1C)">mdi-delete</v-icon>
                           <v-btn class="service-group-header-icon" small icon>
                             <v-icon>mdi-chevron-up</v-icon>
                           </v-btn>

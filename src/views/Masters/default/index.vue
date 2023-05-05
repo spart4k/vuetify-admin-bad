@@ -46,13 +46,13 @@
                   <v-btn :disabled="changeStage === 2" @click="changeStage = 2" color="#EF8A3E" text>
                     Специализация
                   </v-btn>
-                  <v-btn :disabled="changeStage === 3" @click="changeStage = 3" color="#EF8A3E" text>
+                  <v-btn v-if="editedItem?.Courses?.length" :disabled="changeStage === 3" @click="changeStage = 3" color="#EF8A3E" text>
                     Курсы
                   </v-btn>
-                  <v-btn :disabled="changeStage === 4" @click="changeStage = 4" color="#EF8A3E" text>
+                  <v-btn v-if="editedItem?.Diploms?.length" :disabled="changeStage === 4" @click="changeStage = 4" color="#EF8A3E" text>
                     Дипломы
                   </v-btn>
-                  <v-btn :disabled="changeStage === 5" @click="changeStage = 5" color="#EF8A3E" text>
+                  <v-btn v-if="editedItem?.Educations?.length" :disabled="changeStage === 5" @click="changeStage = 5" color="#EF8A3E" text>
                     Образование
                   </v-btn>
                 </v-card-title>
@@ -99,6 +99,7 @@
                             label="О себе"
                           ></v-text-field>
                           <v-checkbox
+                            :disabled="editedItem.moderation"
                             v-model="editedItem.moderation"
                             color="orange"
                             :label="'Подтверждён'"
@@ -136,6 +137,7 @@
                               label="Конец курса"
                             ></v-text-field>
                             <v-checkbox
+                              :disabled="editedItem.Courses[coursesStage - 1].till_now"
                               v-model="editedItem.Courses[coursesStage - 1].till_now"
                               color="orange"
                               :label="'До текущего момента'"
