@@ -98,7 +98,7 @@
           </v-toolbar>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
-          <v-icon v-if="item.status_id !== '2' && item.status_id !== '3'" small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+          <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
           <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon>
         </template>
         <template v-slot:[`item.emailValidate`]="{ item }">
@@ -124,7 +124,7 @@
           {{ item.createdAt ? formatDate(item.createdAt) : ''}}
         </template>
         <template v-slot:[`item.updatedAt`]="{ item }">
-          {{ item.updatedAt && item.updatedAt !== item.createdAt ? formatDate(item.updatedAt) : '' }}
+          {{ item.updatedAt ? formatDate(item.updatedAt) : '' }}
         </template>
         <template v-slot:[`item.time_slot`]="{ item }">
           {{ item.time_slot ? formatTime(item.time_slot) : '' }}

@@ -187,13 +187,6 @@ export default {
       }
     },
     async requestEdit () {
-      // changeStage: 1,
-      // coursesStage: 1,
-      // diplomsStage: 1,
-      // educationsStage: 1,
-      // allSpecialisations: [],
-      // allSpecialisationsTitle: [],
-      // currentSpecialisationsTitle: []
       if (this.changeStage === 1) {
       this.editedItem.dateOfBirth = this.newConvertedDateBirth.split('.').reverse().join('-') + 'T00:00:00.000Z'
       const requestData = {

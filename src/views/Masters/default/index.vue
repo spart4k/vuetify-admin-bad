@@ -99,7 +99,6 @@
                             label="О себе"
                           ></v-text-field>
                           <v-checkbox
-                            :disabled="editedItem.moderation"
                             v-model="editedItem.moderation"
                             color="orange"
                             :label="'Подтверждён'"
@@ -319,4 +318,10 @@
     background-color: green;
   }
 }
+// .theme--light.v-input--is-disabled {
+//   color: rgb(239, 138, 62) !important
+// }
+// .theme--light.v-label--is-disabled {
+//   color: rgba(0, 0, 0, 0.6) !important
+// }
 </style>
