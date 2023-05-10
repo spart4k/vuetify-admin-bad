@@ -45,7 +45,7 @@
                       :label="'Подтверждён'"
                       hide-details
                     ></v-checkbox>
-                    <div v-if="editedItem.floor < 3" class="text-right row-pointer">
+                    <div v-if="editedItem.floor < 2" class="text-right row-pointer">
                       <v-file-input
                         v-model="imageChapter"
                         label="Изображение"
@@ -58,7 +58,7 @@
                         <v-img v-if="urlImageChapter" :src="urlImageChapter" />
                       </div>
                     </div>
-                    <div v-if="editedItem.floor < 3" class="text-right row-pointer">
+                    <div v-if="editedItem.floor < 2" class="text-right row-pointer">
                       <v-file-input
                         v-model="imageChapterIcon"
                         label="Логотип"
