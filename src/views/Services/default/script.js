@@ -128,7 +128,7 @@ export default {
         //this.urlImageChapterIcon = URL.createObjectURL(val);
         let vm = this;
         img.onload = function () {
-            if (this.width/this.height === 1) {
+            //if (this.width/this.height === 1) {
               vm.urlImageChapterIcon = objectUrl
               //vm.fileImageChapterIcon = val
               var blob = val.slice(0, val.size, val.type);
@@ -141,9 +141,9 @@ export default {
               let newFile = new File([blob], `${uuidv4()}_icon.${imageType}`, {type: val.type});
               vm.fileImageChapterIcon = newFile
               console.log(newFile)
-            } else {
-              vm.$store.commit('alert/show', { type: 'error', content: `Изображение должно быть в формате 1:1`, duration: 2000 })
-            }
+            //} else {
+              //vm.$store.commit('alert/show', { type: 'error', content: `Изображение должно быть в формате 1:1`, duration: 2000 })
+            //}
         };
         img.src = objectUrl;
       } else {
