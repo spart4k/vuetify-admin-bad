@@ -7,7 +7,7 @@ const auth = {
   state: initialState,
   actions: {
     login(context, data) {
-      if (data.username === "admin" && data.password === "admin") {
+      if (data.username === "admin/tints" && data.password === "~7kPoUh7b") {
         context.commit("loginSuccess", data.username);
         return true;
       }
