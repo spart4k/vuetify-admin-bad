@@ -1,17 +1,5 @@
 <template>
   <LayoutDefault>
-    <v-container class="height-full" fluid fill-height>
-      <v-layout class="align-center justify-center">
-        <div class="d-flex align-center subtitle-1">
-          <v-icon class="mr-1">
-            mdi-cog
-          </v-icon>
-          В разработке
-        </div>
-      </v-layout>
-    </v-container>
-  </LayoutDefault>
-  <!-- <LayoutDefault>
     <div class="">
       <v-card-title>
         Расписание
@@ -39,7 +27,7 @@
               ></v-text-field>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" :max-width="formTitle === 'Изменить' ? '400px' : '400px'">
+            <v-dialog v-model="dialog" :max-width="'80%'">
               <v-card>
                 <v-card-title>
                   <span class="text-h5">{{ formTitle }}</span>
@@ -49,25 +37,148 @@
                   <v-container>
                     <v-row cols="12" sm="6" md="4">
                       <v-col cols="12" sm="12" :md="formTitle === 'Изменить' ? '12' : '12'">
-                        <v-text-field
+                        <v-date-picker
+                          v-model="date"
+                          full-width
+                          class="mt-4"
+                          show-adjacent-months
+                          :events="arrayEvents"
+                          :event-color="date => !fullEvents[arrayEvents.indexOf(date)].is_regular ? '#292929' : '#EF8A3E'"
+                          locale="ru"
+                        ></v-date-picker>
+                        <!-- {{date}} -->
+                        <!-- <v-text-field
                           v-model="editedItem.name"
                           label="Имя"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="editedItem.lastName"
-                          label="Фамилия"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="editedItem.email"
-                          label="Почта"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="newConvertedDateBirth"
-                          v-mask="'##.##.####'"
-                          label="Дата рождения"
-                        ></v-text-field>
+                        ></v-text-field> -->
                       </v-col>
                     </v-row>
+                    <v-row cols="12" sm="6" md="4">
+                      <v-btn :disabled="shedulesType === 1" @click="shedulesType = 1" color="#EF8A3E" text>
+                        Регулярный график
+                      </v-btn>
+                      <v-btn :disabled="shedulesType === 2" @click="shedulesType = 2" color="#EF8A3E" text>
+                        Гибкий график
+                      </v-btn>
+                    </v-row>
+                    <v-row v-if="shedulesType === 1" cols="12" sm="6" md="4">
+                      <v-btn :disabled="dayOfWeek === 1" @click="dayOfWeek = 1" color="#EF8A3E" text>
+                        Понедельник
+                      </v-btn>
+                      <v-btn :disabled="dayOfWeek === 2" @click="dayOfWeek = 2" color="#EF8A3E" text>
+                        Вторник
+                      </v-btn>
+                      <v-btn :disabled="dayOfWeek === 3" @click="dayOfWeek = 3" color="#EF8A3E" text>
+                        Среда
+                      </v-btn>
+                      <v-btn :disabled="dayOfWeek === 4" @click="dayOfWeek = 4" color="#EF8A3E" text>
+                        Четверг
+                      </v-btn>
+                      <v-btn :disabled="dayOfWeek === 5" @click="dayOfWeek = 5" color="#EF8A3E" text>
+                        Пятница
+                      </v-btn>
+                      <v-btn :disabled="dayOfWeek === 6" @click="dayOfWeek = 6" color="#EF8A3E" text>
+                        Суббота
+                      </v-btn>
+                      <v-btn :disabled="dayOfWeek === 0" @click="dayOfWeek = 0" color="#EF8A3E" text>
+                        Воскресенье
+                      </v-btn>
+                    </v-row>
+                    <template v-if="shedulesType === 1">
+                      <v-text-field
+                        v-model="regularSchedule[dayOfWeek].intervals[0]"
+                        v-mask="'##:##-##:##'"
+                        label="Интервал"
+                      ></v-text-field>
+                      <v-text-field
+                        v-if="regularSchedule[dayOfWeek].intervals[0]?.length === 11"
+                        v-model="regularSchedule[dayOfWeek].intervals[1]"
+                        v-mask="'##:##-##:##'"
+                        label="Интервал"
+                      ></v-text-field>
+                      <v-text-field
+                        v-if="regularSchedule[dayOfWeek].intervals[1]?.length === 11"
+                        v-model="regularSchedule[dayOfWeek].intervals[2]"
+                        v-mask="'##:##-##:##'"
+                        label="Интервал"
+                      ></v-text-field>
+                      <v-text-field
+                        v-if="regularSchedule[dayOfWeek].intervals[2]?.length === 11"
+                        v-model="regularSchedule[dayOfWeek].intervals[3]"
+                        v-mask="'##:##-##:##'"
+                        label="Интервал"
+                      ></v-text-field>
+                      <v-text-field
+                        v-if="regularSchedule[dayOfWeek].intervals[3]?.length === 11"
+                        v-model="regularSchedule[dayOfWeek].intervals[4]"
+                        v-mask="'##:##-##:##'"
+                        label="Интервал"
+                      ></v-text-field>
+                      <v-text-field
+                        v-if="regularSchedule[dayOfWeek].intervals[4]?.length === 11"
+                        v-model="regularSchedule[dayOfWeek].intervals[5]"
+                        v-mask="'##:##-##:##'"
+                        label="Интервал"
+                      ></v-text-field>
+                      <v-select
+                        v-model="regularSchedule[dayOfWeek].workspace_name"
+                        :items="workspaceNameArray"
+                        :menu-props="{ maxHeight: '400' }"
+                        label="Рабочее место"
+                        persistent-hint
+                      ></v-select>
+                      <v-select
+                        v-model="regularSchedule[dayOfWeek].services"
+                        :items="servicesNameArray"
+                        :menu-props="{ maxHeight: '400' }"
+                        label="Специализация"
+                        multiple
+                        persistent-hint
+                      ></v-select>
+                      <v-checkbox
+                        v-model="regularSchedule[dayOfWeek].express"
+                        color="orange"
+                        :label="'Экспресс'"
+                        hide-details
+                      ></v-checkbox>
+                    </template>
+                    <template v-if="shedulesType === 2">
+                      <v-text-field
+                        v-model="date"
+                        readonly
+                        label="Дата"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="flexSchedule.interval"
+                        v-mask="'##:##-##:##'"
+                        label="Интервал"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="flexSchedule.name"
+                        label="Название"
+                      ></v-text-field>
+                      <v-select
+                        v-model="flexSchedule.workspace_name"
+                        :items="workspaceNameArray"
+                        :menu-props="{ maxHeight: '400' }"
+                        label="Рабочее место"
+                        persistent-hint
+                      ></v-select>
+                      <v-select
+                        v-model="flexSchedule.services"
+                        :items="servicesNameArray"
+                        :menu-props="{ maxHeight: '400' }"
+                        label="Специализация"
+                        multiple
+                        persistent-hint
+                      ></v-select>
+                      <v-checkbox
+                        v-model="flexSchedule.express"
+                        color="orange"
+                        :label="'Экспресс'"
+                        hide-details
+                      ></v-checkbox>
+                    </template>
                   </v-container>
                 </v-card-text>
   
@@ -103,26 +214,15 @@
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-          <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon>
-        </template>
-        <template v-slot:[`item.emailValidate`]="{ item }">
-          <span class="emailValidate" :class="item.emailValidate ? 'active' : 'no-active'">
-            <v-icon color="white" v-if="true">
-              mdi-account
-            </v-icon>
-            <v-icon color="white" v-else>
-              mdi-account-alert
-            </v-icon>
-          </span>
-        </template>
-        <template v-slot:[`item.dateOfBirth`]="{ item }">
-          {{ item.dateOfBirth ? formatDate(item.dateOfBirth) : ''}}
-        </template>
-        <template v-slot:[`item.updatedAt`]="{ item }">
-          {{ item.updatedAt ? formatDate(item.updatedAt) : '' }}
+          <!-- <v-icon color="red" small @click="deleteItem(item)">mdi-delete</v-icon> -->
         </template>
       </v-data-table>
     </div>
-  </LayoutDefault> -->
+  </LayoutDefault>
 </template>
 <script src="./script.js"></script>
+<style lang="scss" scoped>
+  .v-date-picker-table {
+    height: 250px;
+  }
+</style>

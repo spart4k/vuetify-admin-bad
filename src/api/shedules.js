@@ -5,31 +5,14 @@ export default class Shedules {
     this.url = url;
   }
 
-  async get() {
+  async getDay() {
     try {
-      const { data } = await axios.post(`users/api/admin/getProfileClient`, {
-        "email": "",
-        "phone": "string",
-        "page": 1,
-        "count": 99999
-      })
-      console.log(data)
-      if (!data || data.length === 0) {
-        store.commit('alert/show', { type: 'warning', content: `В данный момент городов нет` })
-        return [];
+      const { data } = await axios.get(`users/api/getAdminScheduleForDay/21/2023/05/16`)
+      const shedulesDay = data
+      if (!shedulesDay) {
+        return null;
       }
-      return (data || []).map((el) => ({
-        id: el.id,
-        aboutme: el.aboutme,
-        avatarUrl: el.avatarUrl,
-        cities_id: el.cities_id,
-        dateOfBirth: el.birth_day,
-        email: el.email,
-        emailValidate: el.emailValidate,
-        lastName: el.last_name,
-        name: el.name,
-        phoneNumber: el.phone_number
-      }));
+      return { shedulesDay }
     } catch(error) {
       console.log(error)
       let errorText = ''
@@ -42,6 +25,66 @@ export default class Shedules {
     }
   }
 
+  async getMonth(id, month, year) {
+    try {
+      const { data } = await axios.get(`users/api/getScheduleForMonthByIndex/${id}/${month}/${year}`)
+      const shedulesMonth = data
+      if (!shedulesMonth) {
+        return null;
+      }
+      return { shedulesMonth }
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+  }
+
+  async getServices(requestData) {
+    try {
+      const { data } = await axios.post(`users/api/getMasterServices`, requestData)
+      const Services = data
+      if (!Services) {
+        return null;
+      }
+      return { Services }
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+  }
+
+  async getWorkspace(requestData) {
+    try {
+      const { data } = await axios.post(`users/api/getMastersWorkspaces`, requestData)
+      const Workspace = data
+      if (!Workspace) {
+        return null;
+      }
+      return { Workspace }
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+  }
+    
   async create(city) {
     console.log(city)
     try {
@@ -68,19 +111,59 @@ export default class Shedules {
       }
       store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
     }
-    
+  }
 
+  async updateRegular(year, month, day, requestBody) {
+    try {
+      const { data } = await axios.post(`users/api/createOrUpdateRegularSchedule/${year}/${month}/${day}`, requestBody)
+      const shedulesDay = data
+      store.commit('alert/show', { type: 'success', content: `Расписание успешно изменено`, duration: 2000 })
+      if (!shedulesDay) {
+        return null;
+      }
+      return { shedulesDay }
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
+  }
+
+  async updateFlex(year, month, day, requestBody) {
+    try {
+      const { data } = await axios.post(`users/api/createOrUpdateFlexSchedule/${year}/${month}/${day}`, requestBody)
+      const shedulesDay = data
+      store.commit('alert/show', { type: 'success', content: `Расписание успешно изменено`, duration: 2000 })
+      if (!shedulesDay) {
+        return null;
+      }
+      return { shedulesDay }
+    } catch(error) {
+      console.log(error)
+      let errorText = ''
+      if (error?.response?.data?.message?.name) errorText = error?.response?.data?.message?.name
+      else if (error?.response?.data?.message) errorText = error?.response?.data?.message
+      else {
+        errorText = error.message
+      }
+      store.commit('alert/show', { type: 'error', content: `Ошибка: ${errorText}` })
+    }
   }
 
   async update(id, requestBody) {
     try {
       const { data } = await axios.patch(`users/api/admin/editProfileClient?user_id=${id}`, requestBody)
-      const updatedClient = data
+      const shedulesDay = data
       store.commit('alert/show', { type: 'success', content: `Клиент успешно изменен`, duration: 2000 })
-      if (!updatedClient) {
+      if (!shedulesDay) {
         return null;
       }
-      return { updatedClient }
+      return { shedulesDay }
     } catch(error) {
       console.log(error)
       let errorText = ''
