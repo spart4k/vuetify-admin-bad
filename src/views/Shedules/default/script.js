@@ -56,6 +56,7 @@ export default {
       workspaceNameArray: [],
       servicesFullArray: [],
       servicesNameArray: [],
+      mask: '##:##-##:##',
     }
   },
   computed: {
@@ -282,7 +283,8 @@ export default {
     async requestEdit() {
       // регулярный
       if (this.shedulesType === 1) {
-        const newSchedule = Object.assign({}, this.regularSchedule)
+        const newSchedule = JSON.parse(JSON.stringify(this.regularSchedule))
+        // console.log(newSchedule, this.regularSchedule)
         newSchedule.forEach((item, index) => {
           if (!item.intervals.length || !item.services.length || !item.workspace_id) {
             newSchedule[index] = null
@@ -299,11 +301,13 @@ export default {
                 }
               })
             });
-            // item.intervals.forEach((interval, id) => {
-            //   if (interval.length !== 11) {
-            //     newSchedule[index].interval[id].splice(id, 1)
-            //   }
-            // });
+            for (let i = 0; i < item.intervals.length; i++) {
+              console.log('i', i, item.intervals[i])
+              if (item.intervals[i].length !== 11) {
+                newSchedule[index].intervals.splice(i, 1)
+                i--
+              }
+            }
             delete newSchedule[index].workspace_name
           }
         });
@@ -316,7 +320,7 @@ export default {
         await shedules.updateRegular(newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate(), requestData)
         // гибкий
       } else if (this.shedulesType === 2) {
-        let newSchedule = Object.assign({}, this.flexSchedule)
+        let newSchedule = JSON.parse(JSON.stringify(this.flexSchedule))
         this.workspaceFullArray.forEach(workspace => {
           if (newSchedule.workspace_name === workspace.address) {
             newSchedule.workspace_id = workspace.id

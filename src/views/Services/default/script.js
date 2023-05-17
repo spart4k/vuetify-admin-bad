@@ -421,7 +421,7 @@ export default {
         parentPath = ','
       } else if (Object.keys(this.selectedItem).length) {
         parentId = this.selectedItem.id
-        parentPath = `${this.selectedItem.path}${this.selectedItem.id},`
+        parentPath = `,${this.selectedItem.id}${this.selectedItem.path}`
         isCategory = true
         floor = this.selectedItem.floor + 1
         if (floor === 4) {

@@ -84,40 +84,41 @@
                         Воскресенье
                       </v-btn>
                     </v-row>
+                    <!-- {{regularSchedule}} -->
                     <template v-if="shedulesType === 1">
                       <v-text-field
                         v-model="regularSchedule[dayOfWeek].intervals[0]"
-                        v-mask="'##:##-##:##'"
+                        v-mask="mask"
                         label="Интервал"
                       ></v-text-field>
                       <v-text-field
                         v-if="regularSchedule[dayOfWeek].intervals[0]?.length === 11"
                         v-model="regularSchedule[dayOfWeek].intervals[1]"
-                        v-mask="'##:##-##:##'"
+                        v-mask="mask"
                         label="Интервал"
                       ></v-text-field>
                       <v-text-field
                         v-if="regularSchedule[dayOfWeek].intervals[1]?.length === 11"
                         v-model="regularSchedule[dayOfWeek].intervals[2]"
-                        v-mask="'##:##-##:##'"
+                        v-mask="mask"
                         label="Интервал"
                       ></v-text-field>
                       <v-text-field
                         v-if="regularSchedule[dayOfWeek].intervals[2]?.length === 11"
                         v-model="regularSchedule[dayOfWeek].intervals[3]"
-                        v-mask="'##:##-##:##'"
+                        v-mask="mask"
                         label="Интервал"
                       ></v-text-field>
                       <v-text-field
                         v-if="regularSchedule[dayOfWeek].intervals[3]?.length === 11"
                         v-model="regularSchedule[dayOfWeek].intervals[4]"
-                        v-mask="'##:##-##:##'"
+                        v-mask="mask"
                         label="Интервал"
                       ></v-text-field>
                       <v-text-field
                         v-if="regularSchedule[dayOfWeek].intervals[4]?.length === 11"
                         v-model="regularSchedule[dayOfWeek].intervals[5]"
-                        v-mask="'##:##-##:##'"
+                        v-mask="mask"
                         label="Интервал"
                       ></v-text-field>
                       <v-select
