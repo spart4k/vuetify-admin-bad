@@ -9,6 +9,7 @@ import Feeds from "./feeds";
 import Booking from "./booking";
 import Shedules from "./shedules";
 import Specializations from "./specializations";
+import Notifications from "./notifications";
 import Media from "./media";
 import axios from "axios";
 
@@ -20,6 +21,7 @@ axios.defaults.headers.common.Authorization = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZ
 // 3001/review
 
 export const specializations = new Specializations();
+export const notifications = new Notifications();
 export const shedules = new Shedules();
 export const chapters = new Chapters();
 export const cities = new Cities();
