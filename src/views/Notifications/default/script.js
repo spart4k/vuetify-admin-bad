@@ -29,7 +29,6 @@ export default {
         { text: 'Действия', value: 'actions', sortable: false, align: 'center' }
       ],
       dialog: false,
-      dialogDelete: false,
       editedIndex: -1,
       editedItem: {
         id: '',
@@ -51,42 +50,57 @@ export default {
       loadingBtn: false,
       isAdding: false,
       isEditing: false,
+      isDeleting: false,
       isAddingWithTimeout: false,
+      currentValue: '',
       selectValue: '',
       hours: '',
       minutes: '',
+      substringsData: [[], [], [], ['serviceName', 'date', 'time'], ['date'], ['serviceName', 'time'], ['serviceName', 'date', 'time'], ['rating'], ['masterName', 'serviceName', 'time'], ['masterName', 'date', 'time']],
+      currentSubstrings: [],
     }
-  },
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? 'Добавить' : 'Изменить'
-    },
   },
   watch: {
     dialog(val) {
       val || this.close()
     },
-    // dialogDelete(val) {
-    //   val || this.closeDelete()
-    // },
   },
   methods: {
     editItem(item) {
       this.isEditing = true
+      this.currentValue = item.name
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
+      this.currentSubstrings = [...this.substringsData[item.id - 1]]
     },
     newItem() {
       this.dialog = true
       this.isAdding = true
     },
 
-    // deleteItem(item) {
-    //   this.editedIndex = this.dataset.indexOf(item)
-    //   this.editedItem = Object.assign({}, item)
-    //   this.dialogDelete = true
-    // },
+    deleteItem(item) {
+      this.dialog = true
+      this.isDeleting = true
+      this.currentValue = item.name
+    },
+    insertAtCursor(newText) {
+      const el = this.$refs.textareaRef.$el.querySelector('textarea')
+      if (el.selectionStart || el.selectionStart == '0') {
+        const startPos = el.selectionStart;
+        const endPos = el.selectionEnd;
+        this.editedItem.text = el.value.substring(0, startPos)
+          + newText
+          + el.value.substring(endPos, el.value.length)
+        const carretPos = startPos + newText.length
+        el.focus()
+        this.$nextTick(() => {
+          el.setSelectionRange(carretPos, carretPos)
+        })
+      } else {
+        this.editedItem.text += newText;
+      }
+    },
 
     // async deleteItemConfirm() {
     //   await specializations.delete(this.editedItem.id)
@@ -98,25 +112,20 @@ export default {
       this.dialog = false
       this.isAdding = false
       this.isEditing = false
+      this.isDeleting = false
       this.$nextTick(() => {
         this.clearForm()
+        this.currentValue = ''
+        this.currentSubstrings = []
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
       })
     },
 
-    // closeDelete() {
-    //   this.dialogDelete = false
-    //   this.$nextTick(() => {
-    //     this.editedItem = Object.assign({}, this.defaultItem)
-    //     this.editedIndex = -1
-    //   })
-    // },
-
     save() {
       // this.dataset[this.editedIndex] = this.editedItem
       if (this.isEditing) {
-        this.pushEdit()
+        this.validateEdit()
       } else if (this.isAdding) {
         this.validateCreate()
       }
@@ -151,7 +160,7 @@ export default {
         store.commit('alert/show', { type: 'error', content: 'Не указано количество минут' })
         return
       }
-      if (this.isAddingWithTimeout && (this.hours < 0 || this.hours > 23) ) {
+      if (this.isAddingWithTimeout && (this.hours < 0 || this.hours > 23)) {
         store.commit('alert/show', { type: 'error', content: 'Количество часов должно быть в диапазоне от 0 до 23' })
         return
       }
@@ -161,6 +170,22 @@ export default {
       }
       this.loadingBtn = true
       this.pushCreate()
+    },
+    validateEdit() {
+      if (this.currentSubstrings.length > 0) {
+        let isError = false
+        const matches = this.editedItem.text.match(/[^{}]+(?=})/g)
+        matches.forEach(match => {
+          if (!this.currentSubstrings.includes(match)) {
+            isError = true
+            store.commit('alert/show', { type: 'error', content: 'Указан неверный плейсхолдер' })
+            return
+          }
+        });
+        if (isError) return
+      }
+      this.loadingBtn = true
+      this.pushEdit()
     },
     async pushEdit() {
       // const requestData = {
