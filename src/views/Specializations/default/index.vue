@@ -5,26 +5,26 @@
         Специализации
       </v-card-title>
       <v-data-table
-        multi-sort
-        :loading="loading"
-        :search="search"
-        :items="dataset"
-        :headers="headers"
-        item-key="id"
-        :footerProps="{
+          multi-sort
+          :loading="loading"
+          :search="search"
+          :items="dataset"
+          :headers="headers"
+          item-key="id"
+          :footerProps="{
           itemsPerPageText: 'Кол-во на странице'
         }"
       >
-      <!-- :hide-default-footer="dataset.length <= 10" -->
+        <!-- :hide-default-footer="dataset.length <= 10" -->
         <template v-slot:top>
           <v-toolbar flat>
             <v-toolbar-title>
               <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Поиск"
-                single-line
-                hide-details
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Поиск"
+                  single-line
+                  hide-details
               ></v-text-field>
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -38,7 +38,7 @@
                 <v-card-title>
                   <span class="text-h5">{{ formTitle }}</span>
                 </v-card-title>
-  
+
                 <v-card-text>
                   <v-container>
                     <v-row cols="12" sm="6" md="4">
@@ -47,18 +47,18 @@
                             v-model="editedItem.title"
                             label="Название"
                         ></v-text-field>
-                        <v-checkbox
+                        <!-- <v-checkbox
                             v-if="formTitle === 'Изменить'"
                             v-model="editedItem.moderation"
                             color="orange"
                             :label="'Подтверждён'"
                             hide-details
-                        ></v-checkbox>
+                        ></v-checkbox> -->
                       </v-col>
                     </v-row>
                   </v-container>
                 </v-card-text>
-  
+
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="darken darken-1" text @click="close">

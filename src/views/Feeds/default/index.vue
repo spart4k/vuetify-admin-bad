@@ -5,13 +5,13 @@
         Отзывы
       </v-card-title>
       <v-data-table
-        multi-sort
-        :loading="loading"
-        :search="search"
-        :items="dataset"
-        :headers="headers"
-        item-key="id"
-        :footerProps="{
+          multi-sort
+          :loading="loading"
+          :search="search"
+          :items="dataset"
+          :headers="headers"
+          item-key="id"
+          :footerProps="{
           itemsPerPageText: 'Кол-во на странице'
         }"
       >
@@ -19,11 +19,11 @@
           <v-toolbar flat>
             <v-toolbar-title>
               <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Поиск"
-                single-line
-                hide-details
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Поиск"
+                  single-line
+                  hide-details
               ></v-text-field>
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -37,7 +37,7 @@
                 <v-card-title>
                   <span class="text-h5">{{ formTitle }}</span>
                 </v-card-title>
-  
+
                 <v-card-text>
                   <v-container>
                     <v-row cols="12" sm="6" md="4">
@@ -49,16 +49,17 @@
                           </template>
                         </template>
                         <v-checkbox
-                          v-model="editedItem.feedback_moderation"
-                          color="orange"
-                          :label="'Подтверждён'"
-                          hide-details
+                            :disabled="editedItem.feedback_moderation"
+                            v-model="editedItem.feedback_moderation"
+                            color="orange"
+                            :label="'Подтверждён'"
+                            hide-details
                         ></v-checkbox>
                       </v-col>
                     </v-row>
                   </v-container>
                 </v-card-text>
-  
+
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="darken darken-1" text @click="close">
@@ -112,13 +113,13 @@
           </template>
         </template> -->
         <template v-slot:[`item.complaint`]="{ item }">
-          {{ item.complaint ? 'Жалоба' : 'Отзыв'}}
+          {{ item.complaint ? 'Жалоба' : 'Отзыв' }}
         </template>
         <template v-slot:[`item.feedback_from`]="{ item }">
-          {{ item.feedback_from.length ? item.feedback_from[0].text : ''}}
+          {{ item.feedback_from.length ? item.feedback_from[0].text : '' }}
         </template>
         <template v-slot:[`item.createdAt`]="{ item }">
-          {{ item.createdAt ? formatDate(item.createdAt) : ''}}
+          {{ item.createdAt ? formatDate(item.createdAt) : '' }}
         </template>
       </v-data-table>
     </div>
@@ -130,9 +131,11 @@
   padding: .5rem 1rem;
   border-radius: 25px;
   color: #fff;
+
   &.active {
     background-color: green;
   }
+
   &.no-active {
     background-color: rgb(194, 52, 52);
   }

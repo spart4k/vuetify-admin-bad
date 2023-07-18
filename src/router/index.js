@@ -17,97 +17,97 @@ import Specializations from "../views/Specializations/default"
 // import Classes from "../views/Class.vue";
 // import Chapters from "../views/ViewChapters.vue";
 const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
-  },
-  {
-    path: "/cities",
-    name: "Cities",
-    component: Cities,
-  },
-  {
-    path: "/specializations",
-    name: "Specializations",
-    component: Specializations,
-  },
-  {
-    path: "/feeds",
-    name: "Feeds",
-    component: Feeds,
-  },
-  {
-    path: "/clients",
-    name: "Clients",
-    component: Clients,
-  },
-  {
-    path: "/invoices",
-    name: "Invoices",
-    component: Invoices,
-  },
-  {
-    path: "/masters",
-    name: "Masters",
-    component: Masters,
-  },
-  {
-    path: "/booking",
-    name: "Booking",
-    component: Booking,
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    component: Notifications,
-  },
-  {
-    path: "/services",
-    name: "Services",
-    label: 'Услуги',
-    component: Services,
-  },
-  {
-    path: "/shedules",
-    name: "Shedules",
-    component: Shedules,
-  },
-  // {
-  //   path: "/categories",
-  //   name: "Categories",
-  //   component: Categories,
-  // },
+    {
+        path: "/",
+        name: "Home",
+        component: Home,
+    },
+    {
+        path: "/login",
+        name: "Login",
+        component: Login,
+    },
+    {
+        path: "/cities",
+        name: "Cities",
+        component: Cities,
+    },
+    {
+        path: "/specializations",
+        name: "Specializations",
+        component: Specializations,
+    },
+    {
+        path: "/feeds",
+        name: "Feeds",
+        component: Feeds,
+    },
+    {
+        path: "/clients",
+        name: "Clients",
+        component: Clients,
+    },
+    {
+        path: "/invoices",
+        name: "Invoices",
+        component: Invoices,
+    },
+    {
+        path: "/masters",
+        name: "Masters",
+        component: Masters,
+    },
+    {
+        path: "/booking",
+        name: "Booking",
+        component: Booking,
+    },
+    {
+        path: "/notifications",
+        name: "Notifications",
+        component: Notifications,
+    },
+    {
+        path: "/services",
+        name: "Services",
+        label: 'Услуги',
+        component: Services,
+    },
+    {
+        path: "/shedules",
+        name: "Shedules",
+        component: Shedules,
+    },
+    // {
+    //   path: "/categories",
+    //   name: "Categories",
+    //   component: Categories,
+    // },
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
+    mode: "history",
+    base: '/admin',
+    routes,
 });
 
 router.beforeEach(async (to, from, next) => {
-  // redirect to login page if not logged in and trying to access a restricted page
-  /*
-  const publicPages = ["/login"]
-  const authRequired = !publicPages.includes(to.path)
-  const auth = useAuthStore()
+    // redirect to login page if not logged in and trying to access a restricted page
+    /*
+    const publicPages = ["/login"]
+    const authRequired = !publicPages.includes(to.path)
+    const auth = useAuthStore()
 
-  if (authRequired && !auth.user) {
-    auth.returnUrl = to.fullPath
-    return "/login"
-  }
-  */
+    if (authRequired && !auth.user) {
+      auth.returnUrl = to.fullPath
+      return "/login"
+    }
+    */
 
-  if (!auth.state.user && to.path !== "/login") {
-    next("/login");
-  } else {
-    next();
-  }
+    if (!auth.state.user && to.path !== "/login") {
+        next("/login");
+    } else {
+        next();
+    }
 });
 export default router;

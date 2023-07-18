@@ -12,11 +12,11 @@
       ></v-text-field>
     </v-card-title> -->
     <v-data-table
-      multi-sort
-      :search="search"
-      :items="dataset"
-      :headers="headers"
-      item-key="id"
+        multi-sort
+        :search="search"
+        :items="dataset"
+        :headers="headers"
+        item-key="id"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -38,20 +38,20 @@
                   <v-row>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.name"
-                        label="Название"
+                          v-model="editedItem.name"
+                          label="Название"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.latitude"
-                        label="Широта"
+                          v-model="editedItem.latitude"
+                          label="Широта"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
-                        v-model="editedItem.longitude"
-                        label="Долгота"
+                          v-model="editedItem.longitude"
+                          label="Долгота"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -95,8 +95,8 @@
 </template>
 
 <script lang="js">
-import { defineComponent } from 'vue'
-import { services } from '../api'
+import {defineComponent} from 'vue'
+import {services} from '../api'
 
 export default defineComponent({
   name: 'ViewCities',
@@ -107,11 +107,11 @@ export default defineComponent({
   data() {
     return {
       headers: [
-        { text: 'ID', value: 'id' },
-        { text: 'Название', value: 'name' },
-        { text: 'Широта', value: 'latitude' },
-        { text: 'Долгота', value: 'longitude' },
-        { text: 'Actions', value: 'actions', sortable: false }
+        {text: 'ID', value: 'id'},
+        {text: 'Название', value: 'name'},
+        {text: 'Широта', value: 'latitude'},
+        {text: 'Долгота', value: 'longitude'},
+        {text: 'Actions', value: 'actions', sortable: false}
       ],
       dialog: false,
       dialogDelete: false,
@@ -135,37 +135,37 @@ export default defineComponent({
     }
   },
   computed: {
-    formTitle () {
+    formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
   },
   watch: {
-    dialog (val) {
+    dialog(val) {
       val || this.close()
     },
-    dialogDelete (val) {
+    dialogDelete(val) {
       val || this.closeDelete()
     },
   },
   methods: {
-    editItem (item) {
+    editItem(item) {
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
-    deleteItem (item) {
+    deleteItem(item) {
       this.editedIndex = this.dataset.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
-    deleteItemConfirm () {
+    deleteItemConfirm() {
       this.desserts.splice(this.editedIndex, 1)
       this.closeDelete()
     },
 
-    close () {
+    close() {
       this.dialog = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
@@ -173,7 +173,7 @@ export default defineComponent({
       })
     },
 
-    closeDelete () {
+    closeDelete() {
       this.dialogDelete = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
@@ -181,7 +181,7 @@ export default defineComponent({
       })
     },
 
-    save () {
+    save() {
       if (this.editedIndex > -1) {
         Object.assign(this.desserts[this.editedIndex], this.editedItem)
       } else {

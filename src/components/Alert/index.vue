@@ -1,5 +1,6 @@
 <template>
-  <v-alert elevation="8" transition="fade-transition" :type="alertOptions.type" dismissible v-model="alertOptions.isShow">
+  <v-alert elevation="8" transition="fade-transition" :type="alertOptions.type" dismissible
+           v-model="alertOptions.isShow">
     {{ alertOptions.content }}
   </v-alert>
 </template>
@@ -14,12 +15,9 @@ export default {
     }
   },
   data() {
-    return {
-    }
+    return {}
   },
-  watch: {
-
-  },
+  watch: {},
   computed: {
     alertOptions() {
       return this.$store.state.alert

@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy_test": "ssh root@94.103.84.93 'cd /opt; ./deploy_admin.sh'",
+    "deploy_prod": "ssh aleksey@130.193.40.233 'cd /opt/tints; ./deploy_admin.sh'"
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
