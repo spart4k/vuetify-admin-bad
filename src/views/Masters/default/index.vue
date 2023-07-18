@@ -15,7 +15,7 @@
           itemsPerPageText: 'Кол-во на странице'
         }"
       >
-      
+
       <!-- :hide-default-footer="dataset.length <= 10" -->
         <template v-slot:top>
           <v-toolbar flat>
@@ -71,7 +71,7 @@
                     {{item.specialization}}
                   </v-btn>
                 </v-card-title>
-  
+
                 <v-card-text>
                   <v-container>
                     <v-row cols="12" sm="6" md="4">
@@ -98,12 +98,12 @@
                             v-model="editedItem.about_me"
                             label="О себе"
                           ></v-text-field>
-                          <v-checkbox
+                          <v-switch
                             v-model="editedItem.moderation"
                             color="orange"
-                            :label="'Подтверждён'"
+                            :label="editedItem.moderation ? 'Подтверждён' : 'Не подтверждён'"
                             hide-details
-                          ></v-checkbox>
+                          ></v-switch>
                         </template>
                         <template v-if="changeStage === 2">
                           <v-select
@@ -169,12 +169,12 @@
                           ></v-text-field>
                         </template>
                         <!-- <div class="">
-                          <v-file-input 
+                          <v-file-input
                             v-model="imageChapter"
                             label="Логотип"
                             show-size
                             accept="image/*"
-                            prepend-icon="mdi-camera" 
+                            prepend-icon="mdi-camera"
                           />
                           <v-img v-if="urlImage" :src="urlImage" />
                         </div> -->
@@ -182,7 +182,7 @@
                     </v-row>
                   </v-container>
                 </v-card-text>
-  
+
                 <v-card-actions>
                   <v-btn v-if="changeStage === 3 || changeStage === 4 || changeStage === 5" color="#E53935" text @click="deleteMasterInfo">
                     Удалить
