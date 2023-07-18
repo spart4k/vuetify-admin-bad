@@ -5,16 +5,16 @@
         <v-table>
           <template v-slot:default>
             <thead>
-              <tr>
-                <th class="text-left">ID</th>
-                <th class="text-left">Название класса</th>
-              </tr>
+            <tr>
+              <th class="text-left">ID</th>
+              <th class="text-left">Название класса</th>
+            </tr>
             </thead>
             <tbody>
-              <tr v-for="item in chapter.classes" :key="item.id">
-                <td>{{ item.id }}</td>
-                <td>{{ item.title }}</td>
-              </tr>
+            <tr v-for="item in chapter.classes" :key="item.id">
+              <td>{{ item.id }}</td>
+              <td>{{ item.title }}</td>
+            </tr>
             </tbody>
           </template>
         </v-table>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { chapters, classes } from "../api";
+import {chapters, classes} from "../api";
 
 export default {
   name: "ViewClasses",

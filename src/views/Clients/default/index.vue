@@ -5,26 +5,26 @@
         Клиенты
       </v-card-title>
       <v-data-table
-        multi-sort
-        :loading="loading"
-        :search="search"
-        :items="dataset"
-        :headers="headers"
-        item-key="id"
-        :footerProps="{
+          multi-sort
+          :loading="loading"
+          :search="search"
+          :items="dataset"
+          :headers="headers"
+          item-key="id"
+          :footerProps="{
           itemsPerPageText: 'Кол-во на странице'
         }"
       >
-      <!-- :hide-default-footer="dataset.length <= 10" -->
+        <!-- :hide-default-footer="dataset.length <= 10" -->
         <template v-slot:top>
           <v-toolbar flat>
             <v-toolbar-title>
               <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Поиск"
-                single-line
-                hide-details
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Поиск"
+                  single-line
+                  hide-details
               ></v-text-field>
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -38,35 +38,35 @@
                 <v-card-title>
                   <span class="text-h5">{{ formTitle }}</span>
                 </v-card-title>
-  
+
                 <v-card-text>
                   <v-container>
                     <v-row cols="12" sm="6" md="4">
                       <v-col cols="12" sm="12" :md="formTitle === 'Изменить' ? '12' : '12'">
                         <v-text-field
-                          v-model="editedItem.name"
-                          label="Имя"
+                            v-model="editedItem.name"
+                            label="Имя"
                         ></v-text-field>
                         <v-text-field
-                          v-model="editedItem.lastName"
-                          label="Фамилия"
+                            v-model="editedItem.lastName"
+                            label="Фамилия"
                         ></v-text-field>
                         <v-text-field
-                          v-model="editedItem.email"
-                          label="Почта"
+                            v-model="editedItem.email"
+                            label="Почта"
                         ></v-text-field>
                         <v-text-field
-                          v-model="newConvertedDateBirth"
-                          v-mask="'##.##.####'"
-                          label="Дата рождения"
+                            v-model="newConvertedDateBirth"
+                            v-mask="'##.##.####'"
+                            label="Дата рождения"
                         ></v-text-field>
                         <!-- <div class="">
-                          <v-file-input 
+                          <v-file-input
                             v-model="imageChapter"
                             label="Логотип"
                             show-size
                             accept="image/*"
-                            prepend-icon="mdi-camera" 
+                            prepend-icon="mdi-camera"
                           />
                           <v-img v-if="urlImage" :src="urlImage" />
                         </div> -->
@@ -87,7 +87,7 @@
                     </v-row>
                   </v-container>
                 </v-card-text>
-  
+
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="darken darken-1" text @click="close">
@@ -133,10 +133,10 @@
           </span>
         </template>
         <template v-slot:[`item.createdAt`]="{ item }">
-          {{ item.createdAt ? formatDate(item.createdAt) : ''}}
+          {{ item.createdAt ? formatDate(item.createdAt) : '' }}
         </template>
         <template v-slot:[`item.dateOfBirth`]="{ item }">
-          {{ item.dateOfBirth ? formatDate(item.dateOfBirth) : ''}}
+          {{ item.dateOfBirth ? formatDate(item.dateOfBirth) : '' }}
         </template>
         <template v-slot:[`item.updatedAt`]="{ item }">
           {{ item.updatedAt ? formatDate(item.updatedAt) : '' }}
@@ -151,9 +151,11 @@
   padding: .5rem 1rem;
   border-radius: 25px;
   color: #fff;
+
   &.active {
     background-color: green;
   }
+
   &.no-active {
     background-color: rgb(194, 52, 52);
   }

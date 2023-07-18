@@ -5,13 +5,13 @@
         Бронирование
       </v-card-title>
       <v-data-table
-        multi-sort
-        :loading="loading"
-        :search="search"
-        :items="dataset"
-        :headers="headers"
-        item-key="id"
-        :footerProps="{
+          multi-sort
+          :loading="loading"
+          :search="search"
+          :items="dataset"
+          :headers="headers"
+          item-key="id"
+          :footerProps="{
           itemsPerPageText: 'Кол-во на странице'
         }"
       >
@@ -19,11 +19,11 @@
           <v-toolbar flat>
             <v-toolbar-title>
               <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Поиск"
-                single-line
-                hide-details
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Поиск"
+                  single-line
+                  hide-details
               ></v-text-field>
             </v-toolbar-title>
             <v-spacer></v-spacer>
@@ -32,41 +32,41 @@
                 <v-card-title>
                   <span class="text-h5">{{ formTitle }}</span>
                 </v-card-title>
-  
+
                 <v-card-text>
                   <v-container>
                     <v-row cols="12" sm="6" md="4">
                       <v-col cols="12" sm="12" :md="formTitle === 'Изменить' ? '12' : '12'">
                         <v-text-field
-                          v-model="itemDate"
-                          v-mask="'##.##.####'"
-                          label="Дата бронирования"
+                            v-model="itemDate"
+                            v-mask="'##.##.####'"
+                            label="Дата бронирования"
                         ></v-text-field>
                         <v-text-field
-                          v-model="itemTime"
-                          v-mask="'##:##'"
-                          label="Время бронирования"
+                            v-model="itemTime"
+                            v-mask="'##:##'"
+                            label="Время бронирования"
                         ></v-text-field>
                         <v-select
-                          v-model="currentServicesTitles"
-                          :items="masterServicesTitles"
-                          :menu-props="{ maxHeight: '400' }"
-                          label="Услуги"
-                          multiple
-                          persistent-hint
+                            v-model="currentServicesTitles"
+                            :items="masterServicesTitles"
+                            :menu-props="{ maxHeight: '400' }"
+                            label="Услуги"
+                            multiple
+                            persistent-hint
                         ></v-select>
                         <v-select
-                          v-model="itemStatus"
-                          :items="['Не начата', 'Отменена', 'Завершена']"
-                          :menu-props="{ maxHeight: '400' }"
-                          label="Статус"
-                          persistent-hint
+                            v-model="itemStatus"
+                            :items="['Не начата', 'Отменена', 'Завершена']"
+                            :menu-props="{ maxHeight: '400' }"
+                            label="Статус"
+                            persistent-hint
                         ></v-select>
-                      </v-col> 
+                      </v-col>
                     </v-row>
                   </v-container>
                 </v-card-text>
-  
+
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="darken darken-1" text @click="close">
@@ -115,13 +115,13 @@
           <div v-for="(item, index) in item.Appointment_MasterServices" :key="item.id">
             <br v-if="index !== 0">
             <div>
-              {{item.nameService}}
+              {{ item.nameService }}
             </div>
           </div>
-          {{false ? item.Appointment_MasterServices[0] : ''}}
+          {{ false ? item.Appointment_MasterServices[0] : '' }}
         </template>
         <template v-slot:[`item.createdAt`]="{ item }">
-          {{ item.createdAt ? formatDate(item.createdAt) : ''}}
+          {{ item.createdAt ? formatDate(item.createdAt) : '' }}
         </template>
         <template v-slot:[`item.updatedAt`]="{ item }">
           {{ item.updatedAt ? formatDate(item.updatedAt) : '' }}

@@ -7,7 +7,7 @@ import Clients from "./clients";
 import Masters from "./masters";
 import Feeds from "./feeds";
 import Booking from "./booking";
-import Shedules from "./shedules";
+import Schedules from "./shedules";
 import Specializations from "./specializations";
 import Notifications from "./notifications";
 import Media from "./media";
@@ -22,7 +22,7 @@ axios.defaults.headers.common.Authorization = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZ
 
 export const specializations = new Specializations();
 export const notifications = new Notifications();
-export const shedules = new Shedules();
+export const schedules = new Schedules();
 export const chapters = new Chapters();
 export const cities = new Cities();
 export const classes = new ChapterClass();
