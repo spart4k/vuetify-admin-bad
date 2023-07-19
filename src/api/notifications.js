@@ -17,12 +17,8 @@ export default class Notifications {
 
     async create(requestData) {
         try {
-            const {data} = await axios.post(`users/api/admin/sendNotification`, requestData)
+            await axios.post(`users/api/admin/sendNotification`, requestData)
             store.commit('alert/show', {type: 'success', content: `Уведомления успешно отправлены`, duration: 2000})
-            if (!data) {
-                return null;
-            }
-            return data;
         } catch (error) {
             this.alertError(error)
         }
@@ -30,12 +26,8 @@ export default class Notifications {
 
     async update(requestData) {
         try {
-            const {data} = await axios.post(`users/api/admin/updateNotification`, requestData)
+            await axios.post(`users/api/admin/updateNotification`, requestData)
             store.commit('alert/show', {type: 'success', content: `Уведомление успешно изменено`, duration: 2000})
-            if (!data) {
-                return null;
-            }
-            return data;
         } catch (error) {
             this.alertError(error)
         }
@@ -43,12 +35,8 @@ export default class Notifications {
 
     async delete(requestData) {
         try {
-            const {data} = await axios.post(`users/api/admin/deleteNotification`, requestData)
+            await axios.post(`users/api/admin/deleteNotification`, requestData)
             store.commit('alert/show', {type: 'success', content: `Уведомление успешно удалено`, duration: 2000})
-            if (!data) {
-                return null;
-            }
-            return data;
         } catch (error) {
             this.alertError(error)
         }

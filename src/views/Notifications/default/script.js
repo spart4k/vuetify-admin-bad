@@ -82,7 +82,7 @@ export default {
 
         insertAtCursor(newText) {
             const el = this.$refs.textareaRef.$el.querySelector('textarea')
-            if (el.selectionStart || el.selectionStart == '0') {
+            if (el.selectionStart || el.selectionStart === '0') {
                 const startPos = el.selectionStart;
                 const endPos = el.selectionEnd;
                 this.editedItem.text = el.value.substring(0, startPos)
@@ -124,13 +124,20 @@ export default {
 
         clearForm() {
             this.isAddingWithTimeout = false
-            this.selectValue = ''
+            this.selectValue = 'все'
             this.hours = ''
             this.minutes = ''
             this.newItemData = Object.assign({}, this.defaultItem)
         },
 
         validateCreate() {
+            if (this.newItemData.name.length  <= 0) {
+                store.commit('alert/show', {
+                    type: 'error',
+                    content: 'Название уведомления не должно быть пустым'
+                })
+                return
+            }
             if (this.newItemData.text.length > 80) {
                 store.commit('alert/show', {
                     type: 'error',
@@ -196,17 +203,18 @@ export default {
                 "userRole": this.getUserRole(),
             }
             await notifications.create(requestData)
-            this.dataset = await notifications.get()
             this.loadingBtn = false
             this.close()
+            this.dataset = await notifications.get()
         },
         async deleteItemConfirm() {
             const requestData = {
                 "id": this.editedItem.id,
             }
             await notifications.delete(requestData)
-            this.dataset.splice(this.editedIndex, 1)
-            this.closeDelete()
+            this.loadingBtn = false
+            this.close()
+            this.dataset = await notifications.get()
         },
         getUserRole() {
             if (this.selectValue === "мастера") {
